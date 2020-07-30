@@ -20,6 +20,7 @@ with prismagram, graphql, react, apollo
 
 <hr>
 ## Data Model
+```
 type User{
     id:
     phone-number:
@@ -87,3 +88,4 @@ type Message{
     content:
     created_at:
 }
+```

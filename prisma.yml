@@ -1,0 +1,6 @@
+endpoint: https://eu1.prisma.sh/zxcvb5434-9d2756/dongbang/dev
+datamodel: datamodel.prisma
+
+generate:
+  - generator: javascript-client
+    output: ./generated/prisma-client/

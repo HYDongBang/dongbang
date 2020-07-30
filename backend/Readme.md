@@ -18,9 +18,9 @@ with prismagram, graphql, react, apollo
 - [ ] 가입신청 양식 관리 O 
 - [ ] 사진 올리기 O
 
-<hr>
 ## Data Model
-```
+
+```c
 type User{
     id:
     phone-number:

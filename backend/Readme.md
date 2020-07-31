@@ -22,49 +22,50 @@ with prismagram, graphql, react, apollo
 
 ```c
 type User{
-    id:
-    phone-number:
-    isMaster:
-    sex:String
-    joinClubs:[Clubid]
-    bio:
-    student-number
-    major:
-    applications:[Applicationid]
+    id: Int!
+    phone-number: String!
+    isMaster: Boolean!
+    sex: String!
+    joinClubs:[Club]
+    bio: String!
+    student-number: Int!
+    major: String!
+    applications:[Application]!
     rooms:[Room]
     notifications:[Notification]
 }
 
 type Notification{
-    userId: User
-    content: String
-    checked: boolean
+    userId: Int!
+    content: String!
+    checked: Boolean!
 }
 
 type Application{
-    id:
-    userId : User
-    club:
-    questions: [QuestionId]
-    answer: [String]
-    checked: boolean // true
-    isPass: boolean
+    id: Int!
+    userId : Int!
+    club: Club!
+    questions: [QuestionId]!
+    answer: [String]!
+    checked: Boolean! // default = false
+    isPass: Boolean
     // 합격, 불합격, 처리가 안된거..
 }
 
 type Club{
-    id:
-    master-id:
-    members: [User]
-    applications: [ApplicaitonId]
-    name:
-    bio:
-    description:
-    logo:
-    clubImage:
-    type:
-    social_url:
-    social_display:
+    id: Int!
+    master-id: Int!
+    members: [User]!
+    applications: [Applicaiton]!
+    name: String!
+    bio: String!
+    description: String!
+    logo: String
+    clubImage: String
+    // logo, clubImage는 필수 아닐수도 있을거같아서..
+    type: String!
+    social_url: String!
+    social_display: Boolean!
 }
 
 type Question{

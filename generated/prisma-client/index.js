@@ -9,19 +9,27 @@ var models = [
     embedded: false
   },
   {
-    name: "Post",
+    name: "Notification",
     embedded: false
   },
   {
-    name: "Like",
+    name: "Application",
     embedded: false
   },
   {
-    name: "Comment",
+    name: "Club",
     embedded: false
   },
   {
-    name: "File",
+    name: "Question",
+    embedded: false
+  },
+  {
+    name: "Room",
+    embedded: false
+  },
+  {
+    name: "Message",
     embedded: false
   }
 ];

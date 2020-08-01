@@ -1,5 +1,5 @@
 type User{
-    id: ID! @id
+    id: ID!
     phoneNumber: String!
     isMaster: Boolean!
     sex: String!
@@ -13,24 +13,24 @@ type User{
 }
 
 type Notification{
-    id: ID! @id
+    id: ID!
     userId: Int!
     content: String!
     checked: Boolean!
 }
 
 type Application{
-    id: ID! @id
+    id: ID!
     userId : Int!
     club: Club!
     questions: [Question]!
-    answer: [String]! @scalarList(strategy: RELATION)
+    answer: [String]!
     checked: Boolean!
     isPass: Boolean
 }
 
 type Club{
-    id: ID! @id
+    id: ID!
     masterId: Int!
     members: [User]!
     applications: [Application]!
@@ -45,22 +45,22 @@ type Club{
 }
 
 type Question{
-    id: ID! @id
+    id: ID!
     subject: String
     type: String
-    options:[String] @scalarList(strategy: RELATION)
+    options:[String]
 }
 
 type Room{
-    id: ID! @id
+    id: ID!
     participants: [User!]!
     messages: [Message!]!
 }
 
 type Message {
-   id: ID! @id
+   id: ID!
    text: String!
-   from: User! @relation(name: "From")
-   to: User!   @relation(name: "To")
+   from: User!
+   to: User!
    room: Room!
  }

@@ -3,19 +3,27 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateComment {
+/* GraphQL */ `type AggregateApplication {
   count: Int!
 }
 
-type AggregateFile {
+type AggregateClub {
   count: Int!
 }
 
-type AggregateLike {
+type AggregateMessage {
   count: Int!
 }
 
-type AggregatePost {
+type AggregateNotification {
+  count: Int!
+}
+
+type AggregateQuestion {
+  count: Int!
+}
+
+type AggregateRoom {
   count: Int!
 }
 
@@ -23,70 +31,825 @@ type AggregateUser {
   count: Int!
 }
 
+type Application {
+  id: ID!
+  userId: Int!
+  club: Club!
+  questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question!]
+  answer: [String!]!
+  checked: Boolean!
+  isPass: Boolean
+}
+
+type ApplicationConnection {
+  pageInfo: PageInfo!
+  edges: [ApplicationEdge]!
+  aggregate: AggregateApplication!
+}
+
+input ApplicationCreateanswerInput {
+  set: [String!]
+}
+
+input ApplicationCreateInput {
+  id: ID
+  userId: Int!
+  club: ClubCreateOneWithoutApplicationsInput!
+  questions: QuestionCreateManyInput
+  answer: ApplicationCreateanswerInput
+  checked: Boolean!
+  isPass: Boolean
+}
+
+input ApplicationCreateManyInput {
+  create: [ApplicationCreateInput!]
+  connect: [ApplicationWhereUniqueInput!]
+}
+
+input ApplicationCreateManyWithoutClubInput {
+  create: [ApplicationCreateWithoutClubInput!]
+  connect: [ApplicationWhereUniqueInput!]
+}
+
+input ApplicationCreateWithoutClubInput {
+  id: ID
+  userId: Int!
+  questions: QuestionCreateManyInput
+  answer: ApplicationCreateanswerInput
+  checked: Boolean!
+  isPass: Boolean
+}
+
+type ApplicationEdge {
+  node: Application!
+  cursor: String!
+}
+
+enum ApplicationOrderByInput {
+  id_ASC
+  id_DESC
+  userId_ASC
+  userId_DESC
+  checked_ASC
+  checked_DESC
+  isPass_ASC
+  isPass_DESC
+}
+
+type ApplicationPreviousValues {
+  id: ID!
+  userId: Int!
+  answer: [String!]!
+  checked: Boolean!
+  isPass: Boolean
+}
+
+input ApplicationScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  userId: Int
+  userId_not: Int
+  userId_in: [Int!]
+  userId_not_in: [Int!]
+  userId_lt: Int
+  userId_lte: Int
+  userId_gt: Int
+  userId_gte: Int
+  checked: Boolean
+  checked_not: Boolean
+  isPass: Boolean
+  isPass_not: Boolean
+  AND: [ApplicationScalarWhereInput!]
+  OR: [ApplicationScalarWhereInput!]
+  NOT: [ApplicationScalarWhereInput!]
+}
+
+type ApplicationSubscriptionPayload {
+  mutation: MutationType!
+  node: Application
+  updatedFields: [String!]
+  previousValues: ApplicationPreviousValues
+}
+
+input ApplicationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ApplicationWhereInput
+  AND: [ApplicationSubscriptionWhereInput!]
+  OR: [ApplicationSubscriptionWhereInput!]
+  NOT: [ApplicationSubscriptionWhereInput!]
+}
+
+input ApplicationUpdateanswerInput {
+  set: [String!]
+}
+
+input ApplicationUpdateDataInput {
+  userId: Int
+  club: ClubUpdateOneRequiredWithoutApplicationsInput
+  questions: QuestionUpdateManyInput
+  answer: ApplicationUpdateanswerInput
+  checked: Boolean
+  isPass: Boolean
+}
+
+input ApplicationUpdateInput {
+  userId: Int
+  club: ClubUpdateOneRequiredWithoutApplicationsInput
+  questions: QuestionUpdateManyInput
+  answer: ApplicationUpdateanswerInput
+  checked: Boolean
+  isPass: Boolean
+}
+
+input ApplicationUpdateManyDataInput {
+  userId: Int
+  answer: ApplicationUpdateanswerInput
+  checked: Boolean
+  isPass: Boolean
+}
+
+input ApplicationUpdateManyInput {
+  create: [ApplicationCreateInput!]
+  update: [ApplicationUpdateWithWhereUniqueNestedInput!]
+  upsert: [ApplicationUpsertWithWhereUniqueNestedInput!]
+  delete: [ApplicationWhereUniqueInput!]
+  connect: [ApplicationWhereUniqueInput!]
+  set: [ApplicationWhereUniqueInput!]
+  disconnect: [ApplicationWhereUniqueInput!]
+  deleteMany: [ApplicationScalarWhereInput!]
+  updateMany: [ApplicationUpdateManyWithWhereNestedInput!]
+}
+
+input ApplicationUpdateManyMutationInput {
+  userId: Int
+  answer: ApplicationUpdateanswerInput
+  checked: Boolean
+  isPass: Boolean
+}
+
+input ApplicationUpdateManyWithoutClubInput {
+  create: [ApplicationCreateWithoutClubInput!]
+  delete: [ApplicationWhereUniqueInput!]
+  connect: [ApplicationWhereUniqueInput!]
+  set: [ApplicationWhereUniqueInput!]
+  disconnect: [ApplicationWhereUniqueInput!]
+  update: [ApplicationUpdateWithWhereUniqueWithoutClubInput!]
+  upsert: [ApplicationUpsertWithWhereUniqueWithoutClubInput!]
+  deleteMany: [ApplicationScalarWhereInput!]
+  updateMany: [ApplicationUpdateManyWithWhereNestedInput!]
+}
+
+input ApplicationUpdateManyWithWhereNestedInput {
+  where: ApplicationScalarWhereInput!
+  data: ApplicationUpdateManyDataInput!
+}
+
+input ApplicationUpdateWithoutClubDataInput {
+  userId: Int
+  questions: QuestionUpdateManyInput
+  answer: ApplicationUpdateanswerInput
+  checked: Boolean
+  isPass: Boolean
+}
+
+input ApplicationUpdateWithWhereUniqueNestedInput {
+  where: ApplicationWhereUniqueInput!
+  data: ApplicationUpdateDataInput!
+}
+
+input ApplicationUpdateWithWhereUniqueWithoutClubInput {
+  where: ApplicationWhereUniqueInput!
+  data: ApplicationUpdateWithoutClubDataInput!
+}
+
+input ApplicationUpsertWithWhereUniqueNestedInput {
+  where: ApplicationWhereUniqueInput!
+  update: ApplicationUpdateDataInput!
+  create: ApplicationCreateInput!
+}
+
+input ApplicationUpsertWithWhereUniqueWithoutClubInput {
+  where: ApplicationWhereUniqueInput!
+  update: ApplicationUpdateWithoutClubDataInput!
+  create: ApplicationCreateWithoutClubInput!
+}
+
+input ApplicationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  userId: Int
+  userId_not: Int
+  userId_in: [Int!]
+  userId_not_in: [Int!]
+  userId_lt: Int
+  userId_lte: Int
+  userId_gt: Int
+  userId_gte: Int
+  club: ClubWhereInput
+  questions_every: QuestionWhereInput
+  questions_some: QuestionWhereInput
+  questions_none: QuestionWhereInput
+  checked: Boolean
+  checked_not: Boolean
+  isPass: Boolean
+  isPass_not: Boolean
+  AND: [ApplicationWhereInput!]
+  OR: [ApplicationWhereInput!]
+  NOT: [ApplicationWhereInput!]
+}
+
+input ApplicationWhereUniqueInput {
+  id: ID
+}
+
 type BatchPayload {
   count: Long!
 }
 
-type Comment {
+type Club {
   id: ID!
-  text: String!
-  user: User!
-  post: Post!
+  masterId: Int!
+  members(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
+  name: String!
+  bio: String!
+  description: String!
+  logo: String
+  clubImage: String
+  type: String!
+  socialUrl: String!
+  socialDisplay: Boolean!
 }
 
-type CommentConnection {
+type ClubConnection {
   pageInfo: PageInfo!
-  edges: [CommentEdge]!
-  aggregate: AggregateComment!
+  edges: [ClubEdge]!
+  aggregate: AggregateClub!
 }
 
-input CommentCreateInput {
+input ClubCreateInput {
   id: ID
-  text: String!
-  user: UserCreateOneWithoutCommentsInput!
-  post: PostCreateOneWithoutCommentsInput!
+  masterId: Int!
+  members: UserCreateManyWithoutJoinClubsInput
+  applications: ApplicationCreateManyWithoutClubInput
+  name: String!
+  bio: String!
+  description: String!
+  logo: String
+  clubImage: String
+  type: String!
+  socialUrl: String!
+  socialDisplay: Boolean!
 }
 
-input CommentCreateManyWithoutPostInput {
-  create: [CommentCreateWithoutPostInput!]
-  connect: [CommentWhereUniqueInput!]
+input ClubCreateManyWithoutMembersInput {
+  create: [ClubCreateWithoutMembersInput!]
+  connect: [ClubWhereUniqueInput!]
 }
 
-input CommentCreateManyWithoutUserInput {
-  create: [CommentCreateWithoutUserInput!]
-  connect: [CommentWhereUniqueInput!]
+input ClubCreateOneWithoutApplicationsInput {
+  create: ClubCreateWithoutApplicationsInput
+  connect: ClubWhereUniqueInput
 }
 
-input CommentCreateWithoutPostInput {
+input ClubCreateWithoutApplicationsInput {
   id: ID
-  text: String!
-  user: UserCreateOneWithoutCommentsInput!
+  masterId: Int!
+  members: UserCreateManyWithoutJoinClubsInput
+  name: String!
+  bio: String!
+  description: String!
+  logo: String
+  clubImage: String
+  type: String!
+  socialUrl: String!
+  socialDisplay: Boolean!
 }
 
-input CommentCreateWithoutUserInput {
+input ClubCreateWithoutMembersInput {
   id: ID
-  text: String!
-  post: PostCreateOneWithoutCommentsInput!
+  masterId: Int!
+  applications: ApplicationCreateManyWithoutClubInput
+  name: String!
+  bio: String!
+  description: String!
+  logo: String
+  clubImage: String
+  type: String!
+  socialUrl: String!
+  socialDisplay: Boolean!
 }
 
-type CommentEdge {
-  node: Comment!
+type ClubEdge {
+  node: Club!
   cursor: String!
 }
 
-enum CommentOrderByInput {
+enum ClubOrderByInput {
+  id_ASC
+  id_DESC
+  masterId_ASC
+  masterId_DESC
+  name_ASC
+  name_DESC
+  bio_ASC
+  bio_DESC
+  description_ASC
+  description_DESC
+  logo_ASC
+  logo_DESC
+  clubImage_ASC
+  clubImage_DESC
+  type_ASC
+  type_DESC
+  socialUrl_ASC
+  socialUrl_DESC
+  socialDisplay_ASC
+  socialDisplay_DESC
+}
+
+type ClubPreviousValues {
+  id: ID!
+  masterId: Int!
+  name: String!
+  bio: String!
+  description: String!
+  logo: String
+  clubImage: String
+  type: String!
+  socialUrl: String!
+  socialDisplay: Boolean!
+}
+
+input ClubScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  masterId: Int
+  masterId_not: Int
+  masterId_in: [Int!]
+  masterId_not_in: [Int!]
+  masterId_lt: Int
+  masterId_lte: Int
+  masterId_gt: Int
+  masterId_gte: Int
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  bio: String
+  bio_not: String
+  bio_in: [String!]
+  bio_not_in: [String!]
+  bio_lt: String
+  bio_lte: String
+  bio_gt: String
+  bio_gte: String
+  bio_contains: String
+  bio_not_contains: String
+  bio_starts_with: String
+  bio_not_starts_with: String
+  bio_ends_with: String
+  bio_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  logo: String
+  logo_not: String
+  logo_in: [String!]
+  logo_not_in: [String!]
+  logo_lt: String
+  logo_lte: String
+  logo_gt: String
+  logo_gte: String
+  logo_contains: String
+  logo_not_contains: String
+  logo_starts_with: String
+  logo_not_starts_with: String
+  logo_ends_with: String
+  logo_not_ends_with: String
+  clubImage: String
+  clubImage_not: String
+  clubImage_in: [String!]
+  clubImage_not_in: [String!]
+  clubImage_lt: String
+  clubImage_lte: String
+  clubImage_gt: String
+  clubImage_gte: String
+  clubImage_contains: String
+  clubImage_not_contains: String
+  clubImage_starts_with: String
+  clubImage_not_starts_with: String
+  clubImage_ends_with: String
+  clubImage_not_ends_with: String
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  socialUrl: String
+  socialUrl_not: String
+  socialUrl_in: [String!]
+  socialUrl_not_in: [String!]
+  socialUrl_lt: String
+  socialUrl_lte: String
+  socialUrl_gt: String
+  socialUrl_gte: String
+  socialUrl_contains: String
+  socialUrl_not_contains: String
+  socialUrl_starts_with: String
+  socialUrl_not_starts_with: String
+  socialUrl_ends_with: String
+  socialUrl_not_ends_with: String
+  socialDisplay: Boolean
+  socialDisplay_not: Boolean
+  AND: [ClubScalarWhereInput!]
+  OR: [ClubScalarWhereInput!]
+  NOT: [ClubScalarWhereInput!]
+}
+
+type ClubSubscriptionPayload {
+  mutation: MutationType!
+  node: Club
+  updatedFields: [String!]
+  previousValues: ClubPreviousValues
+}
+
+input ClubSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ClubWhereInput
+  AND: [ClubSubscriptionWhereInput!]
+  OR: [ClubSubscriptionWhereInput!]
+  NOT: [ClubSubscriptionWhereInput!]
+}
+
+input ClubUpdateInput {
+  masterId: Int
+  members: UserUpdateManyWithoutJoinClubsInput
+  applications: ApplicationUpdateManyWithoutClubInput
+  name: String
+  bio: String
+  description: String
+  logo: String
+  clubImage: String
+  type: String
+  socialUrl: String
+  socialDisplay: Boolean
+}
+
+input ClubUpdateManyDataInput {
+  masterId: Int
+  name: String
+  bio: String
+  description: String
+  logo: String
+  clubImage: String
+  type: String
+  socialUrl: String
+  socialDisplay: Boolean
+}
+
+input ClubUpdateManyMutationInput {
+  masterId: Int
+  name: String
+  bio: String
+  description: String
+  logo: String
+  clubImage: String
+  type: String
+  socialUrl: String
+  socialDisplay: Boolean
+}
+
+input ClubUpdateManyWithoutMembersInput {
+  create: [ClubCreateWithoutMembersInput!]
+  delete: [ClubWhereUniqueInput!]
+  connect: [ClubWhereUniqueInput!]
+  set: [ClubWhereUniqueInput!]
+  disconnect: [ClubWhereUniqueInput!]
+  update: [ClubUpdateWithWhereUniqueWithoutMembersInput!]
+  upsert: [ClubUpsertWithWhereUniqueWithoutMembersInput!]
+  deleteMany: [ClubScalarWhereInput!]
+  updateMany: [ClubUpdateManyWithWhereNestedInput!]
+}
+
+input ClubUpdateManyWithWhereNestedInput {
+  where: ClubScalarWhereInput!
+  data: ClubUpdateManyDataInput!
+}
+
+input ClubUpdateOneRequiredWithoutApplicationsInput {
+  create: ClubCreateWithoutApplicationsInput
+  update: ClubUpdateWithoutApplicationsDataInput
+  upsert: ClubUpsertWithoutApplicationsInput
+  connect: ClubWhereUniqueInput
+}
+
+input ClubUpdateWithoutApplicationsDataInput {
+  masterId: Int
+  members: UserUpdateManyWithoutJoinClubsInput
+  name: String
+  bio: String
+  description: String
+  logo: String
+  clubImage: String
+  type: String
+  socialUrl: String
+  socialDisplay: Boolean
+}
+
+input ClubUpdateWithoutMembersDataInput {
+  masterId: Int
+  applications: ApplicationUpdateManyWithoutClubInput
+  name: String
+  bio: String
+  description: String
+  logo: String
+  clubImage: String
+  type: String
+  socialUrl: String
+  socialDisplay: Boolean
+}
+
+input ClubUpdateWithWhereUniqueWithoutMembersInput {
+  where: ClubWhereUniqueInput!
+  data: ClubUpdateWithoutMembersDataInput!
+}
+
+input ClubUpsertWithoutApplicationsInput {
+  update: ClubUpdateWithoutApplicationsDataInput!
+  create: ClubCreateWithoutApplicationsInput!
+}
+
+input ClubUpsertWithWhereUniqueWithoutMembersInput {
+  where: ClubWhereUniqueInput!
+  update: ClubUpdateWithoutMembersDataInput!
+  create: ClubCreateWithoutMembersInput!
+}
+
+input ClubWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  masterId: Int
+  masterId_not: Int
+  masterId_in: [Int!]
+  masterId_not_in: [Int!]
+  masterId_lt: Int
+  masterId_lte: Int
+  masterId_gt: Int
+  masterId_gte: Int
+  members_every: UserWhereInput
+  members_some: UserWhereInput
+  members_none: UserWhereInput
+  applications_every: ApplicationWhereInput
+  applications_some: ApplicationWhereInput
+  applications_none: ApplicationWhereInput
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  bio: String
+  bio_not: String
+  bio_in: [String!]
+  bio_not_in: [String!]
+  bio_lt: String
+  bio_lte: String
+  bio_gt: String
+  bio_gte: String
+  bio_contains: String
+  bio_not_contains: String
+  bio_starts_with: String
+  bio_not_starts_with: String
+  bio_ends_with: String
+  bio_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  logo: String
+  logo_not: String
+  logo_in: [String!]
+  logo_not_in: [String!]
+  logo_lt: String
+  logo_lte: String
+  logo_gt: String
+  logo_gte: String
+  logo_contains: String
+  logo_not_contains: String
+  logo_starts_with: String
+  logo_not_starts_with: String
+  logo_ends_with: String
+  logo_not_ends_with: String
+  clubImage: String
+  clubImage_not: String
+  clubImage_in: [String!]
+  clubImage_not_in: [String!]
+  clubImage_lt: String
+  clubImage_lte: String
+  clubImage_gt: String
+  clubImage_gte: String
+  clubImage_contains: String
+  clubImage_not_contains: String
+  clubImage_starts_with: String
+  clubImage_not_starts_with: String
+  clubImage_ends_with: String
+  clubImage_not_ends_with: String
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  socialUrl: String
+  socialUrl_not: String
+  socialUrl_in: [String!]
+  socialUrl_not_in: [String!]
+  socialUrl_lt: String
+  socialUrl_lte: String
+  socialUrl_gt: String
+  socialUrl_gte: String
+  socialUrl_contains: String
+  socialUrl_not_contains: String
+  socialUrl_starts_with: String
+  socialUrl_not_starts_with: String
+  socialUrl_ends_with: String
+  socialUrl_not_ends_with: String
+  socialDisplay: Boolean
+  socialDisplay_not: Boolean
+  AND: [ClubWhereInput!]
+  OR: [ClubWhereInput!]
+  NOT: [ClubWhereInput!]
+}
+
+input ClubWhereUniqueInput {
+  id: ID
+}
+
+scalar Long
+
+type Message {
+  id: ID!
+  text: String!
+  from: User!
+  to: User!
+  room: Room!
+}
+
+type MessageConnection {
+  pageInfo: PageInfo!
+  edges: [MessageEdge]!
+  aggregate: AggregateMessage!
+}
+
+input MessageCreateInput {
+  id: ID
+  text: String!
+  from: UserCreateOneInput!
+  to: UserCreateOneInput!
+  room: RoomCreateOneWithoutMessagesInput!
+}
+
+input MessageCreateManyWithoutRoomInput {
+  create: [MessageCreateWithoutRoomInput!]
+  connect: [MessageWhereUniqueInput!]
+}
+
+input MessageCreateWithoutRoomInput {
+  id: ID
+  text: String!
+  from: UserCreateOneInput!
+  to: UserCreateOneInput!
+}
+
+type MessageEdge {
+  node: Message!
+  cursor: String!
+}
+
+enum MessageOrderByInput {
   id_ASC
   id_DESC
   text_ASC
   text_DESC
 }
 
-type CommentPreviousValues {
+type MessagePreviousValues {
   id: ID!
   text: String!
 }
 
-input CommentScalarWhereInput {
+input MessageScalarWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -115,105 +878,79 @@ input CommentScalarWhereInput {
   text_not_starts_with: String
   text_ends_with: String
   text_not_ends_with: String
-  AND: [CommentScalarWhereInput!]
-  OR: [CommentScalarWhereInput!]
-  NOT: [CommentScalarWhereInput!]
+  AND: [MessageScalarWhereInput!]
+  OR: [MessageScalarWhereInput!]
+  NOT: [MessageScalarWhereInput!]
 }
 
-type CommentSubscriptionPayload {
+type MessageSubscriptionPayload {
   mutation: MutationType!
-  node: Comment
+  node: Message
   updatedFields: [String!]
-  previousValues: CommentPreviousValues
+  previousValues: MessagePreviousValues
 }
 
-input CommentSubscriptionWhereInput {
+input MessageSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: CommentWhereInput
-  AND: [CommentSubscriptionWhereInput!]
-  OR: [CommentSubscriptionWhereInput!]
-  NOT: [CommentSubscriptionWhereInput!]
+  node: MessageWhereInput
+  AND: [MessageSubscriptionWhereInput!]
+  OR: [MessageSubscriptionWhereInput!]
+  NOT: [MessageSubscriptionWhereInput!]
 }
 
-input CommentUpdateInput {
+input MessageUpdateInput {
   text: String
-  user: UserUpdateOneRequiredWithoutCommentsInput
-  post: PostUpdateOneRequiredWithoutCommentsInput
+  from: UserUpdateOneRequiredInput
+  to: UserUpdateOneRequiredInput
+  room: RoomUpdateOneRequiredWithoutMessagesInput
 }
 
-input CommentUpdateManyDataInput {
-  text: String
-}
-
-input CommentUpdateManyMutationInput {
+input MessageUpdateManyDataInput {
   text: String
 }
 
-input CommentUpdateManyWithoutPostInput {
-  create: [CommentCreateWithoutPostInput!]
-  delete: [CommentWhereUniqueInput!]
-  connect: [CommentWhereUniqueInput!]
-  set: [CommentWhereUniqueInput!]
-  disconnect: [CommentWhereUniqueInput!]
-  update: [CommentUpdateWithWhereUniqueWithoutPostInput!]
-  upsert: [CommentUpsertWithWhereUniqueWithoutPostInput!]
-  deleteMany: [CommentScalarWhereInput!]
-  updateMany: [CommentUpdateManyWithWhereNestedInput!]
-}
-
-input CommentUpdateManyWithoutUserInput {
-  create: [CommentCreateWithoutUserInput!]
-  delete: [CommentWhereUniqueInput!]
-  connect: [CommentWhereUniqueInput!]
-  set: [CommentWhereUniqueInput!]
-  disconnect: [CommentWhereUniqueInput!]
-  update: [CommentUpdateWithWhereUniqueWithoutUserInput!]
-  upsert: [CommentUpsertWithWhereUniqueWithoutUserInput!]
-  deleteMany: [CommentScalarWhereInput!]
-  updateMany: [CommentUpdateManyWithWhereNestedInput!]
-}
-
-input CommentUpdateManyWithWhereNestedInput {
-  where: CommentScalarWhereInput!
-  data: CommentUpdateManyDataInput!
-}
-
-input CommentUpdateWithoutPostDataInput {
+input MessageUpdateManyMutationInput {
   text: String
-  user: UserUpdateOneRequiredWithoutCommentsInput
 }
 
-input CommentUpdateWithoutUserDataInput {
+input MessageUpdateManyWithoutRoomInput {
+  create: [MessageCreateWithoutRoomInput!]
+  delete: [MessageWhereUniqueInput!]
+  connect: [MessageWhereUniqueInput!]
+  set: [MessageWhereUniqueInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutRoomInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutRoomInput!]
+  deleteMany: [MessageScalarWhereInput!]
+  updateMany: [MessageUpdateManyWithWhereNestedInput!]
+}
+
+input MessageUpdateManyWithWhereNestedInput {
+  where: MessageScalarWhereInput!
+  data: MessageUpdateManyDataInput!
+}
+
+input MessageUpdateWithoutRoomDataInput {
   text: String
-  post: PostUpdateOneRequiredWithoutCommentsInput
+  from: UserUpdateOneRequiredInput
+  to: UserUpdateOneRequiredInput
 }
 
-input CommentUpdateWithWhereUniqueWithoutPostInput {
-  where: CommentWhereUniqueInput!
-  data: CommentUpdateWithoutPostDataInput!
+input MessageUpdateWithWhereUniqueWithoutRoomInput {
+  where: MessageWhereUniqueInput!
+  data: MessageUpdateWithoutRoomDataInput!
 }
 
-input CommentUpdateWithWhereUniqueWithoutUserInput {
-  where: CommentWhereUniqueInput!
-  data: CommentUpdateWithoutUserDataInput!
+input MessageUpsertWithWhereUniqueWithoutRoomInput {
+  where: MessageWhereUniqueInput!
+  update: MessageUpdateWithoutRoomDataInput!
+  create: MessageCreateWithoutRoomInput!
 }
 
-input CommentUpsertWithWhereUniqueWithoutPostInput {
-  where: CommentWhereUniqueInput!
-  update: CommentUpdateWithoutPostDataInput!
-  create: CommentCreateWithoutPostInput!
-}
-
-input CommentUpsertWithWhereUniqueWithoutUserInput {
-  where: CommentWhereUniqueInput!
-  update: CommentUpdateWithoutUserDataInput!
-  create: CommentCreateWithoutUserInput!
-}
-
-input CommentWhereInput {
+input MessageWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -242,397 +979,54 @@ input CommentWhereInput {
   text_not_starts_with: String
   text_ends_with: String
   text_not_ends_with: String
-  user: UserWhereInput
-  post: PostWhereInput
-  AND: [CommentWhereInput!]
-  OR: [CommentWhereInput!]
-  NOT: [CommentWhereInput!]
+  from: UserWhereInput
+  to: UserWhereInput
+  room: RoomWhereInput
+  AND: [MessageWhereInput!]
+  OR: [MessageWhereInput!]
+  NOT: [MessageWhereInput!]
 }
 
-input CommentWhereUniqueInput {
+input MessageWhereUniqueInput {
   id: ID
 }
-
-type File {
-  id: ID!
-  url: String!
-  post: Post!
-}
-
-type FileConnection {
-  pageInfo: PageInfo!
-  edges: [FileEdge]!
-  aggregate: AggregateFile!
-}
-
-input FileCreateInput {
-  id: ID
-  url: String!
-  post: PostCreateOneWithoutFilesInput!
-}
-
-input FileCreateManyWithoutPostInput {
-  create: [FileCreateWithoutPostInput!]
-  connect: [FileWhereUniqueInput!]
-}
-
-input FileCreateWithoutPostInput {
-  id: ID
-  url: String!
-}
-
-type FileEdge {
-  node: File!
-  cursor: String!
-}
-
-enum FileOrderByInput {
-  id_ASC
-  id_DESC
-  url_ASC
-  url_DESC
-}
-
-type FilePreviousValues {
-  id: ID!
-  url: String!
-}
-
-input FileScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  AND: [FileScalarWhereInput!]
-  OR: [FileScalarWhereInput!]
-  NOT: [FileScalarWhereInput!]
-}
-
-type FileSubscriptionPayload {
-  mutation: MutationType!
-  node: File
-  updatedFields: [String!]
-  previousValues: FilePreviousValues
-}
-
-input FileSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: FileWhereInput
-  AND: [FileSubscriptionWhereInput!]
-  OR: [FileSubscriptionWhereInput!]
-  NOT: [FileSubscriptionWhereInput!]
-}
-
-input FileUpdateInput {
-  url: String
-  post: PostUpdateOneRequiredWithoutFilesInput
-}
-
-input FileUpdateManyDataInput {
-  url: String
-}
-
-input FileUpdateManyMutationInput {
-  url: String
-}
-
-input FileUpdateManyWithoutPostInput {
-  create: [FileCreateWithoutPostInput!]
-  delete: [FileWhereUniqueInput!]
-  connect: [FileWhereUniqueInput!]
-  set: [FileWhereUniqueInput!]
-  disconnect: [FileWhereUniqueInput!]
-  update: [FileUpdateWithWhereUniqueWithoutPostInput!]
-  upsert: [FileUpsertWithWhereUniqueWithoutPostInput!]
-  deleteMany: [FileScalarWhereInput!]
-  updateMany: [FileUpdateManyWithWhereNestedInput!]
-}
-
-input FileUpdateManyWithWhereNestedInput {
-  where: FileScalarWhereInput!
-  data: FileUpdateManyDataInput!
-}
-
-input FileUpdateWithoutPostDataInput {
-  url: String
-}
-
-input FileUpdateWithWhereUniqueWithoutPostInput {
-  where: FileWhereUniqueInput!
-  data: FileUpdateWithoutPostDataInput!
-}
-
-input FileUpsertWithWhereUniqueWithoutPostInput {
-  where: FileWhereUniqueInput!
-  update: FileUpdateWithoutPostDataInput!
-  create: FileCreateWithoutPostInput!
-}
-
-input FileWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  url: String
-  url_not: String
-  url_in: [String!]
-  url_not_in: [String!]
-  url_lt: String
-  url_lte: String
-  url_gt: String
-  url_gte: String
-  url_contains: String
-  url_not_contains: String
-  url_starts_with: String
-  url_not_starts_with: String
-  url_ends_with: String
-  url_not_ends_with: String
-  post: PostWhereInput
-  AND: [FileWhereInput!]
-  OR: [FileWhereInput!]
-  NOT: [FileWhereInput!]
-}
-
-input FileWhereUniqueInput {
-  id: ID
-}
-
-type Like {
-  id: ID!
-  user: User!
-  post: Post!
-}
-
-type LikeConnection {
-  pageInfo: PageInfo!
-  edges: [LikeEdge]!
-  aggregate: AggregateLike!
-}
-
-input LikeCreateInput {
-  id: ID
-  user: UserCreateOneWithoutLikesInput!
-  post: PostCreateOneWithoutLikesInput!
-}
-
-input LikeCreateManyWithoutPostInput {
-  create: [LikeCreateWithoutPostInput!]
-  connect: [LikeWhereUniqueInput!]
-}
-
-input LikeCreateManyWithoutUserInput {
-  create: [LikeCreateWithoutUserInput!]
-  connect: [LikeWhereUniqueInput!]
-}
-
-input LikeCreateWithoutPostInput {
-  id: ID
-  user: UserCreateOneWithoutLikesInput!
-}
-
-input LikeCreateWithoutUserInput {
-  id: ID
-  post: PostCreateOneWithoutLikesInput!
-}
-
-type LikeEdge {
-  node: Like!
-  cursor: String!
-}
-
-enum LikeOrderByInput {
-  id_ASC
-  id_DESC
-}
-
-type LikePreviousValues {
-  id: ID!
-}
-
-input LikeScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  AND: [LikeScalarWhereInput!]
-  OR: [LikeScalarWhereInput!]
-  NOT: [LikeScalarWhereInput!]
-}
-
-type LikeSubscriptionPayload {
-  mutation: MutationType!
-  node: Like
-  updatedFields: [String!]
-  previousValues: LikePreviousValues
-}
-
-input LikeSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: LikeWhereInput
-  AND: [LikeSubscriptionWhereInput!]
-  OR: [LikeSubscriptionWhereInput!]
-  NOT: [LikeSubscriptionWhereInput!]
-}
-
-input LikeUpdateInput {
-  user: UserUpdateOneRequiredWithoutLikesInput
-  post: PostUpdateOneRequiredWithoutLikesInput
-}
-
-input LikeUpdateManyWithoutPostInput {
-  create: [LikeCreateWithoutPostInput!]
-  delete: [LikeWhereUniqueInput!]
-  connect: [LikeWhereUniqueInput!]
-  set: [LikeWhereUniqueInput!]
-  disconnect: [LikeWhereUniqueInput!]
-  update: [LikeUpdateWithWhereUniqueWithoutPostInput!]
-  upsert: [LikeUpsertWithWhereUniqueWithoutPostInput!]
-  deleteMany: [LikeScalarWhereInput!]
-}
-
-input LikeUpdateManyWithoutUserInput {
-  create: [LikeCreateWithoutUserInput!]
-  delete: [LikeWhereUniqueInput!]
-  connect: [LikeWhereUniqueInput!]
-  set: [LikeWhereUniqueInput!]
-  disconnect: [LikeWhereUniqueInput!]
-  update: [LikeUpdateWithWhereUniqueWithoutUserInput!]
-  upsert: [LikeUpsertWithWhereUniqueWithoutUserInput!]
-  deleteMany: [LikeScalarWhereInput!]
-}
-
-input LikeUpdateWithoutPostDataInput {
-  user: UserUpdateOneRequiredWithoutLikesInput
-}
-
-input LikeUpdateWithoutUserDataInput {
-  post: PostUpdateOneRequiredWithoutLikesInput
-}
-
-input LikeUpdateWithWhereUniqueWithoutPostInput {
-  where: LikeWhereUniqueInput!
-  data: LikeUpdateWithoutPostDataInput!
-}
-
-input LikeUpdateWithWhereUniqueWithoutUserInput {
-  where: LikeWhereUniqueInput!
-  data: LikeUpdateWithoutUserDataInput!
-}
-
-input LikeUpsertWithWhereUniqueWithoutPostInput {
-  where: LikeWhereUniqueInput!
-  update: LikeUpdateWithoutPostDataInput!
-  create: LikeCreateWithoutPostInput!
-}
-
-input LikeUpsertWithWhereUniqueWithoutUserInput {
-  where: LikeWhereUniqueInput!
-  update: LikeUpdateWithoutUserDataInput!
-  create: LikeCreateWithoutUserInput!
-}
-
-input LikeWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  user: UserWhereInput
-  post: PostWhereInput
-  AND: [LikeWhereInput!]
-  OR: [LikeWhereInput!]
-  NOT: [LikeWhereInput!]
-}
-
-input LikeWhereUniqueInput {
-  id: ID
-}
-
-scalar Long
 
 type Mutation {
-  createComment(data: CommentCreateInput!): Comment!
-  updateComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
-  updateManyComments(data: CommentUpdateManyMutationInput!, where: CommentWhereInput): BatchPayload!
-  upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
-  deleteComment(where: CommentWhereUniqueInput!): Comment
-  deleteManyComments(where: CommentWhereInput): BatchPayload!
-  createFile(data: FileCreateInput!): File!
-  updateFile(data: FileUpdateInput!, where: FileWhereUniqueInput!): File
-  updateManyFiles(data: FileUpdateManyMutationInput!, where: FileWhereInput): BatchPayload!
-  upsertFile(where: FileWhereUniqueInput!, create: FileCreateInput!, update: FileUpdateInput!): File!
-  deleteFile(where: FileWhereUniqueInput!): File
-  deleteManyFiles(where: FileWhereInput): BatchPayload!
-  createLike(data: LikeCreateInput!): Like!
-  updateLike(data: LikeUpdateInput!, where: LikeWhereUniqueInput!): Like
-  upsertLike(where: LikeWhereUniqueInput!, create: LikeCreateInput!, update: LikeUpdateInput!): Like!
-  deleteLike(where: LikeWhereUniqueInput!): Like
-  deleteManyLikes(where: LikeWhereInput): BatchPayload!
-  createPost(data: PostCreateInput!): Post!
-  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
-  updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
-  upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
-  deletePost(where: PostWhereUniqueInput!): Post
-  deleteManyPosts(where: PostWhereInput): BatchPayload!
+  createApplication(data: ApplicationCreateInput!): Application!
+  updateApplication(data: ApplicationUpdateInput!, where: ApplicationWhereUniqueInput!): Application
+  updateManyApplications(data: ApplicationUpdateManyMutationInput!, where: ApplicationWhereInput): BatchPayload!
+  upsertApplication(where: ApplicationWhereUniqueInput!, create: ApplicationCreateInput!, update: ApplicationUpdateInput!): Application!
+  deleteApplication(where: ApplicationWhereUniqueInput!): Application
+  deleteManyApplications(where: ApplicationWhereInput): BatchPayload!
+  createClub(data: ClubCreateInput!): Club!
+  updateClub(data: ClubUpdateInput!, where: ClubWhereUniqueInput!): Club
+  updateManyClubs(data: ClubUpdateManyMutationInput!, where: ClubWhereInput): BatchPayload!
+  upsertClub(where: ClubWhereUniqueInput!, create: ClubCreateInput!, update: ClubUpdateInput!): Club!
+  deleteClub(where: ClubWhereUniqueInput!): Club
+  deleteManyClubs(where: ClubWhereInput): BatchPayload!
+  createMessage(data: MessageCreateInput!): Message!
+  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
+  updateManyMessages(data: MessageUpdateManyMutationInput!, where: MessageWhereInput): BatchPayload!
+  upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
+  deleteMessage(where: MessageWhereUniqueInput!): Message
+  deleteManyMessages(where: MessageWhereInput): BatchPayload!
+  createNotification(data: NotificationCreateInput!): Notification!
+  updateNotification(data: NotificationUpdateInput!, where: NotificationWhereUniqueInput!): Notification
+  updateManyNotifications(data: NotificationUpdateManyMutationInput!, where: NotificationWhereInput): BatchPayload!
+  upsertNotification(where: NotificationWhereUniqueInput!, create: NotificationCreateInput!, update: NotificationUpdateInput!): Notification!
+  deleteNotification(where: NotificationWhereUniqueInput!): Notification
+  deleteManyNotifications(where: NotificationWhereInput): BatchPayload!
+  createQuestion(data: QuestionCreateInput!): Question!
+  updateQuestion(data: QuestionUpdateInput!, where: QuestionWhereUniqueInput!): Question
+  updateManyQuestions(data: QuestionUpdateManyMutationInput!, where: QuestionWhereInput): BatchPayload!
+  upsertQuestion(where: QuestionWhereUniqueInput!, create: QuestionCreateInput!, update: QuestionUpdateInput!): Question!
+  deleteQuestion(where: QuestionWhereUniqueInput!): Question
+  deleteManyQuestions(where: QuestionWhereInput): BatchPayload!
+  createRoom(data: RoomCreateInput!): Room!
+  updateRoom(data: RoomUpdateInput!, where: RoomWhereUniqueInput!): Room
+  upsertRoom(where: RoomWhereUniqueInput!, create: RoomCreateInput!, update: RoomUpdateInput!): Room!
+  deleteRoom(where: RoomWhereUniqueInput!): Room
+  deleteManyRooms(where: RoomWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -651,6 +1045,216 @@ interface Node {
   id: ID!
 }
 
+type Notification {
+  id: ID!
+  userId: Int!
+  content: String!
+  checked: Boolean!
+}
+
+type NotificationConnection {
+  pageInfo: PageInfo!
+  edges: [NotificationEdge]!
+  aggregate: AggregateNotification!
+}
+
+input NotificationCreateInput {
+  id: ID
+  userId: Int!
+  content: String!
+  checked: Boolean!
+}
+
+input NotificationCreateManyInput {
+  create: [NotificationCreateInput!]
+  connect: [NotificationWhereUniqueInput!]
+}
+
+type NotificationEdge {
+  node: Notification!
+  cursor: String!
+}
+
+enum NotificationOrderByInput {
+  id_ASC
+  id_DESC
+  userId_ASC
+  userId_DESC
+  content_ASC
+  content_DESC
+  checked_ASC
+  checked_DESC
+}
+
+type NotificationPreviousValues {
+  id: ID!
+  userId: Int!
+  content: String!
+  checked: Boolean!
+}
+
+input NotificationScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  userId: Int
+  userId_not: Int
+  userId_in: [Int!]
+  userId_not_in: [Int!]
+  userId_lt: Int
+  userId_lte: Int
+  userId_gt: Int
+  userId_gte: Int
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
+  checked: Boolean
+  checked_not: Boolean
+  AND: [NotificationScalarWhereInput!]
+  OR: [NotificationScalarWhereInput!]
+  NOT: [NotificationScalarWhereInput!]
+}
+
+type NotificationSubscriptionPayload {
+  mutation: MutationType!
+  node: Notification
+  updatedFields: [String!]
+  previousValues: NotificationPreviousValues
+}
+
+input NotificationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: NotificationWhereInput
+  AND: [NotificationSubscriptionWhereInput!]
+  OR: [NotificationSubscriptionWhereInput!]
+  NOT: [NotificationSubscriptionWhereInput!]
+}
+
+input NotificationUpdateDataInput {
+  userId: Int
+  content: String
+  checked: Boolean
+}
+
+input NotificationUpdateInput {
+  userId: Int
+  content: String
+  checked: Boolean
+}
+
+input NotificationUpdateManyDataInput {
+  userId: Int
+  content: String
+  checked: Boolean
+}
+
+input NotificationUpdateManyInput {
+  create: [NotificationCreateInput!]
+  update: [NotificationUpdateWithWhereUniqueNestedInput!]
+  upsert: [NotificationUpsertWithWhereUniqueNestedInput!]
+  delete: [NotificationWhereUniqueInput!]
+  connect: [NotificationWhereUniqueInput!]
+  set: [NotificationWhereUniqueInput!]
+  disconnect: [NotificationWhereUniqueInput!]
+  deleteMany: [NotificationScalarWhereInput!]
+  updateMany: [NotificationUpdateManyWithWhereNestedInput!]
+}
+
+input NotificationUpdateManyMutationInput {
+  userId: Int
+  content: String
+  checked: Boolean
+}
+
+input NotificationUpdateManyWithWhereNestedInput {
+  where: NotificationScalarWhereInput!
+  data: NotificationUpdateManyDataInput!
+}
+
+input NotificationUpdateWithWhereUniqueNestedInput {
+  where: NotificationWhereUniqueInput!
+  data: NotificationUpdateDataInput!
+}
+
+input NotificationUpsertWithWhereUniqueNestedInput {
+  where: NotificationWhereUniqueInput!
+  update: NotificationUpdateDataInput!
+  create: NotificationCreateInput!
+}
+
+input NotificationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  userId: Int
+  userId_not: Int
+  userId_in: [Int!]
+  userId_not_in: [Int!]
+  userId_lt: Int
+  userId_lte: Int
+  userId_gt: Int
+  userId_gte: Int
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
+  checked: Boolean
+  checked_not: Boolean
+  AND: [NotificationWhereInput!]
+  OR: [NotificationWhereInput!]
+  NOT: [NotificationWhereInput!]
+}
+
+input NotificationWhereUniqueInput {
+  id: ID
+}
+
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
@@ -658,390 +1262,444 @@ type PageInfo {
   endCursor: String
 }
 
-type Post {
-  id: ID!
-  location: String
-  caption: String!
-  user: User!
-  files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File!]
-  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
-  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
-}
-
-type PostConnection {
-  pageInfo: PageInfo!
-  edges: [PostEdge]!
-  aggregate: AggregatePost!
-}
-
-input PostCreateInput {
-  id: ID
-  location: String
-  caption: String!
-  user: UserCreateOneWithoutPostsInput!
-  files: FileCreateManyWithoutPostInput
-  likes: LikeCreateManyWithoutPostInput
-  comments: CommentCreateManyWithoutPostInput
-}
-
-input PostCreateManyWithoutUserInput {
-  create: [PostCreateWithoutUserInput!]
-  connect: [PostWhereUniqueInput!]
-}
-
-input PostCreateOneWithoutCommentsInput {
-  create: PostCreateWithoutCommentsInput
-  connect: PostWhereUniqueInput
-}
-
-input PostCreateOneWithoutFilesInput {
-  create: PostCreateWithoutFilesInput
-  connect: PostWhereUniqueInput
-}
-
-input PostCreateOneWithoutLikesInput {
-  create: PostCreateWithoutLikesInput
-  connect: PostWhereUniqueInput
-}
-
-input PostCreateWithoutCommentsInput {
-  id: ID
-  location: String
-  caption: String!
-  user: UserCreateOneWithoutPostsInput!
-  files: FileCreateManyWithoutPostInput
-  likes: LikeCreateManyWithoutPostInput
-}
-
-input PostCreateWithoutFilesInput {
-  id: ID
-  location: String
-  caption: String!
-  user: UserCreateOneWithoutPostsInput!
-  likes: LikeCreateManyWithoutPostInput
-  comments: CommentCreateManyWithoutPostInput
-}
-
-input PostCreateWithoutLikesInput {
-  id: ID
-  location: String
-  caption: String!
-  user: UserCreateOneWithoutPostsInput!
-  files: FileCreateManyWithoutPostInput
-  comments: CommentCreateManyWithoutPostInput
-}
-
-input PostCreateWithoutUserInput {
-  id: ID
-  location: String
-  caption: String!
-  files: FileCreateManyWithoutPostInput
-  likes: LikeCreateManyWithoutPostInput
-  comments: CommentCreateManyWithoutPostInput
-}
-
-type PostEdge {
-  node: Post!
-  cursor: String!
-}
-
-enum PostOrderByInput {
-  id_ASC
-  id_DESC
-  location_ASC
-  location_DESC
-  caption_ASC
-  caption_DESC
-}
-
-type PostPreviousValues {
-  id: ID!
-  location: String
-  caption: String!
-}
-
-input PostScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  location: String
-  location_not: String
-  location_in: [String!]
-  location_not_in: [String!]
-  location_lt: String
-  location_lte: String
-  location_gt: String
-  location_gte: String
-  location_contains: String
-  location_not_contains: String
-  location_starts_with: String
-  location_not_starts_with: String
-  location_ends_with: String
-  location_not_ends_with: String
-  caption: String
-  caption_not: String
-  caption_in: [String!]
-  caption_not_in: [String!]
-  caption_lt: String
-  caption_lte: String
-  caption_gt: String
-  caption_gte: String
-  caption_contains: String
-  caption_not_contains: String
-  caption_starts_with: String
-  caption_not_starts_with: String
-  caption_ends_with: String
-  caption_not_ends_with: String
-  AND: [PostScalarWhereInput!]
-  OR: [PostScalarWhereInput!]
-  NOT: [PostScalarWhereInput!]
-}
-
-type PostSubscriptionPayload {
-  mutation: MutationType!
-  node: Post
-  updatedFields: [String!]
-  previousValues: PostPreviousValues
-}
-
-input PostSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: PostWhereInput
-  AND: [PostSubscriptionWhereInput!]
-  OR: [PostSubscriptionWhereInput!]
-  NOT: [PostSubscriptionWhereInput!]
-}
-
-input PostUpdateInput {
-  location: String
-  caption: String
-  user: UserUpdateOneRequiredWithoutPostsInput
-  files: FileUpdateManyWithoutPostInput
-  likes: LikeUpdateManyWithoutPostInput
-  comments: CommentUpdateManyWithoutPostInput
-}
-
-input PostUpdateManyDataInput {
-  location: String
-  caption: String
-}
-
-input PostUpdateManyMutationInput {
-  location: String
-  caption: String
-}
-
-input PostUpdateManyWithoutUserInput {
-  create: [PostCreateWithoutUserInput!]
-  delete: [PostWhereUniqueInput!]
-  connect: [PostWhereUniqueInput!]
-  set: [PostWhereUniqueInput!]
-  disconnect: [PostWhereUniqueInput!]
-  update: [PostUpdateWithWhereUniqueWithoutUserInput!]
-  upsert: [PostUpsertWithWhereUniqueWithoutUserInput!]
-  deleteMany: [PostScalarWhereInput!]
-  updateMany: [PostUpdateManyWithWhereNestedInput!]
-}
-
-input PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput!
-  data: PostUpdateManyDataInput!
-}
-
-input PostUpdateOneRequiredWithoutCommentsInput {
-  create: PostCreateWithoutCommentsInput
-  update: PostUpdateWithoutCommentsDataInput
-  upsert: PostUpsertWithoutCommentsInput
-  connect: PostWhereUniqueInput
-}
-
-input PostUpdateOneRequiredWithoutFilesInput {
-  create: PostCreateWithoutFilesInput
-  update: PostUpdateWithoutFilesDataInput
-  upsert: PostUpsertWithoutFilesInput
-  connect: PostWhereUniqueInput
-}
-
-input PostUpdateOneRequiredWithoutLikesInput {
-  create: PostCreateWithoutLikesInput
-  update: PostUpdateWithoutLikesDataInput
-  upsert: PostUpsertWithoutLikesInput
-  connect: PostWhereUniqueInput
-}
-
-input PostUpdateWithoutCommentsDataInput {
-  location: String
-  caption: String
-  user: UserUpdateOneRequiredWithoutPostsInput
-  files: FileUpdateManyWithoutPostInput
-  likes: LikeUpdateManyWithoutPostInput
-}
-
-input PostUpdateWithoutFilesDataInput {
-  location: String
-  caption: String
-  user: UserUpdateOneRequiredWithoutPostsInput
-  likes: LikeUpdateManyWithoutPostInput
-  comments: CommentUpdateManyWithoutPostInput
-}
-
-input PostUpdateWithoutLikesDataInput {
-  location: String
-  caption: String
-  user: UserUpdateOneRequiredWithoutPostsInput
-  files: FileUpdateManyWithoutPostInput
-  comments: CommentUpdateManyWithoutPostInput
-}
-
-input PostUpdateWithoutUserDataInput {
-  location: String
-  caption: String
-  files: FileUpdateManyWithoutPostInput
-  likes: LikeUpdateManyWithoutPostInput
-  comments: CommentUpdateManyWithoutPostInput
-}
-
-input PostUpdateWithWhereUniqueWithoutUserInput {
-  where: PostWhereUniqueInput!
-  data: PostUpdateWithoutUserDataInput!
-}
-
-input PostUpsertWithoutCommentsInput {
-  update: PostUpdateWithoutCommentsDataInput!
-  create: PostCreateWithoutCommentsInput!
-}
-
-input PostUpsertWithoutFilesInput {
-  update: PostUpdateWithoutFilesDataInput!
-  create: PostCreateWithoutFilesInput!
-}
-
-input PostUpsertWithoutLikesInput {
-  update: PostUpdateWithoutLikesDataInput!
-  create: PostCreateWithoutLikesInput!
-}
-
-input PostUpsertWithWhereUniqueWithoutUserInput {
-  where: PostWhereUniqueInput!
-  update: PostUpdateWithoutUserDataInput!
-  create: PostCreateWithoutUserInput!
-}
-
-input PostWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  location: String
-  location_not: String
-  location_in: [String!]
-  location_not_in: [String!]
-  location_lt: String
-  location_lte: String
-  location_gt: String
-  location_gte: String
-  location_contains: String
-  location_not_contains: String
-  location_starts_with: String
-  location_not_starts_with: String
-  location_ends_with: String
-  location_not_ends_with: String
-  caption: String
-  caption_not: String
-  caption_in: [String!]
-  caption_not_in: [String!]
-  caption_lt: String
-  caption_lte: String
-  caption_gt: String
-  caption_gte: String
-  caption_contains: String
-  caption_not_contains: String
-  caption_starts_with: String
-  caption_not_starts_with: String
-  caption_ends_with: String
-  caption_not_ends_with: String
-  user: UserWhereInput
-  files_every: FileWhereInput
-  files_some: FileWhereInput
-  files_none: FileWhereInput
-  likes_every: LikeWhereInput
-  likes_some: LikeWhereInput
-  likes_none: LikeWhereInput
-  comments_every: CommentWhereInput
-  comments_some: CommentWhereInput
-  comments_none: CommentWhereInput
-  AND: [PostWhereInput!]
-  OR: [PostWhereInput!]
-  NOT: [PostWhereInput!]
-}
-
-input PostWhereUniqueInput {
-  id: ID
-}
-
 type Query {
-  comment(where: CommentWhereUniqueInput!): Comment
-  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
-  commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
-  file(where: FileWhereUniqueInput!): File
-  files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
-  filesConnection(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
-  like(where: LikeWhereUniqueInput!): Like
-  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like]!
-  likesConnection(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LikeConnection!
-  post(where: PostWhereUniqueInput!): Post
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
-  postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
+  application(where: ApplicationWhereUniqueInput!): Application
+  applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application]!
+  applicationsConnection(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ApplicationConnection!
+  club(where: ClubWhereUniqueInput!): Club
+  clubs(where: ClubWhereInput, orderBy: ClubOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Club]!
+  clubsConnection(where: ClubWhereInput, orderBy: ClubOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ClubConnection!
+  message(where: MessageWhereUniqueInput!): Message
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
+  messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
+  notification(where: NotificationWhereUniqueInput!): Notification
+  notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification]!
+  notificationsConnection(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NotificationConnection!
+  question(where: QuestionWhereUniqueInput!): Question
+  questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question]!
+  questionsConnection(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuestionConnection!
+  room(where: RoomWhereUniqueInput!): Room
+  rooms(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Room]!
+  roomsConnection(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoomConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
+type Question {
+  id: ID!
+  subject: String
+  type: String
+  options: [String!]!
+}
+
+type QuestionConnection {
+  pageInfo: PageInfo!
+  edges: [QuestionEdge]!
+  aggregate: AggregateQuestion!
+}
+
+input QuestionCreateInput {
+  id: ID
+  subject: String
+  type: String
+  options: QuestionCreateoptionsInput
+}
+
+input QuestionCreateManyInput {
+  create: [QuestionCreateInput!]
+  connect: [QuestionWhereUniqueInput!]
+}
+
+input QuestionCreateoptionsInput {
+  set: [String!]
+}
+
+type QuestionEdge {
+  node: Question!
+  cursor: String!
+}
+
+enum QuestionOrderByInput {
+  id_ASC
+  id_DESC
+  subject_ASC
+  subject_DESC
+  type_ASC
+  type_DESC
+}
+
+type QuestionPreviousValues {
+  id: ID!
+  subject: String
+  type: String
+  options: [String!]!
+}
+
+input QuestionScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  subject: String
+  subject_not: String
+  subject_in: [String!]
+  subject_not_in: [String!]
+  subject_lt: String
+  subject_lte: String
+  subject_gt: String
+  subject_gte: String
+  subject_contains: String
+  subject_not_contains: String
+  subject_starts_with: String
+  subject_not_starts_with: String
+  subject_ends_with: String
+  subject_not_ends_with: String
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  AND: [QuestionScalarWhereInput!]
+  OR: [QuestionScalarWhereInput!]
+  NOT: [QuestionScalarWhereInput!]
+}
+
+type QuestionSubscriptionPayload {
+  mutation: MutationType!
+  node: Question
+  updatedFields: [String!]
+  previousValues: QuestionPreviousValues
+}
+
+input QuestionSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: QuestionWhereInput
+  AND: [QuestionSubscriptionWhereInput!]
+  OR: [QuestionSubscriptionWhereInput!]
+  NOT: [QuestionSubscriptionWhereInput!]
+}
+
+input QuestionUpdateDataInput {
+  subject: String
+  type: String
+  options: QuestionUpdateoptionsInput
+}
+
+input QuestionUpdateInput {
+  subject: String
+  type: String
+  options: QuestionUpdateoptionsInput
+}
+
+input QuestionUpdateManyDataInput {
+  subject: String
+  type: String
+  options: QuestionUpdateoptionsInput
+}
+
+input QuestionUpdateManyInput {
+  create: [QuestionCreateInput!]
+  update: [QuestionUpdateWithWhereUniqueNestedInput!]
+  upsert: [QuestionUpsertWithWhereUniqueNestedInput!]
+  delete: [QuestionWhereUniqueInput!]
+  connect: [QuestionWhereUniqueInput!]
+  set: [QuestionWhereUniqueInput!]
+  disconnect: [QuestionWhereUniqueInput!]
+  deleteMany: [QuestionScalarWhereInput!]
+  updateMany: [QuestionUpdateManyWithWhereNestedInput!]
+}
+
+input QuestionUpdateManyMutationInput {
+  subject: String
+  type: String
+  options: QuestionUpdateoptionsInput
+}
+
+input QuestionUpdateManyWithWhereNestedInput {
+  where: QuestionScalarWhereInput!
+  data: QuestionUpdateManyDataInput!
+}
+
+input QuestionUpdateoptionsInput {
+  set: [String!]
+}
+
+input QuestionUpdateWithWhereUniqueNestedInput {
+  where: QuestionWhereUniqueInput!
+  data: QuestionUpdateDataInput!
+}
+
+input QuestionUpsertWithWhereUniqueNestedInput {
+  where: QuestionWhereUniqueInput!
+  update: QuestionUpdateDataInput!
+  create: QuestionCreateInput!
+}
+
+input QuestionWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  subject: String
+  subject_not: String
+  subject_in: [String!]
+  subject_not_in: [String!]
+  subject_lt: String
+  subject_lte: String
+  subject_gt: String
+  subject_gte: String
+  subject_contains: String
+  subject_not_contains: String
+  subject_starts_with: String
+  subject_not_starts_with: String
+  subject_ends_with: String
+  subject_not_ends_with: String
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  AND: [QuestionWhereInput!]
+  OR: [QuestionWhereInput!]
+  NOT: [QuestionWhereInput!]
+}
+
+input QuestionWhereUniqueInput {
+  id: ID
+}
+
+type Room {
+  id: ID!
+  participants(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
+}
+
+type RoomConnection {
+  pageInfo: PageInfo!
+  edges: [RoomEdge]!
+  aggregate: AggregateRoom!
+}
+
+input RoomCreateInput {
+  id: ID
+  participants: UserCreateManyWithoutRoomsInput
+  messages: MessageCreateManyWithoutRoomInput
+}
+
+input RoomCreateManyWithoutParticipantsInput {
+  create: [RoomCreateWithoutParticipantsInput!]
+  connect: [RoomWhereUniqueInput!]
+}
+
+input RoomCreateOneWithoutMessagesInput {
+  create: RoomCreateWithoutMessagesInput
+  connect: RoomWhereUniqueInput
+}
+
+input RoomCreateWithoutMessagesInput {
+  id: ID
+  participants: UserCreateManyWithoutRoomsInput
+}
+
+input RoomCreateWithoutParticipantsInput {
+  id: ID
+  messages: MessageCreateManyWithoutRoomInput
+}
+
+type RoomEdge {
+  node: Room!
+  cursor: String!
+}
+
+enum RoomOrderByInput {
+  id_ASC
+  id_DESC
+}
+
+type RoomPreviousValues {
+  id: ID!
+}
+
+input RoomScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  AND: [RoomScalarWhereInput!]
+  OR: [RoomScalarWhereInput!]
+  NOT: [RoomScalarWhereInput!]
+}
+
+type RoomSubscriptionPayload {
+  mutation: MutationType!
+  node: Room
+  updatedFields: [String!]
+  previousValues: RoomPreviousValues
+}
+
+input RoomSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: RoomWhereInput
+  AND: [RoomSubscriptionWhereInput!]
+  OR: [RoomSubscriptionWhereInput!]
+  NOT: [RoomSubscriptionWhereInput!]
+}
+
+input RoomUpdateInput {
+  participants: UserUpdateManyWithoutRoomsInput
+  messages: MessageUpdateManyWithoutRoomInput
+}
+
+input RoomUpdateManyWithoutParticipantsInput {
+  create: [RoomCreateWithoutParticipantsInput!]
+  delete: [RoomWhereUniqueInput!]
+  connect: [RoomWhereUniqueInput!]
+  set: [RoomWhereUniqueInput!]
+  disconnect: [RoomWhereUniqueInput!]
+  update: [RoomUpdateWithWhereUniqueWithoutParticipantsInput!]
+  upsert: [RoomUpsertWithWhereUniqueWithoutParticipantsInput!]
+  deleteMany: [RoomScalarWhereInput!]
+}
+
+input RoomUpdateOneRequiredWithoutMessagesInput {
+  create: RoomCreateWithoutMessagesInput
+  update: RoomUpdateWithoutMessagesDataInput
+  upsert: RoomUpsertWithoutMessagesInput
+  connect: RoomWhereUniqueInput
+}
+
+input RoomUpdateWithoutMessagesDataInput {
+  participants: UserUpdateManyWithoutRoomsInput
+}
+
+input RoomUpdateWithoutParticipantsDataInput {
+  messages: MessageUpdateManyWithoutRoomInput
+}
+
+input RoomUpdateWithWhereUniqueWithoutParticipantsInput {
+  where: RoomWhereUniqueInput!
+  data: RoomUpdateWithoutParticipantsDataInput!
+}
+
+input RoomUpsertWithoutMessagesInput {
+  update: RoomUpdateWithoutMessagesDataInput!
+  create: RoomCreateWithoutMessagesInput!
+}
+
+input RoomUpsertWithWhereUniqueWithoutParticipantsInput {
+  where: RoomWhereUniqueInput!
+  update: RoomUpdateWithoutParticipantsDataInput!
+  create: RoomCreateWithoutParticipantsInput!
+}
+
+input RoomWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  participants_every: UserWhereInput
+  participants_some: UserWhereInput
+  participants_none: UserWhereInput
+  messages_every: MessageWhereInput
+  messages_some: MessageWhereInput
+  messages_none: MessageWhereInput
+  AND: [RoomWhereInput!]
+  OR: [RoomWhereInput!]
+  NOT: [RoomWhereInput!]
+}
+
+input RoomWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
-  comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
-  file(where: FileSubscriptionWhereInput): FileSubscriptionPayload
-  like(where: LikeSubscriptionWhereInput): LikeSubscriptionPayload
-  post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
+  application(where: ApplicationSubscriptionWhereInput): ApplicationSubscriptionPayload
+  club(where: ClubSubscriptionWhereInput): ClubSubscriptionPayload
+  message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
+  notification(where: NotificationSubscriptionWhereInput): NotificationSubscriptionPayload
+  question(where: QuestionSubscriptionWhereInput): QuestionSubscriptionPayload
+  room(where: RoomSubscriptionWhereInput): RoomSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User {
   id: ID!
-  username: String!
-  email: String!
-  firstName: String
-  lastName: String
-  bio: String
-  following(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  followers(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
-  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
-  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  phoneNumber: String!
+  isMaster: Boolean!
+  sex: String!
+  joinClubs(where: ClubWhereInput, orderBy: ClubOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Club!]
+  bio: String!
+  studentNumber: Int!
+  major: String!
+  applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
+  rooms(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Room!]
+  notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
 }
 
 type UserConnection {
@@ -1052,106 +1710,57 @@ type UserConnection {
 
 input UserCreateInput {
   id: ID
-  username: String!
-  email: String!
-  firstName: String
-  lastName: String
-  bio: String
-  following: UserCreateManyWithoutFollowersInput
-  followers: UserCreateManyWithoutFollowingInput
-  posts: PostCreateManyWithoutUserInput
-  likes: LikeCreateManyWithoutUserInput
-  comments: CommentCreateManyWithoutUserInput
+  phoneNumber: String!
+  isMaster: Boolean!
+  sex: String!
+  joinClubs: ClubCreateManyWithoutMembersInput
+  bio: String!
+  studentNumber: Int!
+  major: String!
+  applications: ApplicationCreateManyInput
+  rooms: RoomCreateManyWithoutParticipantsInput
+  notifications: NotificationCreateManyInput
 }
 
-input UserCreateManyWithoutFollowersInput {
-  create: [UserCreateWithoutFollowersInput!]
+input UserCreateManyWithoutJoinClubsInput {
+  create: [UserCreateWithoutJoinClubsInput!]
   connect: [UserWhereUniqueInput!]
 }
 
-input UserCreateManyWithoutFollowingInput {
-  create: [UserCreateWithoutFollowingInput!]
+input UserCreateManyWithoutRoomsInput {
+  create: [UserCreateWithoutRoomsInput!]
   connect: [UserWhereUniqueInput!]
 }
 
-input UserCreateOneWithoutCommentsInput {
-  create: UserCreateWithoutCommentsInput
+input UserCreateOneInput {
+  create: UserCreateInput
   connect: UserWhereUniqueInput
 }
 
-input UserCreateOneWithoutLikesInput {
-  create: UserCreateWithoutLikesInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreateOneWithoutPostsInput {
-  create: UserCreateWithoutPostsInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreateWithoutCommentsInput {
+input UserCreateWithoutJoinClubsInput {
   id: ID
-  username: String!
-  email: String!
-  firstName: String
-  lastName: String
-  bio: String
-  following: UserCreateManyWithoutFollowersInput
-  followers: UserCreateManyWithoutFollowingInput
-  posts: PostCreateManyWithoutUserInput
-  likes: LikeCreateManyWithoutUserInput
+  phoneNumber: String!
+  isMaster: Boolean!
+  sex: String!
+  bio: String!
+  studentNumber: Int!
+  major: String!
+  applications: ApplicationCreateManyInput
+  rooms: RoomCreateManyWithoutParticipantsInput
+  notifications: NotificationCreateManyInput
 }
 
-input UserCreateWithoutFollowersInput {
+input UserCreateWithoutRoomsInput {
   id: ID
-  username: String!
-  email: String!
-  firstName: String
-  lastName: String
-  bio: String
-  following: UserCreateManyWithoutFollowersInput
-  posts: PostCreateManyWithoutUserInput
-  likes: LikeCreateManyWithoutUserInput
-  comments: CommentCreateManyWithoutUserInput
-}
-
-input UserCreateWithoutFollowingInput {
-  id: ID
-  username: String!
-  email: String!
-  firstName: String
-  lastName: String
-  bio: String
-  followers: UserCreateManyWithoutFollowingInput
-  posts: PostCreateManyWithoutUserInput
-  likes: LikeCreateManyWithoutUserInput
-  comments: CommentCreateManyWithoutUserInput
-}
-
-input UserCreateWithoutLikesInput {
-  id: ID
-  username: String!
-  email: String!
-  firstName: String
-  lastName: String
-  bio: String
-  following: UserCreateManyWithoutFollowersInput
-  followers: UserCreateManyWithoutFollowingInput
-  posts: PostCreateManyWithoutUserInput
-  comments: CommentCreateManyWithoutUserInput
-}
-
-input UserCreateWithoutPostsInput {
-  id: ID
-  username: String!
-  email: String!
-  firstName: String
-  lastName: String
-  bio: String
-  following: UserCreateManyWithoutFollowersInput
-  followers: UserCreateManyWithoutFollowingInput
-  likes: LikeCreateManyWithoutUserInput
-  comments: CommentCreateManyWithoutUserInput
+  phoneNumber: String!
+  isMaster: Boolean!
+  sex: String!
+  joinClubs: ClubCreateManyWithoutMembersInput
+  bio: String!
+  studentNumber: Int!
+  major: String!
+  applications: ApplicationCreateManyInput
+  notifications: NotificationCreateManyInput
 }
 
 type UserEdge {
@@ -1162,25 +1771,28 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
-  username_ASC
-  username_DESC
-  email_ASC
-  email_DESC
-  firstName_ASC
-  firstName_DESC
-  lastName_ASC
-  lastName_DESC
+  phoneNumber_ASC
+  phoneNumber_DESC
+  isMaster_ASC
+  isMaster_DESC
+  sex_ASC
+  sex_DESC
   bio_ASC
   bio_DESC
+  studentNumber_ASC
+  studentNumber_DESC
+  major_ASC
+  major_DESC
 }
 
 type UserPreviousValues {
   id: ID!
-  username: String!
-  email: String!
-  firstName: String
-  lastName: String
-  bio: String
+  phoneNumber: String!
+  isMaster: Boolean!
+  sex: String!
+  bio: String!
+  studentNumber: Int!
+  major: String!
 }
 
 input UserScalarWhereInput {
@@ -1198,62 +1810,36 @@ input UserScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  username: String
-  username_not: String
-  username_in: [String!]
-  username_not_in: [String!]
-  username_lt: String
-  username_lte: String
-  username_gt: String
-  username_gte: String
-  username_contains: String
-  username_not_contains: String
-  username_starts_with: String
-  username_not_starts_with: String
-  username_ends_with: String
-  username_not_ends_with: String
-  email: String
-  email_not: String
-  email_in: [String!]
-  email_not_in: [String!]
-  email_lt: String
-  email_lte: String
-  email_gt: String
-  email_gte: String
-  email_contains: String
-  email_not_contains: String
-  email_starts_with: String
-  email_not_starts_with: String
-  email_ends_with: String
-  email_not_ends_with: String
-  firstName: String
-  firstName_not: String
-  firstName_in: [String!]
-  firstName_not_in: [String!]
-  firstName_lt: String
-  firstName_lte: String
-  firstName_gt: String
-  firstName_gte: String
-  firstName_contains: String
-  firstName_not_contains: String
-  firstName_starts_with: String
-  firstName_not_starts_with: String
-  firstName_ends_with: String
-  firstName_not_ends_with: String
-  lastName: String
-  lastName_not: String
-  lastName_in: [String!]
-  lastName_not_in: [String!]
-  lastName_lt: String
-  lastName_lte: String
-  lastName_gt: String
-  lastName_gte: String
-  lastName_contains: String
-  lastName_not_contains: String
-  lastName_starts_with: String
-  lastName_not_starts_with: String
-  lastName_ends_with: String
-  lastName_not_ends_with: String
+  phoneNumber: String
+  phoneNumber_not: String
+  phoneNumber_in: [String!]
+  phoneNumber_not_in: [String!]
+  phoneNumber_lt: String
+  phoneNumber_lte: String
+  phoneNumber_gt: String
+  phoneNumber_gte: String
+  phoneNumber_contains: String
+  phoneNumber_not_contains: String
+  phoneNumber_starts_with: String
+  phoneNumber_not_starts_with: String
+  phoneNumber_ends_with: String
+  phoneNumber_not_ends_with: String
+  isMaster: Boolean
+  isMaster_not: Boolean
+  sex: String
+  sex_not: String
+  sex_in: [String!]
+  sex_not_in: [String!]
+  sex_lt: String
+  sex_lte: String
+  sex_gt: String
+  sex_gte: String
+  sex_contains: String
+  sex_not_contains: String
+  sex_starts_with: String
+  sex_not_starts_with: String
+  sex_ends_with: String
+  sex_not_ends_with: String
   bio: String
   bio_not: String
   bio_in: [String!]
@@ -1268,6 +1854,28 @@ input UserScalarWhereInput {
   bio_not_starts_with: String
   bio_ends_with: String
   bio_not_ends_with: String
+  studentNumber: Int
+  studentNumber_not: Int
+  studentNumber_in: [Int!]
+  studentNumber_not_in: [Int!]
+  studentNumber_lt: Int
+  studentNumber_lte: Int
+  studentNumber_gt: Int
+  studentNumber_gte: Int
+  major: String
+  major_not: String
+  major_in: [String!]
+  major_not_in: [String!]
+  major_lt: String
+  major_lte: String
+  major_gt: String
+  major_gte: String
+  major_contains: String
+  major_not_contains: String
+  major_starts_with: String
+  major_not_starts_with: String
+  major_ends_with: String
+  major_not_ends_with: String
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -1291,55 +1899,70 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
-input UserUpdateInput {
-  username: String
-  email: String
-  firstName: String
-  lastName: String
+input UserUpdateDataInput {
+  phoneNumber: String
+  isMaster: Boolean
+  sex: String
+  joinClubs: ClubUpdateManyWithoutMembersInput
   bio: String
-  following: UserUpdateManyWithoutFollowersInput
-  followers: UserUpdateManyWithoutFollowingInput
-  posts: PostUpdateManyWithoutUserInput
-  likes: LikeUpdateManyWithoutUserInput
-  comments: CommentUpdateManyWithoutUserInput
+  studentNumber: Int
+  major: String
+  applications: ApplicationUpdateManyInput
+  rooms: RoomUpdateManyWithoutParticipantsInput
+  notifications: NotificationUpdateManyInput
+}
+
+input UserUpdateInput {
+  phoneNumber: String
+  isMaster: Boolean
+  sex: String
+  joinClubs: ClubUpdateManyWithoutMembersInput
+  bio: String
+  studentNumber: Int
+  major: String
+  applications: ApplicationUpdateManyInput
+  rooms: RoomUpdateManyWithoutParticipantsInput
+  notifications: NotificationUpdateManyInput
 }
 
 input UserUpdateManyDataInput {
-  username: String
-  email: String
-  firstName: String
-  lastName: String
+  phoneNumber: String
+  isMaster: Boolean
+  sex: String
   bio: String
+  studentNumber: Int
+  major: String
 }
 
 input UserUpdateManyMutationInput {
-  username: String
-  email: String
-  firstName: String
-  lastName: String
+  phoneNumber: String
+  isMaster: Boolean
+  sex: String
   bio: String
+  studentNumber: Int
+  major: String
 }
 
-input UserUpdateManyWithoutFollowersInput {
-  create: [UserCreateWithoutFollowersInput!]
+input UserUpdateManyWithoutJoinClubsInput {
+  create: [UserCreateWithoutJoinClubsInput!]
   delete: [UserWhereUniqueInput!]
   connect: [UserWhereUniqueInput!]
   set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
-  update: [UserUpdateWithWhereUniqueWithoutFollowersInput!]
-  upsert: [UserUpsertWithWhereUniqueWithoutFollowersInput!]
+  update: [UserUpdateWithWhereUniqueWithoutJoinClubsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutJoinClubsInput!]
   deleteMany: [UserScalarWhereInput!]
   updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
 
-input UserUpdateManyWithoutFollowingInput {
-  create: [UserCreateWithoutFollowingInput!]
+input UserUpdateManyWithoutRoomsInput {
+  create: [UserCreateWithoutRoomsInput!]
   delete: [UserWhereUniqueInput!]
   connect: [UserWhereUniqueInput!]
   set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
-  update: [UserUpdateWithWhereUniqueWithoutFollowingInput!]
-  upsert: [UserUpsertWithWhereUniqueWithoutFollowingInput!]
+  update: [UserUpdateWithWhereUniqueWithoutRoomsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutRoomsInput!]
   deleteMany: [UserScalarWhereInput!]
   updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
@@ -1349,122 +1972,62 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
-input UserUpdateOneRequiredWithoutCommentsInput {
-  create: UserCreateWithoutCommentsInput
-  update: UserUpdateWithoutCommentsDataInput
-  upsert: UserUpsertWithoutCommentsInput
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
   connect: UserWhereUniqueInput
 }
 
-input UserUpdateOneRequiredWithoutLikesInput {
-  create: UserCreateWithoutLikesInput
-  update: UserUpdateWithoutLikesDataInput
-  upsert: UserUpsertWithoutLikesInput
-  connect: UserWhereUniqueInput
-}
-
-input UserUpdateOneRequiredWithoutPostsInput {
-  create: UserCreateWithoutPostsInput
-  update: UserUpdateWithoutPostsDataInput
-  upsert: UserUpsertWithoutPostsInput
-  connect: UserWhereUniqueInput
-}
-
-input UserUpdateWithoutCommentsDataInput {
-  username: String
-  email: String
-  firstName: String
-  lastName: String
+input UserUpdateWithoutJoinClubsDataInput {
+  phoneNumber: String
+  isMaster: Boolean
+  sex: String
   bio: String
-  following: UserUpdateManyWithoutFollowersInput
-  followers: UserUpdateManyWithoutFollowingInput
-  posts: PostUpdateManyWithoutUserInput
-  likes: LikeUpdateManyWithoutUserInput
+  studentNumber: Int
+  major: String
+  applications: ApplicationUpdateManyInput
+  rooms: RoomUpdateManyWithoutParticipantsInput
+  notifications: NotificationUpdateManyInput
 }
 
-input UserUpdateWithoutFollowersDataInput {
-  username: String
-  email: String
-  firstName: String
-  lastName: String
+input UserUpdateWithoutRoomsDataInput {
+  phoneNumber: String
+  isMaster: Boolean
+  sex: String
+  joinClubs: ClubUpdateManyWithoutMembersInput
   bio: String
-  following: UserUpdateManyWithoutFollowersInput
-  posts: PostUpdateManyWithoutUserInput
-  likes: LikeUpdateManyWithoutUserInput
-  comments: CommentUpdateManyWithoutUserInput
+  studentNumber: Int
+  major: String
+  applications: ApplicationUpdateManyInput
+  notifications: NotificationUpdateManyInput
 }
 
-input UserUpdateWithoutFollowingDataInput {
-  username: String
-  email: String
-  firstName: String
-  lastName: String
-  bio: String
-  followers: UserUpdateManyWithoutFollowingInput
-  posts: PostUpdateManyWithoutUserInput
-  likes: LikeUpdateManyWithoutUserInput
-  comments: CommentUpdateManyWithoutUserInput
-}
-
-input UserUpdateWithoutLikesDataInput {
-  username: String
-  email: String
-  firstName: String
-  lastName: String
-  bio: String
-  following: UserUpdateManyWithoutFollowersInput
-  followers: UserUpdateManyWithoutFollowingInput
-  posts: PostUpdateManyWithoutUserInput
-  comments: CommentUpdateManyWithoutUserInput
-}
-
-input UserUpdateWithoutPostsDataInput {
-  username: String
-  email: String
-  firstName: String
-  lastName: String
-  bio: String
-  following: UserUpdateManyWithoutFollowersInput
-  followers: UserUpdateManyWithoutFollowingInput
-  likes: LikeUpdateManyWithoutUserInput
-  comments: CommentUpdateManyWithoutUserInput
-}
-
-input UserUpdateWithWhereUniqueWithoutFollowersInput {
+input UserUpdateWithWhereUniqueWithoutJoinClubsInput {
   where: UserWhereUniqueInput!
-  data: UserUpdateWithoutFollowersDataInput!
+  data: UserUpdateWithoutJoinClubsDataInput!
 }
 
-input UserUpdateWithWhereUniqueWithoutFollowingInput {
+input UserUpdateWithWhereUniqueWithoutRoomsInput {
   where: UserWhereUniqueInput!
-  data: UserUpdateWithoutFollowingDataInput!
+  data: UserUpdateWithoutRoomsDataInput!
 }
 
-input UserUpsertWithoutCommentsInput {
-  update: UserUpdateWithoutCommentsDataInput!
-  create: UserCreateWithoutCommentsInput!
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
-input UserUpsertWithoutLikesInput {
-  update: UserUpdateWithoutLikesDataInput!
-  create: UserCreateWithoutLikesInput!
-}
-
-input UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput!
-  create: UserCreateWithoutPostsInput!
-}
-
-input UserUpsertWithWhereUniqueWithoutFollowersInput {
+input UserUpsertWithWhereUniqueWithoutJoinClubsInput {
   where: UserWhereUniqueInput!
-  update: UserUpdateWithoutFollowersDataInput!
-  create: UserCreateWithoutFollowersInput!
+  update: UserUpdateWithoutJoinClubsDataInput!
+  create: UserCreateWithoutJoinClubsInput!
 }
 
-input UserUpsertWithWhereUniqueWithoutFollowingInput {
+input UserUpsertWithWhereUniqueWithoutRoomsInput {
   where: UserWhereUniqueInput!
-  update: UserUpdateWithoutFollowingDataInput!
-  create: UserCreateWithoutFollowingInput!
+  update: UserUpdateWithoutRoomsDataInput!
+  create: UserCreateWithoutRoomsInput!
 }
 
 input UserWhereInput {
@@ -1482,62 +2045,39 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  username: String
-  username_not: String
-  username_in: [String!]
-  username_not_in: [String!]
-  username_lt: String
-  username_lte: String
-  username_gt: String
-  username_gte: String
-  username_contains: String
-  username_not_contains: String
-  username_starts_with: String
-  username_not_starts_with: String
-  username_ends_with: String
-  username_not_ends_with: String
-  email: String
-  email_not: String
-  email_in: [String!]
-  email_not_in: [String!]
-  email_lt: String
-  email_lte: String
-  email_gt: String
-  email_gte: String
-  email_contains: String
-  email_not_contains: String
-  email_starts_with: String
-  email_not_starts_with: String
-  email_ends_with: String
-  email_not_ends_with: String
-  firstName: String
-  firstName_not: String
-  firstName_in: [String!]
-  firstName_not_in: [String!]
-  firstName_lt: String
-  firstName_lte: String
-  firstName_gt: String
-  firstName_gte: String
-  firstName_contains: String
-  firstName_not_contains: String
-  firstName_starts_with: String
-  firstName_not_starts_with: String
-  firstName_ends_with: String
-  firstName_not_ends_with: String
-  lastName: String
-  lastName_not: String
-  lastName_in: [String!]
-  lastName_not_in: [String!]
-  lastName_lt: String
-  lastName_lte: String
-  lastName_gt: String
-  lastName_gte: String
-  lastName_contains: String
-  lastName_not_contains: String
-  lastName_starts_with: String
-  lastName_not_starts_with: String
-  lastName_ends_with: String
-  lastName_not_ends_with: String
+  phoneNumber: String
+  phoneNumber_not: String
+  phoneNumber_in: [String!]
+  phoneNumber_not_in: [String!]
+  phoneNumber_lt: String
+  phoneNumber_lte: String
+  phoneNumber_gt: String
+  phoneNumber_gte: String
+  phoneNumber_contains: String
+  phoneNumber_not_contains: String
+  phoneNumber_starts_with: String
+  phoneNumber_not_starts_with: String
+  phoneNumber_ends_with: String
+  phoneNumber_not_ends_with: String
+  isMaster: Boolean
+  isMaster_not: Boolean
+  sex: String
+  sex_not: String
+  sex_in: [String!]
+  sex_not_in: [String!]
+  sex_lt: String
+  sex_lte: String
+  sex_gt: String
+  sex_gte: String
+  sex_contains: String
+  sex_not_contains: String
+  sex_starts_with: String
+  sex_not_starts_with: String
+  sex_ends_with: String
+  sex_not_ends_with: String
+  joinClubs_every: ClubWhereInput
+  joinClubs_some: ClubWhereInput
+  joinClubs_none: ClubWhereInput
   bio: String
   bio_not: String
   bio_in: [String!]
@@ -1552,21 +2092,37 @@ input UserWhereInput {
   bio_not_starts_with: String
   bio_ends_with: String
   bio_not_ends_with: String
-  following_every: UserWhereInput
-  following_some: UserWhereInput
-  following_none: UserWhereInput
-  followers_every: UserWhereInput
-  followers_some: UserWhereInput
-  followers_none: UserWhereInput
-  posts_every: PostWhereInput
-  posts_some: PostWhereInput
-  posts_none: PostWhereInput
-  likes_every: LikeWhereInput
-  likes_some: LikeWhereInput
-  likes_none: LikeWhereInput
-  comments_every: CommentWhereInput
-  comments_some: CommentWhereInput
-  comments_none: CommentWhereInput
+  studentNumber: Int
+  studentNumber_not: Int
+  studentNumber_in: [Int!]
+  studentNumber_not_in: [Int!]
+  studentNumber_lt: Int
+  studentNumber_lte: Int
+  studentNumber_gt: Int
+  studentNumber_gte: Int
+  major: String
+  major_not: String
+  major_in: [String!]
+  major_not_in: [String!]
+  major_lt: String
+  major_lte: String
+  major_gt: String
+  major_gte: String
+  major_contains: String
+  major_not_contains: String
+  major_starts_with: String
+  major_not_starts_with: String
+  major_ends_with: String
+  major_not_ends_with: String
+  applications_every: ApplicationWhereInput
+  applications_some: ApplicationWhereInput
+  applications_none: ApplicationWhereInput
+  rooms_every: RoomWhereInput
+  rooms_some: RoomWhereInput
+  rooms_none: RoomWhereInput
+  notifications_every: NotificationWhereInput
+  notifications_some: NotificationWhereInput
+  notifications_none: NotificationWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -1574,8 +2130,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
-  username: String
-  email: String
 }
 `
       }

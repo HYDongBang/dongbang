@@ -1,15 +1,16 @@
 type User{
     id: ID! @id
-    phoneNumber: String!
-    isMaster: Boolean!
-    sex: String!
+    email: String! @unique
+    phoneNumber: String! @unique
+    studentNumber: Int! @unique
+    Name: String!
+    isMaster: String
+    sex: String
     joinClubs:[Club]
-    bio: String!
-    studentNumber: Int!
-    major: String!
-    applications:[Application]!
+    applications:[Application]
     rooms:[Room]
     notifications:[Notification]
+    loginSecret: String
 }
 
 type Notification{

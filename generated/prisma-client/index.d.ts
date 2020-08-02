@@ -344,18 +344,20 @@ export interface ClientConstructor<T> {
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "email_ASC"
+  | "email_DESC"
   | "phoneNumber_ASC"
   | "phoneNumber_DESC"
+  | "studentNumber_ASC"
+  | "studentNumber_DESC"
+  | "Name_ASC"
+  | "Name_DESC"
   | "isMaster_ASC"
   | "isMaster_DESC"
   | "sex_ASC"
   | "sex_DESC"
-  | "bio_ASC"
-  | "bio_DESC"
-  | "studentNumber_ASC"
-  | "studentNumber_DESC"
-  | "major_ASC"
-  | "major_DESC";
+  | "loginSecret_ASC"
+  | "loginSecret_DESC";
 
 export type ClubOrderByInput =
   | "id_ASC"
@@ -436,6 +438,20 @@ export interface UserWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
   phoneNumber?: Maybe<String>;
   phoneNumber_not?: Maybe<String>;
   phoneNumber_in?: Maybe<String[] | String>;
@@ -450,8 +466,42 @@ export interface UserWhereInput {
   phoneNumber_not_starts_with?: Maybe<String>;
   phoneNumber_ends_with?: Maybe<String>;
   phoneNumber_not_ends_with?: Maybe<String>;
-  isMaster?: Maybe<Boolean>;
-  isMaster_not?: Maybe<Boolean>;
+  studentNumber?: Maybe<Int>;
+  studentNumber_not?: Maybe<Int>;
+  studentNumber_in?: Maybe<Int[] | Int>;
+  studentNumber_not_in?: Maybe<Int[] | Int>;
+  studentNumber_lt?: Maybe<Int>;
+  studentNumber_lte?: Maybe<Int>;
+  studentNumber_gt?: Maybe<Int>;
+  studentNumber_gte?: Maybe<Int>;
+  Name?: Maybe<String>;
+  Name_not?: Maybe<String>;
+  Name_in?: Maybe<String[] | String>;
+  Name_not_in?: Maybe<String[] | String>;
+  Name_lt?: Maybe<String>;
+  Name_lte?: Maybe<String>;
+  Name_gt?: Maybe<String>;
+  Name_gte?: Maybe<String>;
+  Name_contains?: Maybe<String>;
+  Name_not_contains?: Maybe<String>;
+  Name_starts_with?: Maybe<String>;
+  Name_not_starts_with?: Maybe<String>;
+  Name_ends_with?: Maybe<String>;
+  Name_not_ends_with?: Maybe<String>;
+  isMaster?: Maybe<String>;
+  isMaster_not?: Maybe<String>;
+  isMaster_in?: Maybe<String[] | String>;
+  isMaster_not_in?: Maybe<String[] | String>;
+  isMaster_lt?: Maybe<String>;
+  isMaster_lte?: Maybe<String>;
+  isMaster_gt?: Maybe<String>;
+  isMaster_gte?: Maybe<String>;
+  isMaster_contains?: Maybe<String>;
+  isMaster_not_contains?: Maybe<String>;
+  isMaster_starts_with?: Maybe<String>;
+  isMaster_not_starts_with?: Maybe<String>;
+  isMaster_ends_with?: Maybe<String>;
+  isMaster_not_ends_with?: Maybe<String>;
   sex?: Maybe<String>;
   sex_not?: Maybe<String>;
   sex_in?: Maybe<String[] | String>;
@@ -469,42 +519,6 @@ export interface UserWhereInput {
   joinClubs_every?: Maybe<ClubWhereInput>;
   joinClubs_some?: Maybe<ClubWhereInput>;
   joinClubs_none?: Maybe<ClubWhereInput>;
-  bio?: Maybe<String>;
-  bio_not?: Maybe<String>;
-  bio_in?: Maybe<String[] | String>;
-  bio_not_in?: Maybe<String[] | String>;
-  bio_lt?: Maybe<String>;
-  bio_lte?: Maybe<String>;
-  bio_gt?: Maybe<String>;
-  bio_gte?: Maybe<String>;
-  bio_contains?: Maybe<String>;
-  bio_not_contains?: Maybe<String>;
-  bio_starts_with?: Maybe<String>;
-  bio_not_starts_with?: Maybe<String>;
-  bio_ends_with?: Maybe<String>;
-  bio_not_ends_with?: Maybe<String>;
-  studentNumber?: Maybe<Int>;
-  studentNumber_not?: Maybe<Int>;
-  studentNumber_in?: Maybe<Int[] | Int>;
-  studentNumber_not_in?: Maybe<Int[] | Int>;
-  studentNumber_lt?: Maybe<Int>;
-  studentNumber_lte?: Maybe<Int>;
-  studentNumber_gt?: Maybe<Int>;
-  studentNumber_gte?: Maybe<Int>;
-  major?: Maybe<String>;
-  major_not?: Maybe<String>;
-  major_in?: Maybe<String[] | String>;
-  major_not_in?: Maybe<String[] | String>;
-  major_lt?: Maybe<String>;
-  major_lte?: Maybe<String>;
-  major_gt?: Maybe<String>;
-  major_gte?: Maybe<String>;
-  major_contains?: Maybe<String>;
-  major_not_contains?: Maybe<String>;
-  major_starts_with?: Maybe<String>;
-  major_not_starts_with?: Maybe<String>;
-  major_ends_with?: Maybe<String>;
-  major_not_ends_with?: Maybe<String>;
   applications_every?: Maybe<ApplicationWhereInput>;
   applications_some?: Maybe<ApplicationWhereInput>;
   applications_none?: Maybe<ApplicationWhereInput>;
@@ -514,6 +528,20 @@ export interface UserWhereInput {
   notifications_every?: Maybe<NotificationWhereInput>;
   notifications_some?: Maybe<NotificationWhereInput>;
   notifications_none?: Maybe<NotificationWhereInput>;
+  loginSecret?: Maybe<String>;
+  loginSecret_not?: Maybe<String>;
+  loginSecret_in?: Maybe<String[] | String>;
+  loginSecret_not_in?: Maybe<String[] | String>;
+  loginSecret_lt?: Maybe<String>;
+  loginSecret_lte?: Maybe<String>;
+  loginSecret_gt?: Maybe<String>;
+  loginSecret_gte?: Maybe<String>;
+  loginSecret_contains?: Maybe<String>;
+  loginSecret_not_contains?: Maybe<String>;
+  loginSecret_starts_with?: Maybe<String>;
+  loginSecret_not_starts_with?: Maybe<String>;
+  loginSecret_ends_with?: Maybe<String>;
+  loginSecret_not_ends_with?: Maybe<String>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -866,6 +894,9 @@ export type RoomWhereUniqueInput = AtLeastOne<{
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  phoneNumber?: Maybe<String>;
+  studentNumber?: Maybe<Int>;
 }>;
 
 export interface ApplicationCreateInput {
@@ -906,15 +937,16 @@ export interface UserCreateManyWithoutJoinClubsInput {
 
 export interface UserCreateWithoutJoinClubsInput {
   id?: Maybe<ID_Input>;
+  email: String;
   phoneNumber: String;
-  isMaster: Boolean;
-  sex: String;
-  bio: String;
   studentNumber: Int;
-  major: String;
+  Name: String;
+  isMaster?: Maybe<String>;
+  sex?: Maybe<String>;
   applications?: Maybe<ApplicationCreateManyInput>;
   rooms?: Maybe<RoomCreateManyWithoutParticipantsInput>;
   notifications?: Maybe<NotificationCreateManyInput>;
+  loginSecret?: Maybe<String>;
 }
 
 export interface ApplicationCreateManyInput {
@@ -955,16 +987,17 @@ export interface UserCreateOneInput {
 
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
+  email: String;
   phoneNumber: String;
-  isMaster: Boolean;
-  sex: String;
-  joinClubs?: Maybe<ClubCreateManyWithoutMembersInput>;
-  bio: String;
   studentNumber: Int;
-  major: String;
+  Name: String;
+  isMaster?: Maybe<String>;
+  sex?: Maybe<String>;
+  joinClubs?: Maybe<ClubCreateManyWithoutMembersInput>;
   applications?: Maybe<ApplicationCreateManyInput>;
   rooms?: Maybe<RoomCreateManyWithoutParticipantsInput>;
   notifications?: Maybe<NotificationCreateManyInput>;
+  loginSecret?: Maybe<String>;
 }
 
 export interface ClubCreateManyWithoutMembersInput {
@@ -1095,15 +1128,16 @@ export interface UserUpdateWithWhereUniqueWithoutJoinClubsInput {
 }
 
 export interface UserUpdateWithoutJoinClubsDataInput {
+  email?: Maybe<String>;
   phoneNumber?: Maybe<String>;
-  isMaster?: Maybe<Boolean>;
-  sex?: Maybe<String>;
-  bio?: Maybe<String>;
   studentNumber?: Maybe<Int>;
-  major?: Maybe<String>;
+  Name?: Maybe<String>;
+  isMaster?: Maybe<String>;
+  sex?: Maybe<String>;
   applications?: Maybe<ApplicationUpdateManyInput>;
   rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
   notifications?: Maybe<NotificationUpdateManyInput>;
+  loginSecret?: Maybe<String>;
 }
 
 export interface ApplicationUpdateManyInput {
@@ -1370,16 +1404,17 @@ export interface UserUpdateOneRequiredInput {
 }
 
 export interface UserUpdateDataInput {
+  email?: Maybe<String>;
   phoneNumber?: Maybe<String>;
-  isMaster?: Maybe<Boolean>;
+  studentNumber?: Maybe<Int>;
+  Name?: Maybe<String>;
+  isMaster?: Maybe<String>;
   sex?: Maybe<String>;
   joinClubs?: Maybe<ClubUpdateManyWithoutMembersInput>;
-  bio?: Maybe<String>;
-  studentNumber?: Maybe<Int>;
-  major?: Maybe<String>;
   applications?: Maybe<ApplicationUpdateManyInput>;
   rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
   notifications?: Maybe<NotificationUpdateManyInput>;
+  loginSecret?: Maybe<String>;
 }
 
 export interface ClubUpdateManyWithoutMembersInput {
@@ -1819,6 +1854,20 @@ export interface UserScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
   phoneNumber?: Maybe<String>;
   phoneNumber_not?: Maybe<String>;
   phoneNumber_in?: Maybe<String[] | String>;
@@ -1833,8 +1882,42 @@ export interface UserScalarWhereInput {
   phoneNumber_not_starts_with?: Maybe<String>;
   phoneNumber_ends_with?: Maybe<String>;
   phoneNumber_not_ends_with?: Maybe<String>;
-  isMaster?: Maybe<Boolean>;
-  isMaster_not?: Maybe<Boolean>;
+  studentNumber?: Maybe<Int>;
+  studentNumber_not?: Maybe<Int>;
+  studentNumber_in?: Maybe<Int[] | Int>;
+  studentNumber_not_in?: Maybe<Int[] | Int>;
+  studentNumber_lt?: Maybe<Int>;
+  studentNumber_lte?: Maybe<Int>;
+  studentNumber_gt?: Maybe<Int>;
+  studentNumber_gte?: Maybe<Int>;
+  Name?: Maybe<String>;
+  Name_not?: Maybe<String>;
+  Name_in?: Maybe<String[] | String>;
+  Name_not_in?: Maybe<String[] | String>;
+  Name_lt?: Maybe<String>;
+  Name_lte?: Maybe<String>;
+  Name_gt?: Maybe<String>;
+  Name_gte?: Maybe<String>;
+  Name_contains?: Maybe<String>;
+  Name_not_contains?: Maybe<String>;
+  Name_starts_with?: Maybe<String>;
+  Name_not_starts_with?: Maybe<String>;
+  Name_ends_with?: Maybe<String>;
+  Name_not_ends_with?: Maybe<String>;
+  isMaster?: Maybe<String>;
+  isMaster_not?: Maybe<String>;
+  isMaster_in?: Maybe<String[] | String>;
+  isMaster_not_in?: Maybe<String[] | String>;
+  isMaster_lt?: Maybe<String>;
+  isMaster_lte?: Maybe<String>;
+  isMaster_gt?: Maybe<String>;
+  isMaster_gte?: Maybe<String>;
+  isMaster_contains?: Maybe<String>;
+  isMaster_not_contains?: Maybe<String>;
+  isMaster_starts_with?: Maybe<String>;
+  isMaster_not_starts_with?: Maybe<String>;
+  isMaster_ends_with?: Maybe<String>;
+  isMaster_not_ends_with?: Maybe<String>;
   sex?: Maybe<String>;
   sex_not?: Maybe<String>;
   sex_in?: Maybe<String[] | String>;
@@ -1849,42 +1932,20 @@ export interface UserScalarWhereInput {
   sex_not_starts_with?: Maybe<String>;
   sex_ends_with?: Maybe<String>;
   sex_not_ends_with?: Maybe<String>;
-  bio?: Maybe<String>;
-  bio_not?: Maybe<String>;
-  bio_in?: Maybe<String[] | String>;
-  bio_not_in?: Maybe<String[] | String>;
-  bio_lt?: Maybe<String>;
-  bio_lte?: Maybe<String>;
-  bio_gt?: Maybe<String>;
-  bio_gte?: Maybe<String>;
-  bio_contains?: Maybe<String>;
-  bio_not_contains?: Maybe<String>;
-  bio_starts_with?: Maybe<String>;
-  bio_not_starts_with?: Maybe<String>;
-  bio_ends_with?: Maybe<String>;
-  bio_not_ends_with?: Maybe<String>;
-  studentNumber?: Maybe<Int>;
-  studentNumber_not?: Maybe<Int>;
-  studentNumber_in?: Maybe<Int[] | Int>;
-  studentNumber_not_in?: Maybe<Int[] | Int>;
-  studentNumber_lt?: Maybe<Int>;
-  studentNumber_lte?: Maybe<Int>;
-  studentNumber_gt?: Maybe<Int>;
-  studentNumber_gte?: Maybe<Int>;
-  major?: Maybe<String>;
-  major_not?: Maybe<String>;
-  major_in?: Maybe<String[] | String>;
-  major_not_in?: Maybe<String[] | String>;
-  major_lt?: Maybe<String>;
-  major_lte?: Maybe<String>;
-  major_gt?: Maybe<String>;
-  major_gte?: Maybe<String>;
-  major_contains?: Maybe<String>;
-  major_not_contains?: Maybe<String>;
-  major_starts_with?: Maybe<String>;
-  major_not_starts_with?: Maybe<String>;
-  major_ends_with?: Maybe<String>;
-  major_not_ends_with?: Maybe<String>;
+  loginSecret?: Maybe<String>;
+  loginSecret_not?: Maybe<String>;
+  loginSecret_in?: Maybe<String[] | String>;
+  loginSecret_not_in?: Maybe<String[] | String>;
+  loginSecret_lt?: Maybe<String>;
+  loginSecret_lte?: Maybe<String>;
+  loginSecret_gt?: Maybe<String>;
+  loginSecret_gte?: Maybe<String>;
+  loginSecret_contains?: Maybe<String>;
+  loginSecret_not_contains?: Maybe<String>;
+  loginSecret_starts_with?: Maybe<String>;
+  loginSecret_not_starts_with?: Maybe<String>;
+  loginSecret_ends_with?: Maybe<String>;
+  loginSecret_not_ends_with?: Maybe<String>;
   AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
   NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
@@ -1896,12 +1957,13 @@ export interface UserUpdateManyWithWhereNestedInput {
 }
 
 export interface UserUpdateManyDataInput {
+  email?: Maybe<String>;
   phoneNumber?: Maybe<String>;
-  isMaster?: Maybe<Boolean>;
-  sex?: Maybe<String>;
-  bio?: Maybe<String>;
   studentNumber?: Maybe<Int>;
-  major?: Maybe<String>;
+  Name?: Maybe<String>;
+  isMaster?: Maybe<String>;
+  sex?: Maybe<String>;
+  loginSecret?: Maybe<String>;
 }
 
 export interface ClubUpsertWithoutApplicationsInput {
@@ -1982,15 +2044,16 @@ export interface UserCreateManyWithoutRoomsInput {
 
 export interface UserCreateWithoutRoomsInput {
   id?: Maybe<ID_Input>;
+  email: String;
   phoneNumber: String;
-  isMaster: Boolean;
-  sex: String;
-  joinClubs?: Maybe<ClubCreateManyWithoutMembersInput>;
-  bio: String;
   studentNumber: Int;
-  major: String;
+  Name: String;
+  isMaster?: Maybe<String>;
+  sex?: Maybe<String>;
+  joinClubs?: Maybe<ClubCreateManyWithoutMembersInput>;
   applications?: Maybe<ApplicationCreateManyInput>;
   notifications?: Maybe<NotificationCreateManyInput>;
+  loginSecret?: Maybe<String>;
 }
 
 export interface MessageUpdateInput {
@@ -2037,15 +2100,16 @@ export interface UserUpdateWithWhereUniqueWithoutRoomsInput {
 }
 
 export interface UserUpdateWithoutRoomsDataInput {
+  email?: Maybe<String>;
   phoneNumber?: Maybe<String>;
-  isMaster?: Maybe<Boolean>;
+  studentNumber?: Maybe<Int>;
+  Name?: Maybe<String>;
+  isMaster?: Maybe<String>;
   sex?: Maybe<String>;
   joinClubs?: Maybe<ClubUpdateManyWithoutMembersInput>;
-  bio?: Maybe<String>;
-  studentNumber?: Maybe<Int>;
-  major?: Maybe<String>;
   applications?: Maybe<ApplicationUpdateManyInput>;
   notifications?: Maybe<NotificationUpdateManyInput>;
+  loginSecret?: Maybe<String>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutRoomsInput {
@@ -2099,25 +2163,27 @@ export interface RoomUpdateInput {
 }
 
 export interface UserUpdateInput {
+  email?: Maybe<String>;
   phoneNumber?: Maybe<String>;
-  isMaster?: Maybe<Boolean>;
+  studentNumber?: Maybe<Int>;
+  Name?: Maybe<String>;
+  isMaster?: Maybe<String>;
   sex?: Maybe<String>;
   joinClubs?: Maybe<ClubUpdateManyWithoutMembersInput>;
-  bio?: Maybe<String>;
-  studentNumber?: Maybe<Int>;
-  major?: Maybe<String>;
   applications?: Maybe<ApplicationUpdateManyInput>;
   rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
   notifications?: Maybe<NotificationUpdateManyInput>;
+  loginSecret?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
+  email?: Maybe<String>;
   phoneNumber?: Maybe<String>;
-  isMaster?: Maybe<Boolean>;
-  sex?: Maybe<String>;
-  bio?: Maybe<String>;
   studentNumber?: Maybe<Int>;
-  major?: Maybe<String>;
+  Name?: Maybe<String>;
+  isMaster?: Maybe<String>;
+  sex?: Maybe<String>;
+  loginSecret?: Maybe<String>;
 }
 
 export interface ApplicationSubscriptionWhereInput {
@@ -2395,18 +2461,22 @@ export interface ClubNullablePromise
 
 export interface User {
   id: ID_Output;
+  email: String;
   phoneNumber: String;
-  isMaster: Boolean;
-  sex: String;
-  bio: String;
   studentNumber: Int;
-  major: String;
+  Name: String;
+  isMaster?: String;
+  sex?: String;
+  loginSecret?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
   phoneNumber: () => Promise<String>;
-  isMaster: () => Promise<Boolean>;
+  studentNumber: () => Promise<Int>;
+  Name: () => Promise<String>;
+  isMaster: () => Promise<String>;
   sex: () => Promise<String>;
   joinClubs: <T = FragmentableArray<Club>>(args?: {
     where?: ClubWhereInput;
@@ -2417,9 +2487,6 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
-  bio: () => Promise<String>;
-  studentNumber: () => Promise<Int>;
-  major: () => Promise<String>;
   applications: <T = FragmentableArray<Application>>(args?: {
     where?: ApplicationWhereInput;
     orderBy?: ApplicationOrderByInput;
@@ -2447,14 +2514,18 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  loginSecret: () => Promise<String>;
 }
 
 export interface UserSubscription
   extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
   phoneNumber: () => Promise<AsyncIterator<String>>;
-  isMaster: () => Promise<AsyncIterator<Boolean>>;
+  studentNumber: () => Promise<AsyncIterator<Int>>;
+  Name: () => Promise<AsyncIterator<String>>;
+  isMaster: () => Promise<AsyncIterator<String>>;
   sex: () => Promise<AsyncIterator<String>>;
   joinClubs: <T = Promise<AsyncIterator<ClubSubscription>>>(args?: {
     where?: ClubWhereInput;
@@ -2465,9 +2536,6 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
-  bio: () => Promise<AsyncIterator<String>>;
-  studentNumber: () => Promise<AsyncIterator<Int>>;
-  major: () => Promise<AsyncIterator<String>>;
   applications: <T = Promise<AsyncIterator<ApplicationSubscription>>>(args?: {
     where?: ApplicationWhereInput;
     orderBy?: ApplicationOrderByInput;
@@ -2495,14 +2563,18 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  loginSecret: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserNullablePromise
   extends Promise<User | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
   phoneNumber: () => Promise<String>;
-  isMaster: () => Promise<Boolean>;
+  studentNumber: () => Promise<Int>;
+  Name: () => Promise<String>;
+  isMaster: () => Promise<String>;
   sex: () => Promise<String>;
   joinClubs: <T = FragmentableArray<Club>>(args?: {
     where?: ClubWhereInput;
@@ -2513,9 +2585,6 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
-  bio: () => Promise<String>;
-  studentNumber: () => Promise<Int>;
-  major: () => Promise<String>;
   applications: <T = FragmentableArray<Application>>(args?: {
     where?: ApplicationWhereInput;
     orderBy?: ApplicationOrderByInput;
@@ -2543,6 +2612,7 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  loginSecret: () => Promise<String>;
 }
 
 export interface Room {
@@ -3474,36 +3544,39 @@ export interface UserSubscriptionPayloadSubscription
 
 export interface UserPreviousValues {
   id: ID_Output;
+  email: String;
   phoneNumber: String;
-  isMaster: Boolean;
-  sex: String;
-  bio: String;
   studentNumber: Int;
-  major: String;
+  Name: String;
+  isMaster?: String;
+  sex?: String;
+  loginSecret?: String;
 }
 
 export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
   phoneNumber: () => Promise<String>;
-  isMaster: () => Promise<Boolean>;
-  sex: () => Promise<String>;
-  bio: () => Promise<String>;
   studentNumber: () => Promise<Int>;
-  major: () => Promise<String>;
+  Name: () => Promise<String>;
+  isMaster: () => Promise<String>;
+  sex: () => Promise<String>;
+  loginSecret: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
   phoneNumber: () => Promise<AsyncIterator<String>>;
-  isMaster: () => Promise<AsyncIterator<Boolean>>;
-  sex: () => Promise<AsyncIterator<String>>;
-  bio: () => Promise<AsyncIterator<String>>;
   studentNumber: () => Promise<AsyncIterator<Int>>;
-  major: () => Promise<AsyncIterator<String>>;
+  Name: () => Promise<AsyncIterator<String>>;
+  isMaster: () => Promise<AsyncIterator<String>>;
+  sex: () => Promise<AsyncIterator<String>>;
+  loginSecret: () => Promise<AsyncIterator<String>>;
 }
 
 /*

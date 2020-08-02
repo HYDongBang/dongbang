@@ -1690,16 +1690,17 @@ type Subscription {
 
 type User {
   id: ID!
+  email: String!
   phoneNumber: String!
-  isMaster: Boolean!
-  sex: String!
-  joinClubs(where: ClubWhereInput, orderBy: ClubOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Club!]
-  bio: String!
   studentNumber: Int!
-  major: String!
+  Name: String!
+  isMaster: String
+  sex: String
+  joinClubs(where: ClubWhereInput, orderBy: ClubOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Club!]
   applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
   rooms(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Room!]
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
+  loginSecret: String
 }
 
 type UserConnection {
@@ -1710,16 +1711,17 @@ type UserConnection {
 
 input UserCreateInput {
   id: ID
+  email: String!
   phoneNumber: String!
-  isMaster: Boolean!
-  sex: String!
-  joinClubs: ClubCreateManyWithoutMembersInput
-  bio: String!
   studentNumber: Int!
-  major: String!
+  Name: String!
+  isMaster: String
+  sex: String
+  joinClubs: ClubCreateManyWithoutMembersInput
   applications: ApplicationCreateManyInput
   rooms: RoomCreateManyWithoutParticipantsInput
   notifications: NotificationCreateManyInput
+  loginSecret: String
 }
 
 input UserCreateManyWithoutJoinClubsInput {
@@ -1739,28 +1741,30 @@ input UserCreateOneInput {
 
 input UserCreateWithoutJoinClubsInput {
   id: ID
+  email: String!
   phoneNumber: String!
-  isMaster: Boolean!
-  sex: String!
-  bio: String!
   studentNumber: Int!
-  major: String!
+  Name: String!
+  isMaster: String
+  sex: String
   applications: ApplicationCreateManyInput
   rooms: RoomCreateManyWithoutParticipantsInput
   notifications: NotificationCreateManyInput
+  loginSecret: String
 }
 
 input UserCreateWithoutRoomsInput {
   id: ID
+  email: String!
   phoneNumber: String!
-  isMaster: Boolean!
-  sex: String!
-  joinClubs: ClubCreateManyWithoutMembersInput
-  bio: String!
   studentNumber: Int!
-  major: String!
+  Name: String!
+  isMaster: String
+  sex: String
+  joinClubs: ClubCreateManyWithoutMembersInput
   applications: ApplicationCreateManyInput
   notifications: NotificationCreateManyInput
+  loginSecret: String
 }
 
 type UserEdge {
@@ -1771,28 +1775,31 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
+  email_ASC
+  email_DESC
   phoneNumber_ASC
   phoneNumber_DESC
+  studentNumber_ASC
+  studentNumber_DESC
+  Name_ASC
+  Name_DESC
   isMaster_ASC
   isMaster_DESC
   sex_ASC
   sex_DESC
-  bio_ASC
-  bio_DESC
-  studentNumber_ASC
-  studentNumber_DESC
-  major_ASC
-  major_DESC
+  loginSecret_ASC
+  loginSecret_DESC
 }
 
 type UserPreviousValues {
   id: ID!
+  email: String!
   phoneNumber: String!
-  isMaster: Boolean!
-  sex: String!
-  bio: String!
   studentNumber: Int!
-  major: String!
+  Name: String!
+  isMaster: String
+  sex: String
+  loginSecret: String
 }
 
 input UserScalarWhereInput {
@@ -1810,6 +1817,20 @@ input UserScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
   phoneNumber: String
   phoneNumber_not: String
   phoneNumber_in: [String!]
@@ -1824,8 +1845,42 @@ input UserScalarWhereInput {
   phoneNumber_not_starts_with: String
   phoneNumber_ends_with: String
   phoneNumber_not_ends_with: String
-  isMaster: Boolean
-  isMaster_not: Boolean
+  studentNumber: Int
+  studentNumber_not: Int
+  studentNumber_in: [Int!]
+  studentNumber_not_in: [Int!]
+  studentNumber_lt: Int
+  studentNumber_lte: Int
+  studentNumber_gt: Int
+  studentNumber_gte: Int
+  Name: String
+  Name_not: String
+  Name_in: [String!]
+  Name_not_in: [String!]
+  Name_lt: String
+  Name_lte: String
+  Name_gt: String
+  Name_gte: String
+  Name_contains: String
+  Name_not_contains: String
+  Name_starts_with: String
+  Name_not_starts_with: String
+  Name_ends_with: String
+  Name_not_ends_with: String
+  isMaster: String
+  isMaster_not: String
+  isMaster_in: [String!]
+  isMaster_not_in: [String!]
+  isMaster_lt: String
+  isMaster_lte: String
+  isMaster_gt: String
+  isMaster_gte: String
+  isMaster_contains: String
+  isMaster_not_contains: String
+  isMaster_starts_with: String
+  isMaster_not_starts_with: String
+  isMaster_ends_with: String
+  isMaster_not_ends_with: String
   sex: String
   sex_not: String
   sex_in: [String!]
@@ -1840,42 +1895,20 @@ input UserScalarWhereInput {
   sex_not_starts_with: String
   sex_ends_with: String
   sex_not_ends_with: String
-  bio: String
-  bio_not: String
-  bio_in: [String!]
-  bio_not_in: [String!]
-  bio_lt: String
-  bio_lte: String
-  bio_gt: String
-  bio_gte: String
-  bio_contains: String
-  bio_not_contains: String
-  bio_starts_with: String
-  bio_not_starts_with: String
-  bio_ends_with: String
-  bio_not_ends_with: String
-  studentNumber: Int
-  studentNumber_not: Int
-  studentNumber_in: [Int!]
-  studentNumber_not_in: [Int!]
-  studentNumber_lt: Int
-  studentNumber_lte: Int
-  studentNumber_gt: Int
-  studentNumber_gte: Int
-  major: String
-  major_not: String
-  major_in: [String!]
-  major_not_in: [String!]
-  major_lt: String
-  major_lte: String
-  major_gt: String
-  major_gte: String
-  major_contains: String
-  major_not_contains: String
-  major_starts_with: String
-  major_not_starts_with: String
-  major_ends_with: String
-  major_not_ends_with: String
+  loginSecret: String
+  loginSecret_not: String
+  loginSecret_in: [String!]
+  loginSecret_not_in: [String!]
+  loginSecret_lt: String
+  loginSecret_lte: String
+  loginSecret_gt: String
+  loginSecret_gte: String
+  loginSecret_contains: String
+  loginSecret_not_contains: String
+  loginSecret_starts_with: String
+  loginSecret_not_starts_with: String
+  loginSecret_ends_with: String
+  loginSecret_not_ends_with: String
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -1900,47 +1933,51 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateDataInput {
+  email: String
   phoneNumber: String
-  isMaster: Boolean
+  studentNumber: Int
+  Name: String
+  isMaster: String
   sex: String
   joinClubs: ClubUpdateManyWithoutMembersInput
-  bio: String
-  studentNumber: Int
-  major: String
   applications: ApplicationUpdateManyInput
   rooms: RoomUpdateManyWithoutParticipantsInput
   notifications: NotificationUpdateManyInput
+  loginSecret: String
 }
 
 input UserUpdateInput {
+  email: String
   phoneNumber: String
-  isMaster: Boolean
+  studentNumber: Int
+  Name: String
+  isMaster: String
   sex: String
   joinClubs: ClubUpdateManyWithoutMembersInput
-  bio: String
-  studentNumber: Int
-  major: String
   applications: ApplicationUpdateManyInput
   rooms: RoomUpdateManyWithoutParticipantsInput
   notifications: NotificationUpdateManyInput
+  loginSecret: String
 }
 
 input UserUpdateManyDataInput {
+  email: String
   phoneNumber: String
-  isMaster: Boolean
-  sex: String
-  bio: String
   studentNumber: Int
-  major: String
+  Name: String
+  isMaster: String
+  sex: String
+  loginSecret: String
 }
 
 input UserUpdateManyMutationInput {
+  email: String
   phoneNumber: String
-  isMaster: Boolean
-  sex: String
-  bio: String
   studentNumber: Int
-  major: String
+  Name: String
+  isMaster: String
+  sex: String
+  loginSecret: String
 }
 
 input UserUpdateManyWithoutJoinClubsInput {
@@ -1980,27 +2017,29 @@ input UserUpdateOneRequiredInput {
 }
 
 input UserUpdateWithoutJoinClubsDataInput {
+  email: String
   phoneNumber: String
-  isMaster: Boolean
-  sex: String
-  bio: String
   studentNumber: Int
-  major: String
+  Name: String
+  isMaster: String
+  sex: String
   applications: ApplicationUpdateManyInput
   rooms: RoomUpdateManyWithoutParticipantsInput
   notifications: NotificationUpdateManyInput
+  loginSecret: String
 }
 
 input UserUpdateWithoutRoomsDataInput {
+  email: String
   phoneNumber: String
-  isMaster: Boolean
+  studentNumber: Int
+  Name: String
+  isMaster: String
   sex: String
   joinClubs: ClubUpdateManyWithoutMembersInput
-  bio: String
-  studentNumber: Int
-  major: String
   applications: ApplicationUpdateManyInput
   notifications: NotificationUpdateManyInput
+  loginSecret: String
 }
 
 input UserUpdateWithWhereUniqueWithoutJoinClubsInput {
@@ -2045,6 +2084,20 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
   phoneNumber: String
   phoneNumber_not: String
   phoneNumber_in: [String!]
@@ -2059,8 +2112,42 @@ input UserWhereInput {
   phoneNumber_not_starts_with: String
   phoneNumber_ends_with: String
   phoneNumber_not_ends_with: String
-  isMaster: Boolean
-  isMaster_not: Boolean
+  studentNumber: Int
+  studentNumber_not: Int
+  studentNumber_in: [Int!]
+  studentNumber_not_in: [Int!]
+  studentNumber_lt: Int
+  studentNumber_lte: Int
+  studentNumber_gt: Int
+  studentNumber_gte: Int
+  Name: String
+  Name_not: String
+  Name_in: [String!]
+  Name_not_in: [String!]
+  Name_lt: String
+  Name_lte: String
+  Name_gt: String
+  Name_gte: String
+  Name_contains: String
+  Name_not_contains: String
+  Name_starts_with: String
+  Name_not_starts_with: String
+  Name_ends_with: String
+  Name_not_ends_with: String
+  isMaster: String
+  isMaster_not: String
+  isMaster_in: [String!]
+  isMaster_not_in: [String!]
+  isMaster_lt: String
+  isMaster_lte: String
+  isMaster_gt: String
+  isMaster_gte: String
+  isMaster_contains: String
+  isMaster_not_contains: String
+  isMaster_starts_with: String
+  isMaster_not_starts_with: String
+  isMaster_ends_with: String
+  isMaster_not_ends_with: String
   sex: String
   sex_not: String
   sex_in: [String!]
@@ -2078,42 +2165,6 @@ input UserWhereInput {
   joinClubs_every: ClubWhereInput
   joinClubs_some: ClubWhereInput
   joinClubs_none: ClubWhereInput
-  bio: String
-  bio_not: String
-  bio_in: [String!]
-  bio_not_in: [String!]
-  bio_lt: String
-  bio_lte: String
-  bio_gt: String
-  bio_gte: String
-  bio_contains: String
-  bio_not_contains: String
-  bio_starts_with: String
-  bio_not_starts_with: String
-  bio_ends_with: String
-  bio_not_ends_with: String
-  studentNumber: Int
-  studentNumber_not: Int
-  studentNumber_in: [Int!]
-  studentNumber_not_in: [Int!]
-  studentNumber_lt: Int
-  studentNumber_lte: Int
-  studentNumber_gt: Int
-  studentNumber_gte: Int
-  major: String
-  major_not: String
-  major_in: [String!]
-  major_not_in: [String!]
-  major_lt: String
-  major_lte: String
-  major_gt: String
-  major_gte: String
-  major_contains: String
-  major_not_contains: String
-  major_starts_with: String
-  major_not_starts_with: String
-  major_ends_with: String
-  major_not_ends_with: String
   applications_every: ApplicationWhereInput
   applications_some: ApplicationWhereInput
   applications_none: ApplicationWhereInput
@@ -2123,6 +2174,20 @@ input UserWhereInput {
   notifications_every: NotificationWhereInput
   notifications_some: NotificationWhereInput
   notifications_none: NotificationWhereInput
+  loginSecret: String
+  loginSecret_not: String
+  loginSecret_in: [String!]
+  loginSecret_not_in: [String!]
+  loginSecret_lt: String
+  loginSecret_lte: String
+  loginSecret_gt: String
+  loginSecret_gte: String
+  loginSecret_contains: String
+  loginSecret_not_contains: String
+  loginSecret_starts_with: String
+  loginSecret_not_starts_with: String
+  loginSecret_ends_with: String
+  loginSecret_not_ends_with: String
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -2130,6 +2195,9 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
+  phoneNumber: String
+  studentNumber: Int
 }
 `
       }

@@ -1,12 +1,15 @@
 import { prisma } from "../../../../generated/prisma-client";
+import bcrypt from 'bcrypt';
+const SALTROUNDS = 10;
 
  export default {
    Mutation: {
-     confirmSecret: async (_, args) => {
+     signIn: async (_, args) => {
        const { email, password } = args;
        const user = await prisma.user({ email });
-       if (user.encryptedPassword === hashedPassword) {
-         return true;
+       const passwordTrue = bcrypt.compare(password, user.encryptedPassword)
+       if (passwordTrue) {
+         return generateToken(user.id);
        } else {
          throw Error("Wrong email/secret combination");
        }

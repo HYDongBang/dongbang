@@ -1,11 +1,8 @@
 type Mutation {
    createAccount(
      email: String!
-     phoneNumber: String!
-     studentNumber: Int!
-     Name: String!
-     isMaster: String
-     sex:String
+     password: String!
+     auth: Boolean!
    ): User!
  }
 

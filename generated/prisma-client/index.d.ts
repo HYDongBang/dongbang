@@ -346,6 +346,8 @@ export type UserOrderByInput =
   | "id_DESC"
   | "email_ASC"
   | "email_DESC"
+  | "encryptedPassword_ASC"
+  | "encryptedPassword_DESC"
   | "phoneNumber_ASC"
   | "phoneNumber_DESC"
   | "studentNumber_ASC"
@@ -452,6 +454,20 @@ export interface UserWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
+  encryptedPassword_not?: Maybe<String>;
+  encryptedPassword_in?: Maybe<String[] | String>;
+  encryptedPassword_not_in?: Maybe<String[] | String>;
+  encryptedPassword_lt?: Maybe<String>;
+  encryptedPassword_lte?: Maybe<String>;
+  encryptedPassword_gt?: Maybe<String>;
+  encryptedPassword_gte?: Maybe<String>;
+  encryptedPassword_contains?: Maybe<String>;
+  encryptedPassword_not_contains?: Maybe<String>;
+  encryptedPassword_starts_with?: Maybe<String>;
+  encryptedPassword_not_starts_with?: Maybe<String>;
+  encryptedPassword_ends_with?: Maybe<String>;
+  encryptedPassword_not_ends_with?: Maybe<String>;
   phoneNumber?: Maybe<String>;
   phoneNumber_not?: Maybe<String>;
   phoneNumber_in?: Maybe<String[] | String>;
@@ -895,8 +911,6 @@ export type RoomWhereUniqueInput = AtLeastOne<{
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   email?: Maybe<String>;
-  phoneNumber?: Maybe<String>;
-  studentNumber?: Maybe<Int>;
 }>;
 
 export interface ApplicationCreateInput {
@@ -938,9 +952,10 @@ export interface UserCreateManyWithoutJoinClubsInput {
 export interface UserCreateWithoutJoinClubsInput {
   id?: Maybe<ID_Input>;
   email: String;
-  phoneNumber: String;
-  studentNumber: Int;
-  Name: String;
+  encryptedPassword: String;
+  phoneNumber?: Maybe<String>;
+  studentNumber?: Maybe<Int>;
+  Name?: Maybe<String>;
   isMaster?: Maybe<String>;
   sex?: Maybe<String>;
   applications?: Maybe<ApplicationCreateManyInput>;
@@ -988,9 +1003,10 @@ export interface UserCreateOneInput {
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   email: String;
-  phoneNumber: String;
-  studentNumber: Int;
-  Name: String;
+  encryptedPassword: String;
+  phoneNumber?: Maybe<String>;
+  studentNumber?: Maybe<Int>;
+  Name?: Maybe<String>;
   isMaster?: Maybe<String>;
   sex?: Maybe<String>;
   joinClubs?: Maybe<ClubCreateManyWithoutMembersInput>;
@@ -1129,6 +1145,7 @@ export interface UserUpdateWithWhereUniqueWithoutJoinClubsInput {
 
 export interface UserUpdateWithoutJoinClubsDataInput {
   email?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
   phoneNumber?: Maybe<String>;
   studentNumber?: Maybe<Int>;
   Name?: Maybe<String>;
@@ -1405,6 +1422,7 @@ export interface UserUpdateOneRequiredInput {
 
 export interface UserUpdateDataInput {
   email?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
   phoneNumber?: Maybe<String>;
   studentNumber?: Maybe<Int>;
   Name?: Maybe<String>;
@@ -1868,6 +1886,20 @@ export interface UserScalarWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
+  encryptedPassword_not?: Maybe<String>;
+  encryptedPassword_in?: Maybe<String[] | String>;
+  encryptedPassword_not_in?: Maybe<String[] | String>;
+  encryptedPassword_lt?: Maybe<String>;
+  encryptedPassword_lte?: Maybe<String>;
+  encryptedPassword_gt?: Maybe<String>;
+  encryptedPassword_gte?: Maybe<String>;
+  encryptedPassword_contains?: Maybe<String>;
+  encryptedPassword_not_contains?: Maybe<String>;
+  encryptedPassword_starts_with?: Maybe<String>;
+  encryptedPassword_not_starts_with?: Maybe<String>;
+  encryptedPassword_ends_with?: Maybe<String>;
+  encryptedPassword_not_ends_with?: Maybe<String>;
   phoneNumber?: Maybe<String>;
   phoneNumber_not?: Maybe<String>;
   phoneNumber_in?: Maybe<String[] | String>;
@@ -1958,6 +1990,7 @@ export interface UserUpdateManyWithWhereNestedInput {
 
 export interface UserUpdateManyDataInput {
   email?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
   phoneNumber?: Maybe<String>;
   studentNumber?: Maybe<Int>;
   Name?: Maybe<String>;
@@ -2045,9 +2078,10 @@ export interface UserCreateManyWithoutRoomsInput {
 export interface UserCreateWithoutRoomsInput {
   id?: Maybe<ID_Input>;
   email: String;
-  phoneNumber: String;
-  studentNumber: Int;
-  Name: String;
+  encryptedPassword: String;
+  phoneNumber?: Maybe<String>;
+  studentNumber?: Maybe<Int>;
+  Name?: Maybe<String>;
   isMaster?: Maybe<String>;
   sex?: Maybe<String>;
   joinClubs?: Maybe<ClubCreateManyWithoutMembersInput>;
@@ -2101,6 +2135,7 @@ export interface UserUpdateWithWhereUniqueWithoutRoomsInput {
 
 export interface UserUpdateWithoutRoomsDataInput {
   email?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
   phoneNumber?: Maybe<String>;
   studentNumber?: Maybe<Int>;
   Name?: Maybe<String>;
@@ -2164,6 +2199,7 @@ export interface RoomUpdateInput {
 
 export interface UserUpdateInput {
   email?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
   phoneNumber?: Maybe<String>;
   studentNumber?: Maybe<Int>;
   Name?: Maybe<String>;
@@ -2178,6 +2214,7 @@ export interface UserUpdateInput {
 
 export interface UserUpdateManyMutationInput {
   email?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
   phoneNumber?: Maybe<String>;
   studentNumber?: Maybe<Int>;
   Name?: Maybe<String>;
@@ -2462,9 +2499,10 @@ export interface ClubNullablePromise
 export interface User {
   id: ID_Output;
   email: String;
-  phoneNumber: String;
-  studentNumber: Int;
-  Name: String;
+  encryptedPassword: String;
+  phoneNumber?: String;
+  studentNumber?: Int;
+  Name?: String;
   isMaster?: String;
   sex?: String;
   loginSecret?: String;
@@ -2473,6 +2511,7 @@ export interface User {
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
+  encryptedPassword: () => Promise<String>;
   phoneNumber: () => Promise<String>;
   studentNumber: () => Promise<Int>;
   Name: () => Promise<String>;
@@ -2522,6 +2561,7 @@ export interface UserSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
+  encryptedPassword: () => Promise<AsyncIterator<String>>;
   phoneNumber: () => Promise<AsyncIterator<String>>;
   studentNumber: () => Promise<AsyncIterator<Int>>;
   Name: () => Promise<AsyncIterator<String>>;
@@ -2571,6 +2611,7 @@ export interface UserNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
+  encryptedPassword: () => Promise<String>;
   phoneNumber: () => Promise<String>;
   studentNumber: () => Promise<Int>;
   Name: () => Promise<String>;
@@ -3545,9 +3586,10 @@ export interface UserSubscriptionPayloadSubscription
 export interface UserPreviousValues {
   id: ID_Output;
   email: String;
-  phoneNumber: String;
-  studentNumber: Int;
-  Name: String;
+  encryptedPassword: String;
+  phoneNumber?: String;
+  studentNumber?: Int;
+  Name?: String;
   isMaster?: String;
   sex?: String;
   loginSecret?: String;
@@ -3558,6 +3600,7 @@ export interface UserPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
+  encryptedPassword: () => Promise<String>;
   phoneNumber: () => Promise<String>;
   studentNumber: () => Promise<Int>;
   Name: () => Promise<String>;
@@ -3571,6 +3614,7 @@ export interface UserPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
+  encryptedPassword: () => Promise<AsyncIterator<String>>;
   phoneNumber: () => Promise<AsyncIterator<String>>;
   studentNumber: () => Promise<AsyncIterator<Int>>;
   Name: () => Promise<AsyncIterator<String>>;

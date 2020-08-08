@@ -1691,9 +1691,10 @@ type Subscription {
 type User {
   id: ID!
   email: String!
-  phoneNumber: String!
-  studentNumber: Int!
-  Name: String!
+  encryptedPassword: String!
+  phoneNumber: String
+  studentNumber: Int
+  Name: String
   isMaster: String
   sex: String
   joinClubs(where: ClubWhereInput, orderBy: ClubOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Club!]
@@ -1712,9 +1713,10 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   email: String!
-  phoneNumber: String!
-  studentNumber: Int!
-  Name: String!
+  encryptedPassword: String!
+  phoneNumber: String
+  studentNumber: Int
+  Name: String
   isMaster: String
   sex: String
   joinClubs: ClubCreateManyWithoutMembersInput
@@ -1742,9 +1744,10 @@ input UserCreateOneInput {
 input UserCreateWithoutJoinClubsInput {
   id: ID
   email: String!
-  phoneNumber: String!
-  studentNumber: Int!
-  Name: String!
+  encryptedPassword: String!
+  phoneNumber: String
+  studentNumber: Int
+  Name: String
   isMaster: String
   sex: String
   applications: ApplicationCreateManyInput
@@ -1756,9 +1759,10 @@ input UserCreateWithoutJoinClubsInput {
 input UserCreateWithoutRoomsInput {
   id: ID
   email: String!
-  phoneNumber: String!
-  studentNumber: Int!
-  Name: String!
+  encryptedPassword: String!
+  phoneNumber: String
+  studentNumber: Int
+  Name: String
   isMaster: String
   sex: String
   joinClubs: ClubCreateManyWithoutMembersInput
@@ -1777,6 +1781,8 @@ enum UserOrderByInput {
   id_DESC
   email_ASC
   email_DESC
+  encryptedPassword_ASC
+  encryptedPassword_DESC
   phoneNumber_ASC
   phoneNumber_DESC
   studentNumber_ASC
@@ -1794,9 +1800,10 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   email: String!
-  phoneNumber: String!
-  studentNumber: Int!
-  Name: String!
+  encryptedPassword: String!
+  phoneNumber: String
+  studentNumber: Int
+  Name: String
   isMaster: String
   sex: String
   loginSecret: String
@@ -1831,6 +1838,20 @@ input UserScalarWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  encryptedPassword: String
+  encryptedPassword_not: String
+  encryptedPassword_in: [String!]
+  encryptedPassword_not_in: [String!]
+  encryptedPassword_lt: String
+  encryptedPassword_lte: String
+  encryptedPassword_gt: String
+  encryptedPassword_gte: String
+  encryptedPassword_contains: String
+  encryptedPassword_not_contains: String
+  encryptedPassword_starts_with: String
+  encryptedPassword_not_starts_with: String
+  encryptedPassword_ends_with: String
+  encryptedPassword_not_ends_with: String
   phoneNumber: String
   phoneNumber_not: String
   phoneNumber_in: [String!]
@@ -1934,6 +1955,7 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateDataInput {
   email: String
+  encryptedPassword: String
   phoneNumber: String
   studentNumber: Int
   Name: String
@@ -1948,6 +1970,7 @@ input UserUpdateDataInput {
 
 input UserUpdateInput {
   email: String
+  encryptedPassword: String
   phoneNumber: String
   studentNumber: Int
   Name: String
@@ -1962,6 +1985,7 @@ input UserUpdateInput {
 
 input UserUpdateManyDataInput {
   email: String
+  encryptedPassword: String
   phoneNumber: String
   studentNumber: Int
   Name: String
@@ -1972,6 +1996,7 @@ input UserUpdateManyDataInput {
 
 input UserUpdateManyMutationInput {
   email: String
+  encryptedPassword: String
   phoneNumber: String
   studentNumber: Int
   Name: String
@@ -2018,6 +2043,7 @@ input UserUpdateOneRequiredInput {
 
 input UserUpdateWithoutJoinClubsDataInput {
   email: String
+  encryptedPassword: String
   phoneNumber: String
   studentNumber: Int
   Name: String
@@ -2031,6 +2057,7 @@ input UserUpdateWithoutJoinClubsDataInput {
 
 input UserUpdateWithoutRoomsDataInput {
   email: String
+  encryptedPassword: String
   phoneNumber: String
   studentNumber: Int
   Name: String
@@ -2098,6 +2125,20 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  encryptedPassword: String
+  encryptedPassword_not: String
+  encryptedPassword_in: [String!]
+  encryptedPassword_not_in: [String!]
+  encryptedPassword_lt: String
+  encryptedPassword_lte: String
+  encryptedPassword_gt: String
+  encryptedPassword_gte: String
+  encryptedPassword_contains: String
+  encryptedPassword_not_contains: String
+  encryptedPassword_starts_with: String
+  encryptedPassword_not_starts_with: String
+  encryptedPassword_ends_with: String
+  encryptedPassword_not_ends_with: String
   phoneNumber: String
   phoneNumber_not: String
   phoneNumber_in: [String!]
@@ -2196,8 +2237,6 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
-  phoneNumber: String
-  studentNumber: Int
 }
 `
       }

@@ -5,14 +5,14 @@ type User{
     phoneNumber: String
     studentNumber: Int
     Name: String
-    isMaster: String
+    isMaster: Club
     sex: String
-    joinClubs:[Club]
     applications:[Application]
     rooms:[Room]
     notifications:[Notification]
     loginSecret: String
 }
+
 
 type Notification{
     id: ID!
@@ -32,7 +32,8 @@ type Application{
 }
 
 type Club{
-    id: ID!
+    id: ID! 
+    master: User!
     applications: [Application]!
     name: String!
     bio: String!

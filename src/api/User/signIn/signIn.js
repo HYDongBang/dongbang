@@ -1,5 +1,6 @@
 import { prisma } from "../../../../generated/prisma-client";
 import bcrypt from 'bcrypt';
+import { generateToken } from "../../../utils";
 const SALTROUNDS = 10;
 
  export default {

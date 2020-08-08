@@ -1,16 +1,18 @@
 type User{
     id: ID! @id
-    phoneNumber: String!
-    isMaster: Boolean!
-    sex: String!
-    joinClubs:[Club]
-    bio: String!
-    studentNumber: Int!
-    major: String!
-    applications:[Application]!
+    email: String! @unique
+    encryptedPassword: String!
+    phoneNumber: String
+    studentNumber: Int
+    Name: String
+    isMaster: Club @relation(name:"ClubMaster")
+    sex: String
+    applications:[Application]
     rooms:[Room]
     notifications:[Notification]
+    loginSecret: String
 }
+
 
 type Notification{
     id: ID! @id
@@ -31,8 +33,7 @@ type Application{
 
 type Club{
     id: ID! @id
-    masterId: Int!
-    members: [User]!
+    master: User! @relation(name:"ClubMaster", link: INLINE)
     applications: [Application]!
     name: String!
     bio: String!
@@ -40,8 +41,8 @@ type Club{
     logo: String
     clubImage: String
     type: String!
-    socialUrl: String!
-    socialDisplay: Boolean!
+    socialUrl: String
+    socialDisplay: Boolean @default(value:false)
 }
 
 type Question{

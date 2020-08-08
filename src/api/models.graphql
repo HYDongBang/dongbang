@@ -1,16 +1,18 @@
 type User{
     id: ID!
-    phoneNumber: String!
-    isMaster: Boolean!
-    sex: String!
-    joinClubs:[Club]
-    bio: String!
-    studentNumber: Int!
-    major: String!
-    applications:[Application]!
+    email: String!
+    encryptedPassword: String!
+    phoneNumber: String
+    studentNumber: Int
+    Name: String
+    isMaster: Club
+    sex: String
+    applications:[Application]
     rooms:[Room]
     notifications:[Notification]
+    loginSecret: String
 }
+
 
 type Notification{
     id: ID!
@@ -30,9 +32,8 @@ type Application{
 }
 
 type Club{
-    id: ID!
-    masterId: Int!
-    members: [User]!
+    id: ID! 
+    master: User!
     applications: [Application]!
     name: String!
     bio: String!
@@ -40,8 +41,8 @@ type Club{
     logo: String
     clubImage: String
     type: String!
-    socialUrl: String!
-    socialDisplay: Boolean!
+    socialUrl: String
+    socialDisplay: Boolean
 }
 
 type Question{

@@ -4,7 +4,7 @@ import { fileLoader, mergeResolvers, mergeTypes } from "merge-graphql-schemas";
 
 const allTypes = fileLoader(path.join(__dirname, "/api/**/*.graphql"));
 const allResolvers = fileLoader(path.join(__dirname, "/api/**/*.js"));
-
+// API폴더에 Resolver가 아닌 js 파일을 두면 안됌!
 const schema = makeExecutableSchema({
    typeDefs: mergeTypes(allTypes),
    resolvers: mergeResolvers(allResolvers)

@@ -43,6 +43,7 @@ type Club{
     type: String!
     socialUrl: String
     socialDisplay: Boolean
+    master: User!
 }
 
 type Question{

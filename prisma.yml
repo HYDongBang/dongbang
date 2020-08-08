@@ -1,3 +1,4 @@
+# 실제 서비스할 때는 숨겨야함.
 endpoint: https://eu1.prisma.sh/zxcvb5434-9d2756/dongbang/dev
 datamodel: datamodel.prisma
 

@@ -6,16 +6,16 @@ import "./passport";
 import { authenticateJwt } from "./passport";
 
 
- const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
- const server = new GraphQLServer({
-    schema,
-    context: ({ request }) => ({ request })
+const server = new GraphQLServer({
+    schema, // typeDefs
+    context: ({ request }) => ({ request }) // resolver
   });
 
- server.express.use(logger("dev"));
+server.express.use(logger("dev"));
 server.express.use(authenticateJwt);
 
- server.start({ port: PORT }, () =>
-   console.log(`Server running on  http://localhost:${PORT}`)
- );
+server.start({ port: PORT }, () =>
+  console.log(`Server running on  http://localhost:${PORT}`)
+);

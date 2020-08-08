@@ -4,7 +4,6 @@ type Mutation {
      phoneNumber: String!
      studentNumber: Int!
      Name: String!
-     isMaster: String
      sex:String
    ): User!
  }

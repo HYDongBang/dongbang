@@ -23,8 +23,8 @@ type Notification{
 
 type Application{
     id: ID! @id
-    userId : Int!
-    club: Club!
+    userId: ID! 
+    clubId: ID!
     questions: [Question]!
     answer: [String]! @scalarList(strategy: RELATION)
     checked: Boolean!
@@ -34,7 +34,8 @@ type Application{
 type Club{
     id: ID! @id
     master: User! @relation(name:"ClubMaster", link: INLINE)
-    applications: [Application]!
+    questuons: [Question]
+    applications: [Application]
     name: String!
     bio: String!
     description: String!

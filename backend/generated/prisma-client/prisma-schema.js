@@ -33,8 +33,8 @@ type AggregateUser {
 
 type Application {
   id: ID!
-  userId: Int!
-  club: Club!
+  userId: ID!
+  clubId: ID!
   questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question!]
   answer: [String!]!
   checked: Boolean!
@@ -53,8 +53,8 @@ input ApplicationCreateanswerInput {
 
 input ApplicationCreateInput {
   id: ID
-  userId: Int!
-  club: ClubCreateOneWithoutApplicationsInput!
+  userId: ID!
+  clubId: ID!
   questions: QuestionCreateManyInput
   answer: ApplicationCreateanswerInput
   checked: Boolean!
@@ -64,20 +64,6 @@ input ApplicationCreateInput {
 input ApplicationCreateManyInput {
   create: [ApplicationCreateInput!]
   connect: [ApplicationWhereUniqueInput!]
-}
-
-input ApplicationCreateManyWithoutClubInput {
-  create: [ApplicationCreateWithoutClubInput!]
-  connect: [ApplicationWhereUniqueInput!]
-}
-
-input ApplicationCreateWithoutClubInput {
-  id: ID
-  userId: Int!
-  questions: QuestionCreateManyInput
-  answer: ApplicationCreateanswerInput
-  checked: Boolean!
-  isPass: Boolean
 }
 
 type ApplicationEdge {
@@ -90,6 +76,8 @@ enum ApplicationOrderByInput {
   id_DESC
   userId_ASC
   userId_DESC
+  clubId_ASC
+  clubId_DESC
   checked_ASC
   checked_DESC
   isPass_ASC
@@ -98,7 +86,8 @@ enum ApplicationOrderByInput {
 
 type ApplicationPreviousValues {
   id: ID!
-  userId: Int!
+  userId: ID!
+  clubId: ID!
   answer: [String!]!
   checked: Boolean!
   isPass: Boolean
@@ -119,14 +108,34 @@ input ApplicationScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  userId: Int
-  userId_not: Int
-  userId_in: [Int!]
-  userId_not_in: [Int!]
-  userId_lt: Int
-  userId_lte: Int
-  userId_gt: Int
-  userId_gte: Int
+  userId: ID
+  userId_not: ID
+  userId_in: [ID!]
+  userId_not_in: [ID!]
+  userId_lt: ID
+  userId_lte: ID
+  userId_gt: ID
+  userId_gte: ID
+  userId_contains: ID
+  userId_not_contains: ID
+  userId_starts_with: ID
+  userId_not_starts_with: ID
+  userId_ends_with: ID
+  userId_not_ends_with: ID
+  clubId: ID
+  clubId_not: ID
+  clubId_in: [ID!]
+  clubId_not_in: [ID!]
+  clubId_lt: ID
+  clubId_lte: ID
+  clubId_gt: ID
+  clubId_gte: ID
+  clubId_contains: ID
+  clubId_not_contains: ID
+  clubId_starts_with: ID
+  clubId_not_starts_with: ID
+  clubId_ends_with: ID
+  clubId_not_ends_with: ID
   checked: Boolean
   checked_not: Boolean
   isPass: Boolean
@@ -159,8 +168,8 @@ input ApplicationUpdateanswerInput {
 }
 
 input ApplicationUpdateDataInput {
-  userId: Int
-  club: ClubUpdateOneRequiredWithoutApplicationsInput
+  userId: ID
+  clubId: ID
   questions: QuestionUpdateManyInput
   answer: ApplicationUpdateanswerInput
   checked: Boolean
@@ -168,8 +177,8 @@ input ApplicationUpdateDataInput {
 }
 
 input ApplicationUpdateInput {
-  userId: Int
-  club: ClubUpdateOneRequiredWithoutApplicationsInput
+  userId: ID
+  clubId: ID
   questions: QuestionUpdateManyInput
   answer: ApplicationUpdateanswerInput
   checked: Boolean
@@ -177,7 +186,8 @@ input ApplicationUpdateInput {
 }
 
 input ApplicationUpdateManyDataInput {
-  userId: Int
+  userId: ID
+  clubId: ID
   answer: ApplicationUpdateanswerInput
   checked: Boolean
   isPass: Boolean
@@ -196,22 +206,11 @@ input ApplicationUpdateManyInput {
 }
 
 input ApplicationUpdateManyMutationInput {
-  userId: Int
+  userId: ID
+  clubId: ID
   answer: ApplicationUpdateanswerInput
   checked: Boolean
   isPass: Boolean
-}
-
-input ApplicationUpdateManyWithoutClubInput {
-  create: [ApplicationCreateWithoutClubInput!]
-  delete: [ApplicationWhereUniqueInput!]
-  connect: [ApplicationWhereUniqueInput!]
-  set: [ApplicationWhereUniqueInput!]
-  disconnect: [ApplicationWhereUniqueInput!]
-  update: [ApplicationUpdateWithWhereUniqueWithoutClubInput!]
-  upsert: [ApplicationUpsertWithWhereUniqueWithoutClubInput!]
-  deleteMany: [ApplicationScalarWhereInput!]
-  updateMany: [ApplicationUpdateManyWithWhereNestedInput!]
 }
 
 input ApplicationUpdateManyWithWhereNestedInput {
@@ -219,34 +218,15 @@ input ApplicationUpdateManyWithWhereNestedInput {
   data: ApplicationUpdateManyDataInput!
 }
 
-input ApplicationUpdateWithoutClubDataInput {
-  userId: Int
-  questions: QuestionUpdateManyInput
-  answer: ApplicationUpdateanswerInput
-  checked: Boolean
-  isPass: Boolean
-}
-
 input ApplicationUpdateWithWhereUniqueNestedInput {
   where: ApplicationWhereUniqueInput!
   data: ApplicationUpdateDataInput!
-}
-
-input ApplicationUpdateWithWhereUniqueWithoutClubInput {
-  where: ApplicationWhereUniqueInput!
-  data: ApplicationUpdateWithoutClubDataInput!
 }
 
 input ApplicationUpsertWithWhereUniqueNestedInput {
   where: ApplicationWhereUniqueInput!
   update: ApplicationUpdateDataInput!
   create: ApplicationCreateInput!
-}
-
-input ApplicationUpsertWithWhereUniqueWithoutClubInput {
-  where: ApplicationWhereUniqueInput!
-  update: ApplicationUpdateWithoutClubDataInput!
-  create: ApplicationCreateWithoutClubInput!
 }
 
 input ApplicationWhereInput {
@@ -264,15 +244,34 @@ input ApplicationWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  userId: Int
-  userId_not: Int
-  userId_in: [Int!]
-  userId_not_in: [Int!]
-  userId_lt: Int
-  userId_lte: Int
-  userId_gt: Int
-  userId_gte: Int
-  club: ClubWhereInput
+  userId: ID
+  userId_not: ID
+  userId_in: [ID!]
+  userId_not_in: [ID!]
+  userId_lt: ID
+  userId_lte: ID
+  userId_gt: ID
+  userId_gte: ID
+  userId_contains: ID
+  userId_not_contains: ID
+  userId_starts_with: ID
+  userId_not_starts_with: ID
+  userId_ends_with: ID
+  userId_not_ends_with: ID
+  clubId: ID
+  clubId_not: ID
+  clubId_in: [ID!]
+  clubId_not_in: [ID!]
+  clubId_lt: ID
+  clubId_lte: ID
+  clubId_gt: ID
+  clubId_gte: ID
+  clubId_contains: ID
+  clubId_not_contains: ID
+  clubId_starts_with: ID
+  clubId_not_starts_with: ID
+  clubId_ends_with: ID
+  clubId_not_ends_with: ID
   questions_every: QuestionWhereInput
   questions_some: QuestionWhereInput
   questions_none: QuestionWhereInput
@@ -296,6 +295,7 @@ type BatchPayload {
 type Club {
   id: ID!
   master: User!
+  questuons(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question!]
   applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
   name: String!
   bio: String!
@@ -316,7 +316,8 @@ type ClubConnection {
 input ClubCreateInput {
   id: ID
   master: UserCreateOneWithoutIsMasterInput!
-  applications: ApplicationCreateManyWithoutClubInput
+  questuons: QuestionCreateManyInput
+  applications: ApplicationCreateManyInput
   name: String!
   bio: String!
   description: String!
@@ -325,11 +326,6 @@ input ClubCreateInput {
   type: String!
   socialUrl: String
   socialDisplay: Boolean
-}
-
-input ClubCreateOneWithoutApplicationsInput {
-  create: ClubCreateWithoutApplicationsInput
-  connect: ClubWhereUniqueInput
 }
 
 input ClubCreateOneWithoutMasterInput {
@@ -337,22 +333,10 @@ input ClubCreateOneWithoutMasterInput {
   connect: ClubWhereUniqueInput
 }
 
-input ClubCreateWithoutApplicationsInput {
-  id: ID
-  master: UserCreateOneWithoutIsMasterInput!
-  name: String!
-  bio: String!
-  description: String!
-  logo: String
-  clubImage: String
-  type: String!
-  socialUrl: String
-  socialDisplay: Boolean
-}
-
 input ClubCreateWithoutMasterInput {
   id: ID
-  applications: ApplicationCreateManyWithoutClubInput
+  questuons: QuestionCreateManyInput
+  applications: ApplicationCreateManyInput
   name: String!
   bio: String!
   description: String!
@@ -421,7 +405,8 @@ input ClubSubscriptionWhereInput {
 
 input ClubUpdateInput {
   master: UserUpdateOneRequiredWithoutIsMasterInput
-  applications: ApplicationUpdateManyWithoutClubInput
+  questuons: QuestionUpdateManyInput
+  applications: ApplicationUpdateManyInput
   name: String
   bio: String
   description: String
@@ -443,13 +428,6 @@ input ClubUpdateManyMutationInput {
   socialDisplay: Boolean
 }
 
-input ClubUpdateOneRequiredWithoutApplicationsInput {
-  create: ClubCreateWithoutApplicationsInput
-  update: ClubUpdateWithoutApplicationsDataInput
-  upsert: ClubUpsertWithoutApplicationsInput
-  connect: ClubWhereUniqueInput
-}
-
 input ClubUpdateOneWithoutMasterInput {
   create: ClubCreateWithoutMasterInput
   update: ClubUpdateWithoutMasterDataInput
@@ -459,20 +437,9 @@ input ClubUpdateOneWithoutMasterInput {
   connect: ClubWhereUniqueInput
 }
 
-input ClubUpdateWithoutApplicationsDataInput {
-  master: UserUpdateOneRequiredWithoutIsMasterInput
-  name: String
-  bio: String
-  description: String
-  logo: String
-  clubImage: String
-  type: String
-  socialUrl: String
-  socialDisplay: Boolean
-}
-
 input ClubUpdateWithoutMasterDataInput {
-  applications: ApplicationUpdateManyWithoutClubInput
+  questuons: QuestionUpdateManyInput
+  applications: ApplicationUpdateManyInput
   name: String
   bio: String
   description: String
@@ -481,11 +448,6 @@ input ClubUpdateWithoutMasterDataInput {
   type: String
   socialUrl: String
   socialDisplay: Boolean
-}
-
-input ClubUpsertWithoutApplicationsInput {
-  update: ClubUpdateWithoutApplicationsDataInput!
-  create: ClubCreateWithoutApplicationsInput!
 }
 
 input ClubUpsertWithoutMasterInput {
@@ -509,6 +471,9 @@ input ClubWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   master: UserWhereInput
+  questuons_every: QuestionWhereInput
+  questuons_some: QuestionWhereInput
+  questuons_none: QuestionWhereInput
   applications_every: ApplicationWhereInput
   applications_some: ApplicationWhereInput
   applications_none: ApplicationWhereInput

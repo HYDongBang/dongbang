@@ -1,0 +1,9 @@
+type Mutation{
+    createClub(
+        name: String! 
+        bio: String!
+        description: String! 
+        type: String!
+        id: ID!
+    ) : Club
+}

@@ -23,10 +23,10 @@ type Notification{
 
 type Application{
     id: ID!
-    userId : Int!
-    club: Club!
-    questions: [Question]!
-    answer: [String]!
+    userId : ID!
+    clubId: ID!
+    questions: [Question]
+    answer: [String]
     checked: Boolean!
     isPass: Boolean
 }
@@ -34,7 +34,8 @@ type Application{
 type Club{
     id: ID! 
     master: User!
-    applications: [Application]!
+    applications: [Application]
+    questions: [Question]
     name: String!
     bio: String!
     description: String!
@@ -59,9 +60,9 @@ type Room{
 }
 
 type Message {
-   id: ID!
-   text: String!
-   from: User!
-   to: User!
-   room: Room!
- }
+    id: ID!
+    text: String!
+    from: User!
+    to: User!
+    room: Room!
+}

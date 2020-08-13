@@ -1,0 +1,14 @@
+enum ACTIONS {
+    EDIT
+    DELETE
+}
+
+type Mutation {
+    editClub(
+        name:String, 
+        bio:String, 
+        description:String, 
+        id:ID!, 
+        action: ACTIONS!
+    ) : Club!
+}

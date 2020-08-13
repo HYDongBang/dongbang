@@ -1,0 +1,3 @@
+type Mutation {
+    applyClub(uid:ID, cid:ID, answers: [String]) : Application!
+}

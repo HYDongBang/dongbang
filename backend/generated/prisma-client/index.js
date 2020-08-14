@@ -21,6 +21,10 @@ var models = [
     embedded: false
   },
   {
+    name: "File",
+    embedded: false
+  },
+  {
     name: "Question",
     embedded: false
   },

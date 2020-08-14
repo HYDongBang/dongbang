@@ -32,7 +32,7 @@ type Application{
 }
 
 type Club{
-    id: ID! 
+    id: ID!
     master: User!
     applications: [Application]
     questions: [Question]
@@ -40,10 +40,17 @@ type Club{
     bio: String!
     description: String!
     logo: String
-    clubImage: String
+    clubImage: File
     type: String!
     socialUrl: String
     socialDisplay: Boolean
+    imgExist: Boolean
+}
+
+type File{
+    id: ID!
+    url: String!
+    club: Club!
 }
 
 type Question{

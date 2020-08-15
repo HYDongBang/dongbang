@@ -391,10 +391,6 @@ export type QuestionOrderByInput =
 export type ApplicationOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "userId_ASC"
-  | "userId_DESC"
-  | "clubId_ASC"
-  | "clubId_DESC"
   | "checked_ASC"
   | "checked_DESC"
   | "isPass_ASC"
@@ -431,8 +427,6 @@ export type MessageOrderByInput =
 export type NotificationOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "userId_ASC"
-  | "userId_DESC"
   | "content_ASC"
   | "content_DESC"
   | "checked_ASC"
@@ -778,37 +772,8 @@ export interface ApplicationWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  userId?: Maybe<ID_Input>;
-  userId_not?: Maybe<ID_Input>;
-  userId_in?: Maybe<ID_Input[] | ID_Input>;
-  userId_not_in?: Maybe<ID_Input[] | ID_Input>;
-  userId_lt?: Maybe<ID_Input>;
-  userId_lte?: Maybe<ID_Input>;
-  userId_gt?: Maybe<ID_Input>;
-  userId_gte?: Maybe<ID_Input>;
-  userId_contains?: Maybe<ID_Input>;
-  userId_not_contains?: Maybe<ID_Input>;
-  userId_starts_with?: Maybe<ID_Input>;
-  userId_not_starts_with?: Maybe<ID_Input>;
-  userId_ends_with?: Maybe<ID_Input>;
-  userId_not_ends_with?: Maybe<ID_Input>;
-  clubId?: Maybe<ID_Input>;
-  clubId_not?: Maybe<ID_Input>;
-  clubId_in?: Maybe<ID_Input[] | ID_Input>;
-  clubId_not_in?: Maybe<ID_Input[] | ID_Input>;
-  clubId_lt?: Maybe<ID_Input>;
-  clubId_lte?: Maybe<ID_Input>;
-  clubId_gt?: Maybe<ID_Input>;
-  clubId_gte?: Maybe<ID_Input>;
-  clubId_contains?: Maybe<ID_Input>;
-  clubId_not_contains?: Maybe<ID_Input>;
-  clubId_starts_with?: Maybe<ID_Input>;
-  clubId_not_starts_with?: Maybe<ID_Input>;
-  clubId_ends_with?: Maybe<ID_Input>;
-  clubId_not_ends_with?: Maybe<ID_Input>;
-  questions_every?: Maybe<QuestionWhereInput>;
-  questions_some?: Maybe<QuestionWhereInput>;
-  questions_none?: Maybe<QuestionWhereInput>;
+  user?: Maybe<UserWhereInput>;
+  club?: Maybe<ClubWhereInput>;
   checked?: Maybe<Boolean>;
   checked_not?: Maybe<Boolean>;
   isPass?: Maybe<Boolean>;
@@ -896,14 +861,7 @@ export interface NotificationWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  userId?: Maybe<Int>;
-  userId_not?: Maybe<Int>;
-  userId_in?: Maybe<Int[] | Int>;
-  userId_not_in?: Maybe<Int[] | Int>;
-  userId_lt?: Maybe<Int>;
-  userId_lte?: Maybe<Int>;
-  userId_gt?: Maybe<Int>;
-  userId_gte?: Maybe<Int>;
+  user?: Maybe<UserWhereInput>;
   content?: Maybe<String>;
   content_not?: Maybe<String>;
   content_in?: Maybe<String[] | String>;
@@ -991,36 +949,42 @@ export type UserWhereUniqueInput = AtLeastOne<{
 
 export interface ApplicationCreateInput {
   id?: Maybe<ID_Input>;
-  userId: ID_Input;
-  clubId: ID_Input;
-  questions?: Maybe<QuestionCreateManyInput>;
+  user: UserCreateOneWithoutApplicationsInput;
+  club: ClubCreateOneWithoutApplicationsInput;
   answer?: Maybe<ApplicationCreateanswerInput>;
-  checked: Boolean;
+  checked?: Maybe<Boolean>;
   isPass?: Maybe<Boolean>;
 }
 
-export interface QuestionCreateManyInput {
-  create?: Maybe<QuestionCreateInput[] | QuestionCreateInput>;
-  connect?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
+export interface UserCreateOneWithoutApplicationsInput {
+  create?: Maybe<UserCreateWithoutApplicationsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface QuestionCreateInput {
+export interface UserCreateWithoutApplicationsInput {
   id?: Maybe<ID_Input>;
-  owner: ClubCreateOneWithoutQuestuonsInput;
-  subject?: Maybe<String>;
-  type?: Maybe<String>;
-  options?: Maybe<QuestionCreateoptionsInput>;
+  email: String;
+  encryptedPassword: String;
+  Name?: Maybe<String>;
+  studentNumber?: Maybe<Int>;
+  phoneNumber?: Maybe<String>;
+  sex?: Maybe<String>;
+  avatar?: Maybe<String>;
+  isMaster?: Maybe<ClubCreateOneWithoutMasterInput>;
+  rooms?: Maybe<RoomCreateManyWithoutParticipantsInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
+  loginSecret?: Maybe<String>;
 }
 
-export interface ClubCreateOneWithoutQuestuonsInput {
-  create?: Maybe<ClubCreateWithoutQuestuonsInput>;
+export interface ClubCreateOneWithoutMasterInput {
+  create?: Maybe<ClubCreateWithoutMasterInput>;
   connect?: Maybe<ClubWhereUniqueInput>;
 }
 
-export interface ClubCreateWithoutQuestuonsInput {
+export interface ClubCreateWithoutMasterInput {
   id?: Maybe<ID_Input>;
-  master: UserCreateOneWithoutIsMasterInput;
-  applications?: Maybe<ApplicationCreateManyInput>;
+  questuons?: Maybe<QuestionCreateManyWithoutOwnerInput>;
+  applications?: Maybe<ApplicationCreateManyWithoutClubInput>;
   name: String;
   bio: String;
   description: String;
@@ -1031,29 +995,51 @@ export interface ClubCreateWithoutQuestuonsInput {
   socialDisplay?: Maybe<Boolean>;
 }
 
-export interface UserCreateOneWithoutIsMasterInput {
-  create?: Maybe<UserCreateWithoutIsMasterInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface QuestionCreateManyWithoutOwnerInput {
+  create?: Maybe<
+    QuestionCreateWithoutOwnerInput[] | QuestionCreateWithoutOwnerInput
+  >;
+  connect?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
 }
 
-export interface UserCreateWithoutIsMasterInput {
+export interface QuestionCreateWithoutOwnerInput {
   id?: Maybe<ID_Input>;
-  email: String;
-  encryptedPassword: String;
-  Name?: Maybe<String>;
-  studentNumber?: Maybe<Int>;
-  phoneNumber?: Maybe<String>;
-  sex?: Maybe<String>;
-  avatar?: Maybe<String>;
-  applications?: Maybe<ApplicationCreateManyInput>;
-  rooms?: Maybe<RoomCreateManyWithoutParticipantsInput>;
-  notifications?: Maybe<NotificationCreateManyInput>;
-  loginSecret?: Maybe<String>;
+  subject?: Maybe<String>;
+  type?: Maybe<String>;
+  options?: Maybe<QuestionCreateoptionsInput>;
 }
 
-export interface ApplicationCreateManyInput {
-  create?: Maybe<ApplicationCreateInput[] | ApplicationCreateInput>;
+export interface QuestionCreateoptionsInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface ApplicationCreateManyWithoutClubInput {
+  create?: Maybe<
+    ApplicationCreateWithoutClubInput[] | ApplicationCreateWithoutClubInput
+  >;
   connect?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
+}
+
+export interface ApplicationCreateWithoutClubInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneWithoutApplicationsInput;
+  answer?: Maybe<ApplicationCreateanswerInput>;
+  checked?: Maybe<Boolean>;
+  isPass?: Maybe<Boolean>;
+}
+
+export interface ApplicationCreateanswerInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface FileCreateOneWithoutClubInput {
+  create?: Maybe<FileCreateWithoutClubInput>;
+  connect?: Maybe<FileWhereUniqueInput>;
+}
+
+export interface FileCreateWithoutClubInput {
+  id?: Maybe<ID_Input>;
+  url: String;
 }
 
 export interface RoomCreateManyWithoutParticipantsInput {
@@ -1097,21 +1083,36 @@ export interface UserCreateInput {
   sex?: Maybe<String>;
   avatar?: Maybe<String>;
   isMaster?: Maybe<ClubCreateOneWithoutMasterInput>;
-  applications?: Maybe<ApplicationCreateManyInput>;
+  applications?: Maybe<ApplicationCreateManyWithoutUserInput>;
   rooms?: Maybe<RoomCreateManyWithoutParticipantsInput>;
-  notifications?: Maybe<NotificationCreateManyInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
   loginSecret?: Maybe<String>;
 }
 
-export interface ClubCreateOneWithoutMasterInput {
-  create?: Maybe<ClubCreateWithoutMasterInput>;
+export interface ApplicationCreateManyWithoutUserInput {
+  create?: Maybe<
+    ApplicationCreateWithoutUserInput[] | ApplicationCreateWithoutUserInput
+  >;
+  connect?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
+}
+
+export interface ApplicationCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  club: ClubCreateOneWithoutApplicationsInput;
+  answer?: Maybe<ApplicationCreateanswerInput>;
+  checked?: Maybe<Boolean>;
+  isPass?: Maybe<Boolean>;
+}
+
+export interface ClubCreateOneWithoutApplicationsInput {
+  create?: Maybe<ClubCreateWithoutApplicationsInput>;
   connect?: Maybe<ClubWhereUniqueInput>;
 }
 
-export interface ClubCreateWithoutMasterInput {
+export interface ClubCreateWithoutApplicationsInput {
   id?: Maybe<ID_Input>;
+  master: UserCreateOneWithoutIsMasterInput;
   questuons?: Maybe<QuestionCreateManyWithoutOwnerInput>;
-  applications?: Maybe<ApplicationCreateManyInput>;
   name: String;
   bio: String;
   description: String;
@@ -1122,319 +1123,57 @@ export interface ClubCreateWithoutMasterInput {
   socialDisplay?: Maybe<Boolean>;
 }
 
-export interface QuestionCreateManyWithoutOwnerInput {
-  create?: Maybe<
-    QuestionCreateWithoutOwnerInput[] | QuestionCreateWithoutOwnerInput
-  >;
-  connect?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
-}
-
-export interface QuestionCreateWithoutOwnerInput {
-  id?: Maybe<ID_Input>;
-  subject?: Maybe<String>;
-  type?: Maybe<String>;
-  options?: Maybe<QuestionCreateoptionsInput>;
-}
-
-export interface QuestionCreateoptionsInput {
-  set?: Maybe<String[] | String>;
-}
-
-export interface FileCreateOneWithoutClubInput {
-  create?: Maybe<FileCreateWithoutClubInput>;
-  connect?: Maybe<FileWhereUniqueInput>;
-}
-
-export interface FileCreateWithoutClubInput {
-  id?: Maybe<ID_Input>;
-  url: String;
-}
-
-export interface NotificationCreateManyInput {
-  create?: Maybe<NotificationCreateInput[] | NotificationCreateInput>;
-  connect?: Maybe<
-    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
-  >;
-}
-
-export interface NotificationCreateInput {
-  id?: Maybe<ID_Input>;
-  userId: Int;
-  content: String;
-  checked: Boolean;
-}
-
-export interface ApplicationCreateanswerInput {
-  set?: Maybe<String[] | String>;
-}
-
-export interface ApplicationUpdateInput {
-  userId?: Maybe<ID_Input>;
-  clubId?: Maybe<ID_Input>;
-  questions?: Maybe<QuestionUpdateManyInput>;
-  answer?: Maybe<ApplicationUpdateanswerInput>;
-  checked?: Maybe<Boolean>;
-  isPass?: Maybe<Boolean>;
-}
-
-export interface QuestionUpdateManyInput {
-  create?: Maybe<QuestionCreateInput[] | QuestionCreateInput>;
-  update?: Maybe<
-    | QuestionUpdateWithWhereUniqueNestedInput[]
-    | QuestionUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | QuestionUpsertWithWhereUniqueNestedInput[]
-    | QuestionUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
-  connect?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
-  set?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
-  disconnect?: Maybe<QuestionWhereUniqueInput[] | QuestionWhereUniqueInput>;
-  deleteMany?: Maybe<QuestionScalarWhereInput[] | QuestionScalarWhereInput>;
-  updateMany?: Maybe<
-    | QuestionUpdateManyWithWhereNestedInput[]
-    | QuestionUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface QuestionUpdateWithWhereUniqueNestedInput {
-  where: QuestionWhereUniqueInput;
-  data: QuestionUpdateDataInput;
-}
-
-export interface QuestionUpdateDataInput {
-  owner?: Maybe<ClubUpdateOneRequiredWithoutQuestuonsInput>;
-  subject?: Maybe<String>;
-  type?: Maybe<String>;
-  options?: Maybe<QuestionUpdateoptionsInput>;
-}
-
-export interface ClubUpdateOneRequiredWithoutQuestuonsInput {
-  create?: Maybe<ClubCreateWithoutQuestuonsInput>;
-  update?: Maybe<ClubUpdateWithoutQuestuonsDataInput>;
-  upsert?: Maybe<ClubUpsertWithoutQuestuonsInput>;
-  connect?: Maybe<ClubWhereUniqueInput>;
-}
-
-export interface ClubUpdateWithoutQuestuonsDataInput {
-  master?: Maybe<UserUpdateOneRequiredWithoutIsMasterInput>;
-  applications?: Maybe<ApplicationUpdateManyInput>;
-  name?: Maybe<String>;
-  bio?: Maybe<String>;
-  description?: Maybe<String>;
-  logo?: Maybe<String>;
-  clubImage?: Maybe<FileUpdateOneWithoutClubInput>;
-  type?: Maybe<String>;
-  socialUrl?: Maybe<String>;
-  socialDisplay?: Maybe<Boolean>;
-}
-
-export interface UserUpdateOneRequiredWithoutIsMasterInput {
+export interface UserCreateOneWithoutIsMasterInput {
   create?: Maybe<UserCreateWithoutIsMasterInput>;
-  update?: Maybe<UserUpdateWithoutIsMasterDataInput>;
-  upsert?: Maybe<UserUpsertWithoutIsMasterInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserUpdateWithoutIsMasterDataInput {
-  email?: Maybe<String>;
-  encryptedPassword?: Maybe<String>;
+export interface UserCreateWithoutIsMasterInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  encryptedPassword: String;
   Name?: Maybe<String>;
   studentNumber?: Maybe<Int>;
   phoneNumber?: Maybe<String>;
   sex?: Maybe<String>;
   avatar?: Maybe<String>;
-  applications?: Maybe<ApplicationUpdateManyInput>;
-  rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
-  notifications?: Maybe<NotificationUpdateManyInput>;
+  applications?: Maybe<ApplicationCreateManyWithoutUserInput>;
+  rooms?: Maybe<RoomCreateManyWithoutParticipantsInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
   loginSecret?: Maybe<String>;
 }
 
-export interface ApplicationUpdateManyInput {
-  create?: Maybe<ApplicationCreateInput[] | ApplicationCreateInput>;
-  update?: Maybe<
-    | ApplicationUpdateWithWhereUniqueNestedInput[]
-    | ApplicationUpdateWithWhereUniqueNestedInput
+export interface NotificationCreateManyWithoutUserInput {
+  create?: Maybe<
+    NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
   >;
-  upsert?: Maybe<
-    | ApplicationUpsertWithWhereUniqueNestedInput[]
-    | ApplicationUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
-  connect?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
-  set?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
-  disconnect?: Maybe<
-    ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput
-  >;
-  deleteMany?: Maybe<
-    ApplicationScalarWhereInput[] | ApplicationScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | ApplicationUpdateManyWithWhereNestedInput[]
-    | ApplicationUpdateManyWithWhereNestedInput
+  connect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
   >;
 }
 
-export interface ApplicationUpdateWithWhereUniqueNestedInput {
-  where: ApplicationWhereUniqueInput;
-  data: ApplicationUpdateDataInput;
-}
-
-export interface ApplicationUpdateDataInput {
-  userId?: Maybe<ID_Input>;
-  clubId?: Maybe<ID_Input>;
-  questions?: Maybe<QuestionUpdateManyInput>;
-  answer?: Maybe<ApplicationUpdateanswerInput>;
-  checked?: Maybe<Boolean>;
-  isPass?: Maybe<Boolean>;
-}
-
-export interface ApplicationUpdateanswerInput {
-  set?: Maybe<String[] | String>;
-}
-
-export interface ApplicationUpsertWithWhereUniqueNestedInput {
-  where: ApplicationWhereUniqueInput;
-  update: ApplicationUpdateDataInput;
-  create: ApplicationCreateInput;
-}
-
-export interface ApplicationScalarWhereInput {
+export interface NotificationCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  userId?: Maybe<ID_Input>;
-  userId_not?: Maybe<ID_Input>;
-  userId_in?: Maybe<ID_Input[] | ID_Input>;
-  userId_not_in?: Maybe<ID_Input[] | ID_Input>;
-  userId_lt?: Maybe<ID_Input>;
-  userId_lte?: Maybe<ID_Input>;
-  userId_gt?: Maybe<ID_Input>;
-  userId_gte?: Maybe<ID_Input>;
-  userId_contains?: Maybe<ID_Input>;
-  userId_not_contains?: Maybe<ID_Input>;
-  userId_starts_with?: Maybe<ID_Input>;
-  userId_not_starts_with?: Maybe<ID_Input>;
-  userId_ends_with?: Maybe<ID_Input>;
-  userId_not_ends_with?: Maybe<ID_Input>;
-  clubId?: Maybe<ID_Input>;
-  clubId_not?: Maybe<ID_Input>;
-  clubId_in?: Maybe<ID_Input[] | ID_Input>;
-  clubId_not_in?: Maybe<ID_Input[] | ID_Input>;
-  clubId_lt?: Maybe<ID_Input>;
-  clubId_lte?: Maybe<ID_Input>;
-  clubId_gt?: Maybe<ID_Input>;
-  clubId_gte?: Maybe<ID_Input>;
-  clubId_contains?: Maybe<ID_Input>;
-  clubId_not_contains?: Maybe<ID_Input>;
-  clubId_starts_with?: Maybe<ID_Input>;
-  clubId_not_starts_with?: Maybe<ID_Input>;
-  clubId_ends_with?: Maybe<ID_Input>;
-  clubId_not_ends_with?: Maybe<ID_Input>;
+  content: String;
   checked?: Maybe<Boolean>;
-  checked_not?: Maybe<Boolean>;
-  isPass?: Maybe<Boolean>;
-  isPass_not?: Maybe<Boolean>;
-  AND?: Maybe<ApplicationScalarWhereInput[] | ApplicationScalarWhereInput>;
-  OR?: Maybe<ApplicationScalarWhereInput[] | ApplicationScalarWhereInput>;
-  NOT?: Maybe<ApplicationScalarWhereInput[] | ApplicationScalarWhereInput>;
 }
 
-export interface ApplicationUpdateManyWithWhereNestedInput {
-  where: ApplicationScalarWhereInput;
-  data: ApplicationUpdateManyDataInput;
-}
-
-export interface ApplicationUpdateManyDataInput {
-  userId?: Maybe<ID_Input>;
-  clubId?: Maybe<ID_Input>;
+export interface ApplicationUpdateInput {
+  user?: Maybe<UserUpdateOneRequiredWithoutApplicationsInput>;
+  club?: Maybe<ClubUpdateOneRequiredWithoutApplicationsInput>;
   answer?: Maybe<ApplicationUpdateanswerInput>;
   checked?: Maybe<Boolean>;
   isPass?: Maybe<Boolean>;
 }
 
-export interface RoomUpdateManyWithoutParticipantsInput {
-  create?: Maybe<
-    RoomCreateWithoutParticipantsInput[] | RoomCreateWithoutParticipantsInput
-  >;
-  delete?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
-  connect?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
-  set?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
-  disconnect?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
-  update?: Maybe<
-    | RoomUpdateWithWhereUniqueWithoutParticipantsInput[]
-    | RoomUpdateWithWhereUniqueWithoutParticipantsInput
-  >;
-  upsert?: Maybe<
-    | RoomUpsertWithWhereUniqueWithoutParticipantsInput[]
-    | RoomUpsertWithWhereUniqueWithoutParticipantsInput
-  >;
-  deleteMany?: Maybe<RoomScalarWhereInput[] | RoomScalarWhereInput>;
-}
-
-export interface RoomUpdateWithWhereUniqueWithoutParticipantsInput {
-  where: RoomWhereUniqueInput;
-  data: RoomUpdateWithoutParticipantsDataInput;
-}
-
-export interface RoomUpdateWithoutParticipantsDataInput {
-  messages?: Maybe<MessageUpdateManyWithoutRoomInput>;
-}
-
-export interface MessageUpdateManyWithoutRoomInput {
-  create?: Maybe<
-    MessageCreateWithoutRoomInput[] | MessageCreateWithoutRoomInput
-  >;
-  delete?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
-  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
-  set?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
-  disconnect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
-  update?: Maybe<
-    | MessageUpdateWithWhereUniqueWithoutRoomInput[]
-    | MessageUpdateWithWhereUniqueWithoutRoomInput
-  >;
-  upsert?: Maybe<
-    | MessageUpsertWithWhereUniqueWithoutRoomInput[]
-    | MessageUpsertWithWhereUniqueWithoutRoomInput
-  >;
-  deleteMany?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
-  updateMany?: Maybe<
-    | MessageUpdateManyWithWhereNestedInput[]
-    | MessageUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface MessageUpdateWithWhereUniqueWithoutRoomInput {
-  where: MessageWhereUniqueInput;
-  data: MessageUpdateWithoutRoomDataInput;
-}
-
-export interface MessageUpdateWithoutRoomDataInput {
-  text?: Maybe<String>;
-  from?: Maybe<UserUpdateOneRequiredInput>;
-  to?: Maybe<UserUpdateOneRequiredInput>;
-}
-
-export interface UserUpdateOneRequiredInput {
-  create?: Maybe<UserCreateInput>;
-  update?: Maybe<UserUpdateDataInput>;
-  upsert?: Maybe<UserUpsertNestedInput>;
+export interface UserUpdateOneRequiredWithoutApplicationsInput {
+  create?: Maybe<UserCreateWithoutApplicationsInput>;
+  update?: Maybe<UserUpdateWithoutApplicationsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutApplicationsInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserUpdateDataInput {
+export interface UserUpdateWithoutApplicationsDataInput {
   email?: Maybe<String>;
   encryptedPassword?: Maybe<String>;
   Name?: Maybe<String>;
@@ -1443,9 +1182,8 @@ export interface UserUpdateDataInput {
   sex?: Maybe<String>;
   avatar?: Maybe<String>;
   isMaster?: Maybe<ClubUpdateOneWithoutMasterInput>;
-  applications?: Maybe<ApplicationUpdateManyInput>;
   rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
-  notifications?: Maybe<NotificationUpdateManyInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
   loginSecret?: Maybe<String>;
 }
 
@@ -1460,7 +1198,7 @@ export interface ClubUpdateOneWithoutMasterInput {
 
 export interface ClubUpdateWithoutMasterDataInput {
   questuons?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
-  applications?: Maybe<ApplicationUpdateManyInput>;
+  applications?: Maybe<ApplicationUpdateManyWithoutClubInput>;
   name?: Maybe<String>;
   bio?: Maybe<String>;
   description?: Maybe<String>;
@@ -1574,6 +1312,90 @@ export interface QuestionUpdateManyDataInput {
   options?: Maybe<QuestionUpdateoptionsInput>;
 }
 
+export interface ApplicationUpdateManyWithoutClubInput {
+  create?: Maybe<
+    ApplicationCreateWithoutClubInput[] | ApplicationCreateWithoutClubInput
+  >;
+  delete?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
+  connect?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
+  set?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
+  disconnect?: Maybe<
+    ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput
+  >;
+  update?: Maybe<
+    | ApplicationUpdateWithWhereUniqueWithoutClubInput[]
+    | ApplicationUpdateWithWhereUniqueWithoutClubInput
+  >;
+  upsert?: Maybe<
+    | ApplicationUpsertWithWhereUniqueWithoutClubInput[]
+    | ApplicationUpsertWithWhereUniqueWithoutClubInput
+  >;
+  deleteMany?: Maybe<
+    ApplicationScalarWhereInput[] | ApplicationScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ApplicationUpdateManyWithWhereNestedInput[]
+    | ApplicationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ApplicationUpdateWithWhereUniqueWithoutClubInput {
+  where: ApplicationWhereUniqueInput;
+  data: ApplicationUpdateWithoutClubDataInput;
+}
+
+export interface ApplicationUpdateWithoutClubDataInput {
+  user?: Maybe<UserUpdateOneRequiredWithoutApplicationsInput>;
+  answer?: Maybe<ApplicationUpdateanswerInput>;
+  checked?: Maybe<Boolean>;
+  isPass?: Maybe<Boolean>;
+}
+
+export interface ApplicationUpdateanswerInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface ApplicationUpsertWithWhereUniqueWithoutClubInput {
+  where: ApplicationWhereUniqueInput;
+  update: ApplicationUpdateWithoutClubDataInput;
+  create: ApplicationCreateWithoutClubInput;
+}
+
+export interface ApplicationScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  checked?: Maybe<Boolean>;
+  checked_not?: Maybe<Boolean>;
+  isPass?: Maybe<Boolean>;
+  isPass_not?: Maybe<Boolean>;
+  AND?: Maybe<ApplicationScalarWhereInput[] | ApplicationScalarWhereInput>;
+  OR?: Maybe<ApplicationScalarWhereInput[] | ApplicationScalarWhereInput>;
+  NOT?: Maybe<ApplicationScalarWhereInput[] | ApplicationScalarWhereInput>;
+}
+
+export interface ApplicationUpdateManyWithWhereNestedInput {
+  where: ApplicationScalarWhereInput;
+  data: ApplicationUpdateManyDataInput;
+}
+
+export interface ApplicationUpdateManyDataInput {
+  answer?: Maybe<ApplicationUpdateanswerInput>;
+  checked?: Maybe<Boolean>;
+  isPass?: Maybe<Boolean>;
+}
+
 export interface FileUpdateOneWithoutClubInput {
   create?: Maybe<FileCreateWithoutClubInput>;
   update?: Maybe<FileUpdateWithoutClubDataInput>;
@@ -1597,15 +1419,173 @@ export interface ClubUpsertWithoutMasterInput {
   create: ClubCreateWithoutMasterInput;
 }
 
-export interface NotificationUpdateManyInput {
-  create?: Maybe<NotificationCreateInput[] | NotificationCreateInput>;
+export interface RoomUpdateManyWithoutParticipantsInput {
+  create?: Maybe<
+    RoomCreateWithoutParticipantsInput[] | RoomCreateWithoutParticipantsInput
+  >;
+  delete?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
+  connect?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
+  set?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
+  disconnect?: Maybe<RoomWhereUniqueInput[] | RoomWhereUniqueInput>;
   update?: Maybe<
-    | NotificationUpdateWithWhereUniqueNestedInput[]
-    | NotificationUpdateWithWhereUniqueNestedInput
+    | RoomUpdateWithWhereUniqueWithoutParticipantsInput[]
+    | RoomUpdateWithWhereUniqueWithoutParticipantsInput
   >;
   upsert?: Maybe<
-    | NotificationUpsertWithWhereUniqueNestedInput[]
-    | NotificationUpsertWithWhereUniqueNestedInput
+    | RoomUpsertWithWhereUniqueWithoutParticipantsInput[]
+    | RoomUpsertWithWhereUniqueWithoutParticipantsInput
+  >;
+  deleteMany?: Maybe<RoomScalarWhereInput[] | RoomScalarWhereInput>;
+}
+
+export interface RoomUpdateWithWhereUniqueWithoutParticipantsInput {
+  where: RoomWhereUniqueInput;
+  data: RoomUpdateWithoutParticipantsDataInput;
+}
+
+export interface RoomUpdateWithoutParticipantsDataInput {
+  messages?: Maybe<MessageUpdateManyWithoutRoomInput>;
+}
+
+export interface MessageUpdateManyWithoutRoomInput {
+  create?: Maybe<
+    MessageCreateWithoutRoomInput[] | MessageCreateWithoutRoomInput
+  >;
+  delete?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  set?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  disconnect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  update?: Maybe<
+    | MessageUpdateWithWhereUniqueWithoutRoomInput[]
+    | MessageUpdateWithWhereUniqueWithoutRoomInput
+  >;
+  upsert?: Maybe<
+    | MessageUpsertWithWhereUniqueWithoutRoomInput[]
+    | MessageUpsertWithWhereUniqueWithoutRoomInput
+  >;
+  deleteMany?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  updateMany?: Maybe<
+    | MessageUpdateManyWithWhereNestedInput[]
+    | MessageUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface MessageUpdateWithWhereUniqueWithoutRoomInput {
+  where: MessageWhereUniqueInput;
+  data: MessageUpdateWithoutRoomDataInput;
+}
+
+export interface MessageUpdateWithoutRoomDataInput {
+  text?: Maybe<String>;
+  from?: Maybe<UserUpdateOneRequiredInput>;
+  to?: Maybe<UserUpdateOneRequiredInput>;
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: Maybe<UserCreateInput>;
+  update?: Maybe<UserUpdateDataInput>;
+  upsert?: Maybe<UserUpsertNestedInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateDataInput {
+  email?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
+  Name?: Maybe<String>;
+  studentNumber?: Maybe<Int>;
+  phoneNumber?: Maybe<String>;
+  sex?: Maybe<String>;
+  avatar?: Maybe<String>;
+  isMaster?: Maybe<ClubUpdateOneWithoutMasterInput>;
+  applications?: Maybe<ApplicationUpdateManyWithoutUserInput>;
+  rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+  loginSecret?: Maybe<String>;
+}
+
+export interface ApplicationUpdateManyWithoutUserInput {
+  create?: Maybe<
+    ApplicationCreateWithoutUserInput[] | ApplicationCreateWithoutUserInput
+  >;
+  delete?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
+  connect?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
+  set?: Maybe<ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput>;
+  disconnect?: Maybe<
+    ApplicationWhereUniqueInput[] | ApplicationWhereUniqueInput
+  >;
+  update?: Maybe<
+    | ApplicationUpdateWithWhereUniqueWithoutUserInput[]
+    | ApplicationUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | ApplicationUpsertWithWhereUniqueWithoutUserInput[]
+    | ApplicationUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<
+    ApplicationScalarWhereInput[] | ApplicationScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ApplicationUpdateManyWithWhereNestedInput[]
+    | ApplicationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ApplicationUpdateWithWhereUniqueWithoutUserInput {
+  where: ApplicationWhereUniqueInput;
+  data: ApplicationUpdateWithoutUserDataInput;
+}
+
+export interface ApplicationUpdateWithoutUserDataInput {
+  club?: Maybe<ClubUpdateOneRequiredWithoutApplicationsInput>;
+  answer?: Maybe<ApplicationUpdateanswerInput>;
+  checked?: Maybe<Boolean>;
+  isPass?: Maybe<Boolean>;
+}
+
+export interface ClubUpdateOneRequiredWithoutApplicationsInput {
+  create?: Maybe<ClubCreateWithoutApplicationsInput>;
+  update?: Maybe<ClubUpdateWithoutApplicationsDataInput>;
+  upsert?: Maybe<ClubUpsertWithoutApplicationsInput>;
+  connect?: Maybe<ClubWhereUniqueInput>;
+}
+
+export interface ClubUpdateWithoutApplicationsDataInput {
+  master?: Maybe<UserUpdateOneRequiredWithoutIsMasterInput>;
+  questuons?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
+  name?: Maybe<String>;
+  bio?: Maybe<String>;
+  description?: Maybe<String>;
+  logo?: Maybe<String>;
+  clubImage?: Maybe<FileUpdateOneWithoutClubInput>;
+  type?: Maybe<String>;
+  socialUrl?: Maybe<String>;
+  socialDisplay?: Maybe<Boolean>;
+}
+
+export interface UserUpdateOneRequiredWithoutIsMasterInput {
+  create?: Maybe<UserCreateWithoutIsMasterInput>;
+  update?: Maybe<UserUpdateWithoutIsMasterDataInput>;
+  upsert?: Maybe<UserUpsertWithoutIsMasterInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutIsMasterDataInput {
+  email?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
+  Name?: Maybe<String>;
+  studentNumber?: Maybe<Int>;
+  phoneNumber?: Maybe<String>;
+  sex?: Maybe<String>;
+  avatar?: Maybe<String>;
+  applications?: Maybe<ApplicationUpdateManyWithoutUserInput>;
+  rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+  loginSecret?: Maybe<String>;
+}
+
+export interface NotificationUpdateManyWithoutUserInput {
+  create?: Maybe<
+    NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
   >;
   delete?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
   connect?: Maybe<
@@ -1614,6 +1594,14 @@ export interface NotificationUpdateManyInput {
   set?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
   disconnect?: Maybe<
     NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  update?: Maybe<
+    | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    | NotificationUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    | NotificationUpsertWithWhereUniqueWithoutUserInput
   >;
   deleteMany?: Maybe<
     NotificationScalarWhereInput[] | NotificationScalarWhereInput
@@ -1624,21 +1612,20 @@ export interface NotificationUpdateManyInput {
   >;
 }
 
-export interface NotificationUpdateWithWhereUniqueNestedInput {
+export interface NotificationUpdateWithWhereUniqueWithoutUserInput {
   where: NotificationWhereUniqueInput;
-  data: NotificationUpdateDataInput;
+  data: NotificationUpdateWithoutUserDataInput;
 }
 
-export interface NotificationUpdateDataInput {
-  userId?: Maybe<Int>;
+export interface NotificationUpdateWithoutUserDataInput {
   content?: Maybe<String>;
   checked?: Maybe<Boolean>;
 }
 
-export interface NotificationUpsertWithWhereUniqueNestedInput {
+export interface NotificationUpsertWithWhereUniqueWithoutUserInput {
   where: NotificationWhereUniqueInput;
-  update: NotificationUpdateDataInput;
-  create: NotificationCreateInput;
+  update: NotificationUpdateWithoutUserDataInput;
+  create: NotificationCreateWithoutUserInput;
 }
 
 export interface NotificationScalarWhereInput {
@@ -1656,14 +1643,6 @@ export interface NotificationScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  userId?: Maybe<Int>;
-  userId_not?: Maybe<Int>;
-  userId_in?: Maybe<Int[] | Int>;
-  userId_not_in?: Maybe<Int[] | Int>;
-  userId_lt?: Maybe<Int>;
-  userId_lte?: Maybe<Int>;
-  userId_gt?: Maybe<Int>;
-  userId_gte?: Maybe<Int>;
   content?: Maybe<String>;
   content_not?: Maybe<String>;
   content_in?: Maybe<String[] | String>;
@@ -1691,9 +1670,24 @@ export interface NotificationUpdateManyWithWhereNestedInput {
 }
 
 export interface NotificationUpdateManyDataInput {
-  userId?: Maybe<Int>;
   content?: Maybe<String>;
   checked?: Maybe<Boolean>;
+}
+
+export interface UserUpsertWithoutIsMasterInput {
+  update: UserUpdateWithoutIsMasterDataInput;
+  create: UserCreateWithoutIsMasterInput;
+}
+
+export interface ClubUpsertWithoutApplicationsInput {
+  update: ClubUpdateWithoutApplicationsDataInput;
+  create: ClubCreateWithoutApplicationsInput;
+}
+
+export interface ApplicationUpsertWithWhereUniqueWithoutUserInput {
+  where: ApplicationWhereUniqueInput;
+  update: ApplicationUpdateWithoutUserDataInput;
+  create: ApplicationCreateWithoutUserInput;
 }
 
 export interface UserUpsertNestedInput {
@@ -1776,25 +1770,12 @@ export interface RoomScalarWhereInput {
   NOT?: Maybe<RoomScalarWhereInput[] | RoomScalarWhereInput>;
 }
 
-export interface UserUpsertWithoutIsMasterInput {
-  update: UserUpdateWithoutIsMasterDataInput;
-  create: UserCreateWithoutIsMasterInput;
-}
-
-export interface ClubUpsertWithoutQuestuonsInput {
-  update: ClubUpdateWithoutQuestuonsDataInput;
-  create: ClubCreateWithoutQuestuonsInput;
-}
-
-export interface QuestionUpsertWithWhereUniqueNestedInput {
-  where: QuestionWhereUniqueInput;
-  update: QuestionUpdateDataInput;
-  create: QuestionCreateInput;
+export interface UserUpsertWithoutApplicationsInput {
+  update: UserUpdateWithoutApplicationsDataInput;
+  create: UserCreateWithoutApplicationsInput;
 }
 
 export interface ApplicationUpdateManyMutationInput {
-  userId?: Maybe<ID_Input>;
-  clubId?: Maybe<ID_Input>;
   answer?: Maybe<ApplicationUpdateanswerInput>;
   checked?: Maybe<Boolean>;
   isPass?: Maybe<Boolean>;
@@ -1804,7 +1785,7 @@ export interface ClubCreateInput {
   id?: Maybe<ID_Input>;
   master: UserCreateOneWithoutIsMasterInput;
   questuons?: Maybe<QuestionCreateManyWithoutOwnerInput>;
-  applications?: Maybe<ApplicationCreateManyInput>;
+  applications?: Maybe<ApplicationCreateManyWithoutClubInput>;
   name: String;
   bio: String;
   description: String;
@@ -1818,7 +1799,7 @@ export interface ClubCreateInput {
 export interface ClubUpdateInput {
   master?: Maybe<UserUpdateOneRequiredWithoutIsMasterInput>;
   questuons?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
-  applications?: Maybe<ApplicationUpdateManyInput>;
+  applications?: Maybe<ApplicationUpdateManyWithoutClubInput>;
   name?: Maybe<String>;
   bio?: Maybe<String>;
   description?: Maybe<String>;
@@ -1854,7 +1835,7 @@ export interface ClubCreateWithoutClubImageInput {
   id?: Maybe<ID_Input>;
   master: UserCreateOneWithoutIsMasterInput;
   questuons?: Maybe<QuestionCreateManyWithoutOwnerInput>;
-  applications?: Maybe<ApplicationCreateManyInput>;
+  applications?: Maybe<ApplicationCreateManyWithoutClubInput>;
   name: String;
   bio: String;
   description: String;
@@ -1879,7 +1860,7 @@ export interface ClubUpdateOneRequiredWithoutClubImageInput {
 export interface ClubUpdateWithoutClubImageDataInput {
   master?: Maybe<UserUpdateOneRequiredWithoutIsMasterInput>;
   questuons?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
-  applications?: Maybe<ApplicationUpdateManyInput>;
+  applications?: Maybe<ApplicationUpdateManyWithoutClubInput>;
   name?: Maybe<String>;
   bio?: Maybe<String>;
   description?: Maybe<String>;
@@ -1931,8 +1912,8 @@ export interface UserCreateWithoutRoomsInput {
   sex?: Maybe<String>;
   avatar?: Maybe<String>;
   isMaster?: Maybe<ClubCreateOneWithoutMasterInput>;
-  applications?: Maybe<ApplicationCreateManyInput>;
-  notifications?: Maybe<NotificationCreateManyInput>;
+  applications?: Maybe<ApplicationCreateManyWithoutUserInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
   loginSecret?: Maybe<String>;
 }
 
@@ -1988,8 +1969,8 @@ export interface UserUpdateWithoutRoomsDataInput {
   sex?: Maybe<String>;
   avatar?: Maybe<String>;
   isMaster?: Maybe<ClubUpdateOneWithoutMasterInput>;
-  applications?: Maybe<ApplicationUpdateManyInput>;
-  notifications?: Maybe<NotificationUpdateManyInput>;
+  applications?: Maybe<ApplicationUpdateManyWithoutUserInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
   loginSecret?: Maybe<String>;
 }
 
@@ -2150,16 +2131,95 @@ export interface MessageUpdateManyMutationInput {
   text?: Maybe<String>;
 }
 
+export interface NotificationCreateInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneWithoutNotificationsInput;
+  content: String;
+  checked?: Maybe<Boolean>;
+}
+
+export interface UserCreateOneWithoutNotificationsInput {
+  create?: Maybe<UserCreateWithoutNotificationsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutNotificationsInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  encryptedPassword: String;
+  Name?: Maybe<String>;
+  studentNumber?: Maybe<Int>;
+  phoneNumber?: Maybe<String>;
+  sex?: Maybe<String>;
+  avatar?: Maybe<String>;
+  isMaster?: Maybe<ClubCreateOneWithoutMasterInput>;
+  applications?: Maybe<ApplicationCreateManyWithoutUserInput>;
+  rooms?: Maybe<RoomCreateManyWithoutParticipantsInput>;
+  loginSecret?: Maybe<String>;
+}
+
 export interface NotificationUpdateInput {
-  userId?: Maybe<Int>;
+  user?: Maybe<UserUpdateOneRequiredWithoutNotificationsInput>;
   content?: Maybe<String>;
   checked?: Maybe<Boolean>;
 }
 
+export interface UserUpdateOneRequiredWithoutNotificationsInput {
+  create?: Maybe<UserCreateWithoutNotificationsInput>;
+  update?: Maybe<UserUpdateWithoutNotificationsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutNotificationsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutNotificationsDataInput {
+  email?: Maybe<String>;
+  encryptedPassword?: Maybe<String>;
+  Name?: Maybe<String>;
+  studentNumber?: Maybe<Int>;
+  phoneNumber?: Maybe<String>;
+  sex?: Maybe<String>;
+  avatar?: Maybe<String>;
+  isMaster?: Maybe<ClubUpdateOneWithoutMasterInput>;
+  applications?: Maybe<ApplicationUpdateManyWithoutUserInput>;
+  rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
+  loginSecret?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutNotificationsInput {
+  update: UserUpdateWithoutNotificationsDataInput;
+  create: UserCreateWithoutNotificationsInput;
+}
+
 export interface NotificationUpdateManyMutationInput {
-  userId?: Maybe<Int>;
   content?: Maybe<String>;
   checked?: Maybe<Boolean>;
+}
+
+export interface QuestionCreateInput {
+  id?: Maybe<ID_Input>;
+  owner: ClubCreateOneWithoutQuestuonsInput;
+  subject?: Maybe<String>;
+  type?: Maybe<String>;
+  options?: Maybe<QuestionCreateoptionsInput>;
+}
+
+export interface ClubCreateOneWithoutQuestuonsInput {
+  create?: Maybe<ClubCreateWithoutQuestuonsInput>;
+  connect?: Maybe<ClubWhereUniqueInput>;
+}
+
+export interface ClubCreateWithoutQuestuonsInput {
+  id?: Maybe<ID_Input>;
+  master: UserCreateOneWithoutIsMasterInput;
+  applications?: Maybe<ApplicationCreateManyWithoutClubInput>;
+  name: String;
+  bio: String;
+  description: String;
+  logo?: Maybe<String>;
+  clubImage?: Maybe<FileCreateOneWithoutClubInput>;
+  type: String;
+  socialUrl?: Maybe<String>;
+  socialDisplay?: Maybe<Boolean>;
 }
 
 export interface QuestionUpdateInput {
@@ -2167,6 +2227,31 @@ export interface QuestionUpdateInput {
   subject?: Maybe<String>;
   type?: Maybe<String>;
   options?: Maybe<QuestionUpdateoptionsInput>;
+}
+
+export interface ClubUpdateOneRequiredWithoutQuestuonsInput {
+  create?: Maybe<ClubCreateWithoutQuestuonsInput>;
+  update?: Maybe<ClubUpdateWithoutQuestuonsDataInput>;
+  upsert?: Maybe<ClubUpsertWithoutQuestuonsInput>;
+  connect?: Maybe<ClubWhereUniqueInput>;
+}
+
+export interface ClubUpdateWithoutQuestuonsDataInput {
+  master?: Maybe<UserUpdateOneRequiredWithoutIsMasterInput>;
+  applications?: Maybe<ApplicationUpdateManyWithoutClubInput>;
+  name?: Maybe<String>;
+  bio?: Maybe<String>;
+  description?: Maybe<String>;
+  logo?: Maybe<String>;
+  clubImage?: Maybe<FileUpdateOneWithoutClubInput>;
+  type?: Maybe<String>;
+  socialUrl?: Maybe<String>;
+  socialDisplay?: Maybe<Boolean>;
+}
+
+export interface ClubUpsertWithoutQuestuonsInput {
+  update: ClubUpdateWithoutQuestuonsDataInput;
+  create: ClubCreateWithoutQuestuonsInput;
 }
 
 export interface QuestionUpdateManyMutationInput {
@@ -2195,9 +2280,9 @@ export interface UserUpdateInput {
   sex?: Maybe<String>;
   avatar?: Maybe<String>;
   isMaster?: Maybe<ClubUpdateOneWithoutMasterInput>;
-  applications?: Maybe<ApplicationUpdateManyInput>;
+  applications?: Maybe<ApplicationUpdateManyWithoutUserInput>;
   rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
-  notifications?: Maybe<NotificationUpdateManyInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
   loginSecret?: Maybe<String>;
 }
 
@@ -2322,8 +2407,6 @@ export interface NodeNode {
 
 export interface Application {
   id: ID_Output;
-  userId: ID_Output;
-  clubId: ID_Output;
   answer: String[];
   checked: Boolean;
   isPass?: Boolean;
@@ -2331,17 +2414,8 @@ export interface Application {
 
 export interface ApplicationPromise extends Promise<Application>, Fragmentable {
   id: () => Promise<ID_Output>;
-  userId: () => Promise<ID_Output>;
-  clubId: () => Promise<ID_Output>;
-  questions: <T = FragmentableArray<Question>>(args?: {
-    where?: QuestionWhereInput;
-    orderBy?: QuestionOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  user: <T = UserPromise>() => T;
+  club: <T = ClubPromise>() => T;
   answer: () => Promise<String[]>;
   checked: () => Promise<Boolean>;
   isPass: () => Promise<Boolean>;
@@ -2351,17 +2425,8 @@ export interface ApplicationSubscription
   extends Promise<AsyncIterator<Application>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  userId: () => Promise<AsyncIterator<ID_Output>>;
-  clubId: () => Promise<AsyncIterator<ID_Output>>;
-  questions: <T = Promise<AsyncIterator<QuestionSubscription>>>(args?: {
-    where?: QuestionWhereInput;
-    orderBy?: QuestionOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  user: <T = UserSubscription>() => T;
+  club: <T = ClubSubscription>() => T;
   answer: () => Promise<AsyncIterator<String[]>>;
   checked: () => Promise<AsyncIterator<Boolean>>;
   isPass: () => Promise<AsyncIterator<Boolean>>;
@@ -2371,163 +2436,11 @@ export interface ApplicationNullablePromise
   extends Promise<Application | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  userId: () => Promise<ID_Output>;
-  clubId: () => Promise<ID_Output>;
-  questions: <T = FragmentableArray<Question>>(args?: {
-    where?: QuestionWhereInput;
-    orderBy?: QuestionOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  user: <T = UserPromise>() => T;
+  club: <T = ClubPromise>() => T;
   answer: () => Promise<String[]>;
   checked: () => Promise<Boolean>;
   isPass: () => Promise<Boolean>;
-}
-
-export interface Question {
-  id: ID_Output;
-  subject?: String;
-  type?: String;
-  options: String[];
-}
-
-export interface QuestionPromise extends Promise<Question>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  owner: <T = ClubPromise>() => T;
-  subject: () => Promise<String>;
-  type: () => Promise<String>;
-  options: () => Promise<String[]>;
-}
-
-export interface QuestionSubscription
-  extends Promise<AsyncIterator<Question>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  owner: <T = ClubSubscription>() => T;
-  subject: () => Promise<AsyncIterator<String>>;
-  type: () => Promise<AsyncIterator<String>>;
-  options: () => Promise<AsyncIterator<String[]>>;
-}
-
-export interface QuestionNullablePromise
-  extends Promise<Question | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  owner: <T = ClubPromise>() => T;
-  subject: () => Promise<String>;
-  type: () => Promise<String>;
-  options: () => Promise<String[]>;
-}
-
-export interface Club {
-  id: ID_Output;
-  name: String;
-  bio: String;
-  description: String;
-  logo?: String;
-  type: String;
-  socialUrl?: String;
-  socialDisplay?: Boolean;
-}
-
-export interface ClubPromise extends Promise<Club>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  master: <T = UserPromise>() => T;
-  questuons: <T = FragmentableArray<Question>>(args?: {
-    where?: QuestionWhereInput;
-    orderBy?: QuestionOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  applications: <T = FragmentableArray<Application>>(args?: {
-    where?: ApplicationWhereInput;
-    orderBy?: ApplicationOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  name: () => Promise<String>;
-  bio: () => Promise<String>;
-  description: () => Promise<String>;
-  logo: () => Promise<String>;
-  clubImage: <T = FilePromise>() => T;
-  type: () => Promise<String>;
-  socialUrl: () => Promise<String>;
-  socialDisplay: () => Promise<Boolean>;
-}
-
-export interface ClubSubscription
-  extends Promise<AsyncIterator<Club>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  master: <T = UserSubscription>() => T;
-  questuons: <T = Promise<AsyncIterator<QuestionSubscription>>>(args?: {
-    where?: QuestionWhereInput;
-    orderBy?: QuestionOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  applications: <T = Promise<AsyncIterator<ApplicationSubscription>>>(args?: {
-    where?: ApplicationWhereInput;
-    orderBy?: ApplicationOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  name: () => Promise<AsyncIterator<String>>;
-  bio: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  logo: () => Promise<AsyncIterator<String>>;
-  clubImage: <T = FileSubscription>() => T;
-  type: () => Promise<AsyncIterator<String>>;
-  socialUrl: () => Promise<AsyncIterator<String>>;
-  socialDisplay: () => Promise<AsyncIterator<Boolean>>;
-}
-
-export interface ClubNullablePromise
-  extends Promise<Club | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  master: <T = UserPromise>() => T;
-  questuons: <T = FragmentableArray<Question>>(args?: {
-    where?: QuestionWhereInput;
-    orderBy?: QuestionOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  applications: <T = FragmentableArray<Application>>(args?: {
-    where?: ApplicationWhereInput;
-    orderBy?: ApplicationOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  name: () => Promise<String>;
-  bio: () => Promise<String>;
-  description: () => Promise<String>;
-  logo: () => Promise<String>;
-  clubImage: <T = FilePromise>() => T;
-  type: () => Promise<String>;
-  socialUrl: () => Promise<String>;
-  socialDisplay: () => Promise<Boolean>;
 }
 
 export interface User {
@@ -2666,6 +2579,176 @@ export interface UserNullablePromise
   loginSecret: () => Promise<String>;
 }
 
+export interface Club {
+  id: ID_Output;
+  name: String;
+  bio: String;
+  description: String;
+  logo?: String;
+  type: String;
+  socialUrl?: String;
+  socialDisplay?: Boolean;
+}
+
+export interface ClubPromise extends Promise<Club>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  master: <T = UserPromise>() => T;
+  questuons: <T = FragmentableArray<Question>>(args?: {
+    where?: QuestionWhereInput;
+    orderBy?: QuestionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  applications: <T = FragmentableArray<Application>>(args?: {
+    where?: ApplicationWhereInput;
+    orderBy?: ApplicationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  name: () => Promise<String>;
+  bio: () => Promise<String>;
+  description: () => Promise<String>;
+  logo: () => Promise<String>;
+  clubImage: <T = FilePromise>() => T;
+  type: () => Promise<String>;
+  socialUrl: () => Promise<String>;
+  socialDisplay: () => Promise<Boolean>;
+}
+
+export interface ClubSubscription
+  extends Promise<AsyncIterator<Club>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  master: <T = UserSubscription>() => T;
+  questuons: <T = Promise<AsyncIterator<QuestionSubscription>>>(args?: {
+    where?: QuestionWhereInput;
+    orderBy?: QuestionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  applications: <T = Promise<AsyncIterator<ApplicationSubscription>>>(args?: {
+    where?: ApplicationWhereInput;
+    orderBy?: ApplicationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  name: () => Promise<AsyncIterator<String>>;
+  bio: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  logo: () => Promise<AsyncIterator<String>>;
+  clubImage: <T = FileSubscription>() => T;
+  type: () => Promise<AsyncIterator<String>>;
+  socialUrl: () => Promise<AsyncIterator<String>>;
+  socialDisplay: () => Promise<AsyncIterator<Boolean>>;
+}
+
+export interface ClubNullablePromise
+  extends Promise<Club | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  master: <T = UserPromise>() => T;
+  questuons: <T = FragmentableArray<Question>>(args?: {
+    where?: QuestionWhereInput;
+    orderBy?: QuestionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  applications: <T = FragmentableArray<Application>>(args?: {
+    where?: ApplicationWhereInput;
+    orderBy?: ApplicationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  name: () => Promise<String>;
+  bio: () => Promise<String>;
+  description: () => Promise<String>;
+  logo: () => Promise<String>;
+  clubImage: <T = FilePromise>() => T;
+  type: () => Promise<String>;
+  socialUrl: () => Promise<String>;
+  socialDisplay: () => Promise<Boolean>;
+}
+
+export interface Question {
+  id: ID_Output;
+  subject?: String;
+  type?: String;
+  options: String[];
+}
+
+export interface QuestionPromise extends Promise<Question>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  owner: <T = ClubPromise>() => T;
+  subject: () => Promise<String>;
+  type: () => Promise<String>;
+  options: () => Promise<String[]>;
+}
+
+export interface QuestionSubscription
+  extends Promise<AsyncIterator<Question>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  owner: <T = ClubSubscription>() => T;
+  subject: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<String>>;
+  options: () => Promise<AsyncIterator<String[]>>;
+}
+
+export interface QuestionNullablePromise
+  extends Promise<Question | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  owner: <T = ClubPromise>() => T;
+  subject: () => Promise<String>;
+  type: () => Promise<String>;
+  options: () => Promise<String[]>;
+}
+
+export interface File {
+  id: ID_Output;
+  url: String;
+}
+
+export interface FilePromise extends Promise<File>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  url: () => Promise<String>;
+  club: <T = ClubPromise>() => T;
+}
+
+export interface FileSubscription
+  extends Promise<AsyncIterator<File>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  url: () => Promise<AsyncIterator<String>>;
+  club: <T = ClubSubscription>() => T;
+}
+
+export interface FileNullablePromise
+  extends Promise<File | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  url: () => Promise<String>;
+  club: <T = ClubPromise>() => T;
+}
+
 export interface Room {
   id: ID_Output;
 }
@@ -2775,7 +2858,6 @@ export interface MessageNullablePromise
 
 export interface Notification {
   id: ID_Output;
-  userId: Int;
   content: String;
   checked: Boolean;
 }
@@ -2784,7 +2866,7 @@ export interface NotificationPromise
   extends Promise<Notification>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  userId: () => Promise<Int>;
+  user: <T = UserPromise>() => T;
   content: () => Promise<String>;
   checked: () => Promise<Boolean>;
 }
@@ -2793,7 +2875,7 @@ export interface NotificationSubscription
   extends Promise<AsyncIterator<Notification>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  userId: () => Promise<AsyncIterator<Int>>;
+  user: <T = UserSubscription>() => T;
   content: () => Promise<AsyncIterator<String>>;
   checked: () => Promise<AsyncIterator<Boolean>>;
 }
@@ -2802,36 +2884,9 @@ export interface NotificationNullablePromise
   extends Promise<Notification | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  userId: () => Promise<Int>;
+  user: <T = UserPromise>() => T;
   content: () => Promise<String>;
   checked: () => Promise<Boolean>;
-}
-
-export interface File {
-  id: ID_Output;
-  url: String;
-}
-
-export interface FilePromise extends Promise<File>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  url: () => Promise<String>;
-  club: <T = ClubPromise>() => T;
-}
-
-export interface FileSubscription
-  extends Promise<AsyncIterator<File>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  url: () => Promise<AsyncIterator<String>>;
-  club: <T = ClubSubscription>() => T;
-}
-
-export interface FileNullablePromise
-  extends Promise<File | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  url: () => Promise<String>;
-  club: <T = ClubPromise>() => T;
 }
 
 export interface ApplicationConnection {
@@ -3338,8 +3393,6 @@ export interface ApplicationSubscriptionPayloadSubscription
 
 export interface ApplicationPreviousValues {
   id: ID_Output;
-  userId: ID_Output;
-  clubId: ID_Output;
   answer: String[];
   checked: Boolean;
   isPass?: Boolean;
@@ -3349,8 +3402,6 @@ export interface ApplicationPreviousValuesPromise
   extends Promise<ApplicationPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  userId: () => Promise<ID_Output>;
-  clubId: () => Promise<ID_Output>;
   answer: () => Promise<String[]>;
   checked: () => Promise<Boolean>;
   isPass: () => Promise<Boolean>;
@@ -3360,8 +3411,6 @@ export interface ApplicationPreviousValuesSubscription
   extends Promise<AsyncIterator<ApplicationPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  userId: () => Promise<AsyncIterator<ID_Output>>;
-  clubId: () => Promise<AsyncIterator<ID_Output>>;
   answer: () => Promise<AsyncIterator<String[]>>;
   checked: () => Promise<AsyncIterator<Boolean>>;
   isPass: () => Promise<AsyncIterator<Boolean>>;
@@ -3544,7 +3593,6 @@ export interface NotificationSubscriptionPayloadSubscription
 
 export interface NotificationPreviousValues {
   id: ID_Output;
-  userId: Int;
   content: String;
   checked: Boolean;
 }
@@ -3553,7 +3601,6 @@ export interface NotificationPreviousValuesPromise
   extends Promise<NotificationPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  userId: () => Promise<Int>;
   content: () => Promise<String>;
   checked: () => Promise<Boolean>;
 }
@@ -3562,7 +3609,6 @@ export interface NotificationPreviousValuesSubscription
   extends Promise<AsyncIterator<NotificationPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  userId: () => Promise<AsyncIterator<Int>>;
   content: () => Promise<AsyncIterator<String>>;
   checked: () => Promise<AsyncIterator<Boolean>>;
 }

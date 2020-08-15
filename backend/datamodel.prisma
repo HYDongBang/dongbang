@@ -10,26 +10,25 @@ type User{
     isMaster: Club @relation(name:"ClubMaster")
     applications:[Application]
     rooms:[Room]
-    notifications:[Notification]
+    notifications:[Notification] @relation(name:"UserNotification")
     loginSecret: String
 }
 
 
 type Notification{
     id: ID! @id
-    userId: Int!
+    user: User! @relation(name:"UserNotification", link:INLINE)
     content: String!
-    checked: Boolean!
+    checked: Boolean! @default(value:false)
 }
 
 type Application{
     id: ID! @id
-    userId: ID!
-    clubId: ID!
-    questions: [Question]!
+    user: User!
+    club: Club!
     answer: [String]! @scalarList(strategy: RELATION)
-    checked: Boolean!
-    isPass: Boolean
+    checked: Boolean! @default(value:false)
+    isPass: Boolean @default(value:false)
 }
 
 type Club{
@@ -57,7 +56,7 @@ type File{
 
 type Question{
     id: ID! @id
-    owner: Club! @relation(name:"ClubQuestion")
+    owner: Club! @relation(name:"ClubQuestion", link:INLINE)
     subject: String
     type: String
     options:[String] @scalarList(strategy: RELATION)

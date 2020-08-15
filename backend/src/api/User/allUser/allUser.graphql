@@ -1,3 +1,8 @@
 type Query {
     allUser: [User!]!
 }
+
+type User {
+    notifications: [Notification]
+    applications: [Application]
+}

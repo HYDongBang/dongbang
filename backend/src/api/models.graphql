@@ -16,7 +16,7 @@ type User{
 
 type Notification{
     id: ID!
-    userId: Int!
+    user: Int!
     content: String!
     checked: Boolean!
 }
@@ -40,7 +40,7 @@ type Club{
     bio: String!
     description: String!
     logo: String
-    clubImage: String
+    clubImage: File
     type: String!
     socialUrl: String
     socialDisplay: Boolean
@@ -51,6 +51,7 @@ type Question{
     subject: String
     type: String
     options:[String]
+    owner: Club!
 }
 
 type Room{
@@ -65,4 +66,11 @@ type Message {
     from: User!
     to: User!
     room: Room!
+}
+
+type File {
+  id: ID!
+  url: String!
+  caption: String
+  club: Club
 }

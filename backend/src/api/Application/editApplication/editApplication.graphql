@@ -1,0 +1,11 @@
+enum ACTIONS {
+    PASS
+    CHECK
+}
+
+type Mutation {
+    editApplication(
+        id:ID!, 
+        action: ACTIONS!
+    ) : Application!
+}

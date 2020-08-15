@@ -1,31 +1,30 @@
 type User{
     id: ID! @id
     email: String! @unique
+    isMaster: Club @relation(name:"ClubMaster")
     encryptedPassword: String!
     phoneNumber: String
     studentNumber: Int
     Name: String
-    isMaster: Club @relation(name:"ClubMaster")
+    avatar: String
     sex: String
+    loginSecret: String
+    notifications:[Notification] @relation(name:"UserNotification")
     applications:[Application]
     rooms:[Room]
-    notifications:[Notification]
-    loginSecret: String
 }
-
 
 type Notification{
     id: ID! @id
-    userId: Int!
-    content: String!
-    checked: Boolean!
+    user: User! @relation(name:"UserNotification", link:INLINE)
+    content: String! 
+    checked: Boolean! @default(value:false)
 }
 
 type Application{
     id: ID! @id
-    userId: ID! 
-    clubId: ID!
-    questions: [Question]!
+    user: User! 
+    club: Club!
     answer: [String]! @scalarList(strategy: RELATION)
     checked: Boolean!
     isPass: Boolean
@@ -34,13 +33,13 @@ type Application{
 type Club{
     id: ID! @id
     master: User! @relation(name:"ClubMaster", link: INLINE)
-    questuons: [Question]
+    questions: [Question] @relation(name:"ClubQuestion")
     applications: [Application]
     name: String!
     bio: String!
     description: String!
     logo: String
-    clubImage: String
+    clubImage: File @relation(name:"ClubImg")
     type: String!
     socialUrl: String
     socialDisplay: Boolean @default(value:false)
@@ -48,8 +47,9 @@ type Club{
 
 type Question{
     id: ID! @id
+    owner: Club! @relation(name:"ClubQuestion", link: INLINE)
     subject: String
-    type: String
+    type: String 
     options:[String] @scalarList(strategy: RELATION)
 }
 
@@ -60,9 +60,16 @@ type Room{
 }
 
 type Message {
-   id: ID! @id
-   text: String!
-   from: User! @relation(name: "From")
-   to: User!   @relation(name: "To")
-   room: Room!
- }
+    id: ID! @id
+    text: String!
+    from: User! @relation(name: "From")
+    to: User!   @relation(name: "To")
+    room: Room!
+}
+
+type File {
+    id: ID! @id
+    url: String!
+    club: Club @relation(name:"ClubImg", link: INLINE)
+}
+

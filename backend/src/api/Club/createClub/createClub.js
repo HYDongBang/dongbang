@@ -33,7 +33,7 @@ export default {
 // # }
 
 //localhost:4000
-//mutation {
+// mutation {
 // createClub(name:"dd", bio:"bio", description: "desc", type:"type", id:"ckdpitulzm4sm0a50jc5xt1n5") {
 //     id
 //   }

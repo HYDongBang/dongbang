@@ -1,0 +1,13 @@
+enum TYPE {
+    ESSAY,
+    SELECT
+}
+
+type Mutation {
+    createQuestion (
+        cid: ID!
+        subject: String!
+        type: TYPE!
+        options: [String]
+    ) : Question
+}

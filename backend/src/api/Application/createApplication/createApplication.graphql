@@ -1,0 +1,7 @@
+type Mutation {
+    createApplication(
+        uid:ID!, 
+        cid:ID!, 
+        answers:[String]!, 
+    ) : Application!
+}

@@ -1,0 +1,11 @@
+enum ACTIONS {
+    CHECK
+    DELETE
+}
+
+type Mutation {
+    editNotification(
+        id:ID!, 
+        action: ACTIONS!
+    ) : Notification!
+}

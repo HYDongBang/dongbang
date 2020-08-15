@@ -6,6 +6,7 @@ type User{
     studentNumber: Int
     phoneNumber: String
     sex: String
+    avatar: String
     isMaster: Club @relation(name:"ClubMaster")
     applications:[Application]
     rooms:[Room]

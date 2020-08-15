@@ -1746,6 +1746,7 @@ type User {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   isMaster: Club
   applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
   rooms(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Room!]
@@ -1767,6 +1768,7 @@ input UserCreateInput {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   isMaster: ClubCreateOneWithoutMasterInput
   applications: ApplicationCreateManyInput
   rooms: RoomCreateManyWithoutParticipantsInput
@@ -1797,6 +1799,7 @@ input UserCreateWithoutIsMasterInput {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   applications: ApplicationCreateManyInput
   rooms: RoomCreateManyWithoutParticipantsInput
   notifications: NotificationCreateManyInput
@@ -1811,6 +1814,7 @@ input UserCreateWithoutRoomsInput {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   isMaster: ClubCreateOneWithoutMasterInput
   applications: ApplicationCreateManyInput
   notifications: NotificationCreateManyInput
@@ -1837,6 +1841,8 @@ enum UserOrderByInput {
   phoneNumber_DESC
   sex_ASC
   sex_DESC
+  avatar_ASC
+  avatar_DESC
   loginSecret_ASC
   loginSecret_DESC
 }
@@ -1849,6 +1855,7 @@ type UserPreviousValues {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   loginSecret: String
 }
 
@@ -1945,6 +1952,20 @@ input UserScalarWhereInput {
   sex_not_starts_with: String
   sex_ends_with: String
   sex_not_ends_with: String
+  avatar: String
+  avatar_not: String
+  avatar_in: [String!]
+  avatar_not_in: [String!]
+  avatar_lt: String
+  avatar_lte: String
+  avatar_gt: String
+  avatar_gte: String
+  avatar_contains: String
+  avatar_not_contains: String
+  avatar_starts_with: String
+  avatar_not_starts_with: String
+  avatar_ends_with: String
+  avatar_not_ends_with: String
   loginSecret: String
   loginSecret_not: String
   loginSecret_in: [String!]
@@ -1989,6 +2010,7 @@ input UserUpdateDataInput {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   isMaster: ClubUpdateOneWithoutMasterInput
   applications: ApplicationUpdateManyInput
   rooms: RoomUpdateManyWithoutParticipantsInput
@@ -2003,6 +2025,7 @@ input UserUpdateInput {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   isMaster: ClubUpdateOneWithoutMasterInput
   applications: ApplicationUpdateManyInput
   rooms: RoomUpdateManyWithoutParticipantsInput
@@ -2017,6 +2040,7 @@ input UserUpdateManyDataInput {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   loginSecret: String
 }
 
@@ -2027,6 +2051,7 @@ input UserUpdateManyMutationInput {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   loginSecret: String
 }
 
@@ -2068,6 +2093,7 @@ input UserUpdateWithoutIsMasterDataInput {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   applications: ApplicationUpdateManyInput
   rooms: RoomUpdateManyWithoutParticipantsInput
   notifications: NotificationUpdateManyInput
@@ -2081,6 +2107,7 @@ input UserUpdateWithoutRoomsDataInput {
   studentNumber: Int
   phoneNumber: String
   sex: String
+  avatar: String
   isMaster: ClubUpdateOneWithoutMasterInput
   applications: ApplicationUpdateManyInput
   notifications: NotificationUpdateManyInput
@@ -2201,6 +2228,20 @@ input UserWhereInput {
   sex_not_starts_with: String
   sex_ends_with: String
   sex_not_ends_with: String
+  avatar: String
+  avatar_not: String
+  avatar_in: [String!]
+  avatar_not_in: [String!]
+  avatar_lt: String
+  avatar_lte: String
+  avatar_gt: String
+  avatar_gte: String
+  avatar_contains: String
+  avatar_not_contains: String
+  avatar_starts_with: String
+  avatar_not_starts_with: String
+  avatar_ends_with: String
+  avatar_not_ends_with: String
   isMaster: ClubWhereInput
   applications_every: ApplicationWhereInput
   applications_some: ApplicationWhereInput

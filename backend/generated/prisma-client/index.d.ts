@@ -417,6 +417,8 @@ export type UserOrderByInput =
   | "phoneNumber_DESC"
   | "sex_ASC"
   | "sex_DESC"
+  | "avatar_ASC"
+  | "avatar_DESC"
   | "loginSecret_ASC"
   | "loginSecret_DESC";
 
@@ -718,6 +720,20 @@ export interface UserWhereInput {
   sex_not_starts_with?: Maybe<String>;
   sex_ends_with?: Maybe<String>;
   sex_not_ends_with?: Maybe<String>;
+  avatar?: Maybe<String>;
+  avatar_not?: Maybe<String>;
+  avatar_in?: Maybe<String[] | String>;
+  avatar_not_in?: Maybe<String[] | String>;
+  avatar_lt?: Maybe<String>;
+  avatar_lte?: Maybe<String>;
+  avatar_gt?: Maybe<String>;
+  avatar_gte?: Maybe<String>;
+  avatar_contains?: Maybe<String>;
+  avatar_not_contains?: Maybe<String>;
+  avatar_starts_with?: Maybe<String>;
+  avatar_not_starts_with?: Maybe<String>;
+  avatar_ends_with?: Maybe<String>;
+  avatar_not_ends_with?: Maybe<String>;
   isMaster?: Maybe<ClubWhereInput>;
   applications_every?: Maybe<ApplicationWhereInput>;
   applications_some?: Maybe<ApplicationWhereInput>;
@@ -1028,6 +1044,7 @@ export interface UserCreateWithoutIsMasterInput {
   studentNumber?: Maybe<Int>;
   phoneNumber?: Maybe<String>;
   sex?: Maybe<String>;
+  avatar?: Maybe<String>;
   applications?: Maybe<ApplicationCreateManyInput>;
   rooms?: Maybe<RoomCreateManyWithoutParticipantsInput>;
   notifications?: Maybe<NotificationCreateManyInput>;
@@ -1078,6 +1095,7 @@ export interface UserCreateInput {
   studentNumber?: Maybe<Int>;
   phoneNumber?: Maybe<String>;
   sex?: Maybe<String>;
+  avatar?: Maybe<String>;
   isMaster?: Maybe<ClubCreateOneWithoutMasterInput>;
   applications?: Maybe<ApplicationCreateManyInput>;
   rooms?: Maybe<RoomCreateManyWithoutParticipantsInput>;
@@ -1226,6 +1244,7 @@ export interface UserUpdateWithoutIsMasterDataInput {
   studentNumber?: Maybe<Int>;
   phoneNumber?: Maybe<String>;
   sex?: Maybe<String>;
+  avatar?: Maybe<String>;
   applications?: Maybe<ApplicationUpdateManyInput>;
   rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
   notifications?: Maybe<NotificationUpdateManyInput>;
@@ -1422,6 +1441,7 @@ export interface UserUpdateDataInput {
   studentNumber?: Maybe<Int>;
   phoneNumber?: Maybe<String>;
   sex?: Maybe<String>;
+  avatar?: Maybe<String>;
   isMaster?: Maybe<ClubUpdateOneWithoutMasterInput>;
   applications?: Maybe<ApplicationUpdateManyInput>;
   rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
@@ -1909,6 +1929,7 @@ export interface UserCreateWithoutRoomsInput {
   studentNumber?: Maybe<Int>;
   phoneNumber?: Maybe<String>;
   sex?: Maybe<String>;
+  avatar?: Maybe<String>;
   isMaster?: Maybe<ClubCreateOneWithoutMasterInput>;
   applications?: Maybe<ApplicationCreateManyInput>;
   notifications?: Maybe<NotificationCreateManyInput>;
@@ -1965,6 +1986,7 @@ export interface UserUpdateWithoutRoomsDataInput {
   studentNumber?: Maybe<Int>;
   phoneNumber?: Maybe<String>;
   sex?: Maybe<String>;
+  avatar?: Maybe<String>;
   isMaster?: Maybe<ClubUpdateOneWithoutMasterInput>;
   applications?: Maybe<ApplicationUpdateManyInput>;
   notifications?: Maybe<NotificationUpdateManyInput>;
@@ -2070,6 +2092,20 @@ export interface UserScalarWhereInput {
   sex_not_starts_with?: Maybe<String>;
   sex_ends_with?: Maybe<String>;
   sex_not_ends_with?: Maybe<String>;
+  avatar?: Maybe<String>;
+  avatar_not?: Maybe<String>;
+  avatar_in?: Maybe<String[] | String>;
+  avatar_not_in?: Maybe<String[] | String>;
+  avatar_lt?: Maybe<String>;
+  avatar_lte?: Maybe<String>;
+  avatar_gt?: Maybe<String>;
+  avatar_gte?: Maybe<String>;
+  avatar_contains?: Maybe<String>;
+  avatar_not_contains?: Maybe<String>;
+  avatar_starts_with?: Maybe<String>;
+  avatar_not_starts_with?: Maybe<String>;
+  avatar_ends_with?: Maybe<String>;
+  avatar_not_ends_with?: Maybe<String>;
   loginSecret?: Maybe<String>;
   loginSecret_not?: Maybe<String>;
   loginSecret_in?: Maybe<String[] | String>;
@@ -2101,6 +2137,7 @@ export interface UserUpdateManyDataInput {
   studentNumber?: Maybe<Int>;
   phoneNumber?: Maybe<String>;
   sex?: Maybe<String>;
+  avatar?: Maybe<String>;
   loginSecret?: Maybe<String>;
 }
 
@@ -2156,6 +2193,7 @@ export interface UserUpdateInput {
   studentNumber?: Maybe<Int>;
   phoneNumber?: Maybe<String>;
   sex?: Maybe<String>;
+  avatar?: Maybe<String>;
   isMaster?: Maybe<ClubUpdateOneWithoutMasterInput>;
   applications?: Maybe<ApplicationUpdateManyInput>;
   rooms?: Maybe<RoomUpdateManyWithoutParticipantsInput>;
@@ -2170,6 +2208,7 @@ export interface UserUpdateManyMutationInput {
   studentNumber?: Maybe<Int>;
   phoneNumber?: Maybe<String>;
   sex?: Maybe<String>;
+  avatar?: Maybe<String>;
   loginSecret?: Maybe<String>;
 }
 
@@ -2499,6 +2538,7 @@ export interface User {
   studentNumber?: Int;
   phoneNumber?: String;
   sex?: String;
+  avatar?: String;
   loginSecret?: String;
 }
 
@@ -2510,6 +2550,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   studentNumber: () => Promise<Int>;
   phoneNumber: () => Promise<String>;
   sex: () => Promise<String>;
+  avatar: () => Promise<String>;
   isMaster: <T = ClubPromise>() => T;
   applications: <T = FragmentableArray<Application>>(args?: {
     where?: ApplicationWhereInput;
@@ -2551,6 +2592,7 @@ export interface UserSubscription
   studentNumber: () => Promise<AsyncIterator<Int>>;
   phoneNumber: () => Promise<AsyncIterator<String>>;
   sex: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
   isMaster: <T = ClubSubscription>() => T;
   applications: <T = Promise<AsyncIterator<ApplicationSubscription>>>(args?: {
     where?: ApplicationWhereInput;
@@ -2592,6 +2634,7 @@ export interface UserNullablePromise
   studentNumber: () => Promise<Int>;
   phoneNumber: () => Promise<String>;
   sex: () => Promise<String>;
+  avatar: () => Promise<String>;
   isMaster: <T = ClubPromise>() => T;
   applications: <T = FragmentableArray<Application>>(args?: {
     where?: ApplicationWhereInput;
@@ -3648,6 +3691,7 @@ export interface UserPreviousValues {
   studentNumber?: Int;
   phoneNumber?: String;
   sex?: String;
+  avatar?: String;
   loginSecret?: String;
 }
 
@@ -3661,6 +3705,7 @@ export interface UserPreviousValuesPromise
   studentNumber: () => Promise<Int>;
   phoneNumber: () => Promise<String>;
   sex: () => Promise<String>;
+  avatar: () => Promise<String>;
   loginSecret: () => Promise<String>;
 }
 
@@ -3674,6 +3719,7 @@ export interface UserPreviousValuesSubscription
   studentNumber: () => Promise<AsyncIterator<Int>>;
   phoneNumber: () => Promise<AsyncIterator<String>>;
   sex: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
   loginSecret: () => Promise<AsyncIterator<String>>;
 }
 

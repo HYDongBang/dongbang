@@ -7,6 +7,7 @@ type User{
     Name: String
     isMaster: Club
     sex: String
+    avatar: String
     applications:[Application]
     rooms:[Room]
     notifications:[Notification]

@@ -2,11 +2,12 @@ type User{
     id: ID! @id
     email: String! @unique
     encryptedPassword: String!
-    phoneNumber: String
-    studentNumber: Int
     Name: String
-    isMaster: Club @relation(name:"ClubMaster")
+    studentNumber: Int
+    phoneNumber: String
     sex: String
+    avatar: String
+    isMaster: Club @relation(name:"ClubMaster")
     applications:[Application]
     rooms:[Room]
     notifications:[Notification]
@@ -23,7 +24,7 @@ type Notification{
 
 type Application{
     id: ID! @id
-    userId: ID! 
+    userId: ID!
     clubId: ID!
     questions: [Question]!
     answer: [String]! @scalarList(strategy: RELATION)
@@ -34,20 +35,29 @@ type Application{
 type Club{
     id: ID! @id
     master: User! @relation(name:"ClubMaster", link: INLINE)
-    questuons: [Question]
+    questuons: [Question] @relation(name:"ClubQuestion")
     applications: [Application]
     name: String!
     bio: String!
     description: String!
     logo: String
-    clubImage: String
+    clubImage: File @relation(name:"ClubImg")
     type: String!
     socialUrl: String
     socialDisplay: Boolean @default(value:false)
 }
 
+type File{
+    id: ID! @id
+    url: String!
+    club: Club! @relation(name:"ClubImg", link: INLINE)
+}
+
+
+
 type Question{
     id: ID! @id
+    owner: Club! @relation(name:"ClubQuestion")
     subject: String
     type: String
     options:[String] @scalarList(strategy: RELATION)

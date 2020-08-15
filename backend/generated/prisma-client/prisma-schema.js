@@ -278,7 +278,7 @@ type BatchPayload {
 type Club {
   id: ID!
   master: User!
-  questuons(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question!]
+  questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question!]
   applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
   name: String!
   bio: String!
@@ -299,7 +299,7 @@ type ClubConnection {
 input ClubCreateInput {
   id: ID
   master: UserCreateOneWithoutIsMasterInput!
-  questuons: QuestionCreateManyWithoutOwnerInput
+  questions: QuestionCreateManyWithoutOwnerInput
   applications: ApplicationCreateManyWithoutClubInput
   name: String!
   bio: String!
@@ -326,15 +326,15 @@ input ClubCreateOneWithoutMasterInput {
   connect: ClubWhereUniqueInput
 }
 
-input ClubCreateOneWithoutQuestuonsInput {
-  create: ClubCreateWithoutQuestuonsInput
+input ClubCreateOneWithoutQuestionsInput {
+  create: ClubCreateWithoutQuestionsInput
   connect: ClubWhereUniqueInput
 }
 
 input ClubCreateWithoutApplicationsInput {
   id: ID
   master: UserCreateOneWithoutIsMasterInput!
-  questuons: QuestionCreateManyWithoutOwnerInput
+  questions: QuestionCreateManyWithoutOwnerInput
   name: String!
   bio: String!
   description: String!
@@ -348,7 +348,7 @@ input ClubCreateWithoutApplicationsInput {
 input ClubCreateWithoutClubImageInput {
   id: ID
   master: UserCreateOneWithoutIsMasterInput!
-  questuons: QuestionCreateManyWithoutOwnerInput
+  questions: QuestionCreateManyWithoutOwnerInput
   applications: ApplicationCreateManyWithoutClubInput
   name: String!
   bio: String!
@@ -361,7 +361,7 @@ input ClubCreateWithoutClubImageInput {
 
 input ClubCreateWithoutMasterInput {
   id: ID
-  questuons: QuestionCreateManyWithoutOwnerInput
+  questions: QuestionCreateManyWithoutOwnerInput
   applications: ApplicationCreateManyWithoutClubInput
   name: String!
   bio: String!
@@ -373,7 +373,7 @@ input ClubCreateWithoutMasterInput {
   socialDisplay: Boolean
 }
 
-input ClubCreateWithoutQuestuonsInput {
+input ClubCreateWithoutQuestionsInput {
   id: ID
   master: UserCreateOneWithoutIsMasterInput!
   applications: ApplicationCreateManyWithoutClubInput
@@ -442,7 +442,7 @@ input ClubSubscriptionWhereInput {
 
 input ClubUpdateInput {
   master: UserUpdateOneRequiredWithoutIsMasterInput
-  questuons: QuestionUpdateManyWithoutOwnerInput
+  questions: QuestionUpdateManyWithoutOwnerInput
   applications: ApplicationUpdateManyWithoutClubInput
   name: String
   bio: String
@@ -478,10 +478,10 @@ input ClubUpdateOneRequiredWithoutClubImageInput {
   connect: ClubWhereUniqueInput
 }
 
-input ClubUpdateOneRequiredWithoutQuestuonsInput {
-  create: ClubCreateWithoutQuestuonsInput
-  update: ClubUpdateWithoutQuestuonsDataInput
-  upsert: ClubUpsertWithoutQuestuonsInput
+input ClubUpdateOneRequiredWithoutQuestionsInput {
+  create: ClubCreateWithoutQuestionsInput
+  update: ClubUpdateWithoutQuestionsDataInput
+  upsert: ClubUpsertWithoutQuestionsInput
   connect: ClubWhereUniqueInput
 }
 
@@ -496,7 +496,7 @@ input ClubUpdateOneWithoutMasterInput {
 
 input ClubUpdateWithoutApplicationsDataInput {
   master: UserUpdateOneRequiredWithoutIsMasterInput
-  questuons: QuestionUpdateManyWithoutOwnerInput
+  questions: QuestionUpdateManyWithoutOwnerInput
   name: String
   bio: String
   description: String
@@ -509,7 +509,7 @@ input ClubUpdateWithoutApplicationsDataInput {
 
 input ClubUpdateWithoutClubImageDataInput {
   master: UserUpdateOneRequiredWithoutIsMasterInput
-  questuons: QuestionUpdateManyWithoutOwnerInput
+  questions: QuestionUpdateManyWithoutOwnerInput
   applications: ApplicationUpdateManyWithoutClubInput
   name: String
   bio: String
@@ -521,7 +521,7 @@ input ClubUpdateWithoutClubImageDataInput {
 }
 
 input ClubUpdateWithoutMasterDataInput {
-  questuons: QuestionUpdateManyWithoutOwnerInput
+  questions: QuestionUpdateManyWithoutOwnerInput
   applications: ApplicationUpdateManyWithoutClubInput
   name: String
   bio: String
@@ -533,7 +533,7 @@ input ClubUpdateWithoutMasterDataInput {
   socialDisplay: Boolean
 }
 
-input ClubUpdateWithoutQuestuonsDataInput {
+input ClubUpdateWithoutQuestionsDataInput {
   master: UserUpdateOneRequiredWithoutIsMasterInput
   applications: ApplicationUpdateManyWithoutClubInput
   name: String
@@ -561,9 +561,9 @@ input ClubUpsertWithoutMasterInput {
   create: ClubCreateWithoutMasterInput!
 }
 
-input ClubUpsertWithoutQuestuonsInput {
-  update: ClubUpdateWithoutQuestuonsDataInput!
-  create: ClubCreateWithoutQuestuonsInput!
+input ClubUpsertWithoutQuestionsInput {
+  update: ClubUpdateWithoutQuestionsDataInput!
+  create: ClubCreateWithoutQuestionsInput!
 }
 
 input ClubWhereInput {
@@ -582,9 +582,9 @@ input ClubWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   master: UserWhereInput
-  questuons_every: QuestionWhereInput
-  questuons_some: QuestionWhereInput
-  questuons_none: QuestionWhereInput
+  questions_every: QuestionWhereInput
+  questions_some: QuestionWhereInput
+  questions_none: QuestionWhereInput
   applications_every: ApplicationWhereInput
   applications_some: ApplicationWhereInput
   applications_none: ApplicationWhereInput
@@ -1314,7 +1314,7 @@ type QuestionConnection {
 
 input QuestionCreateInput {
   id: ID
-  owner: ClubCreateOneWithoutQuestuonsInput!
+  owner: ClubCreateOneWithoutQuestionsInput!
   subject: String
   type: String
   options: QuestionCreateoptionsInput
@@ -1424,7 +1424,7 @@ input QuestionSubscriptionWhereInput {
 }
 
 input QuestionUpdateInput {
-  owner: ClubUpdateOneRequiredWithoutQuestuonsInput
+  owner: ClubUpdateOneRequiredWithoutQuestionsInput
   subject: String
   type: String
   options: QuestionUpdateoptionsInput

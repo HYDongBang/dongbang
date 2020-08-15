@@ -34,7 +34,7 @@ type Application{
 type Club{
     id: ID! @id
     master: User! @relation(name:"ClubMaster", link: INLINE)
-    questuons: [Question] @relation(name:"ClubQuestion")
+    questions: [Question] @relation(name:"ClubQuestion")
     applications: [Application]
     name: String!
     bio: String!

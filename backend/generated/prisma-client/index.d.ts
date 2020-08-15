@@ -523,9 +523,9 @@ export interface ClubWhereInput {
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
   master?: Maybe<UserWhereInput>;
-  questuons_every?: Maybe<QuestionWhereInput>;
-  questuons_some?: Maybe<QuestionWhereInput>;
-  questuons_none?: Maybe<QuestionWhereInput>;
+  questions_every?: Maybe<QuestionWhereInput>;
+  questions_some?: Maybe<QuestionWhereInput>;
+  questions_none?: Maybe<QuestionWhereInput>;
   applications_every?: Maybe<ApplicationWhereInput>;
   applications_some?: Maybe<ApplicationWhereInput>;
   applications_none?: Maybe<ApplicationWhereInput>;
@@ -983,7 +983,7 @@ export interface ClubCreateOneWithoutMasterInput {
 
 export interface ClubCreateWithoutMasterInput {
   id?: Maybe<ID_Input>;
-  questuons?: Maybe<QuestionCreateManyWithoutOwnerInput>;
+  questions?: Maybe<QuestionCreateManyWithoutOwnerInput>;
   applications?: Maybe<ApplicationCreateManyWithoutClubInput>;
   name: String;
   bio: String;
@@ -1112,7 +1112,7 @@ export interface ClubCreateOneWithoutApplicationsInput {
 export interface ClubCreateWithoutApplicationsInput {
   id?: Maybe<ID_Input>;
   master: UserCreateOneWithoutIsMasterInput;
-  questuons?: Maybe<QuestionCreateManyWithoutOwnerInput>;
+  questions?: Maybe<QuestionCreateManyWithoutOwnerInput>;
   name: String;
   bio: String;
   description: String;
@@ -1197,7 +1197,7 @@ export interface ClubUpdateOneWithoutMasterInput {
 }
 
 export interface ClubUpdateWithoutMasterDataInput {
-  questuons?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
+  questions?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
   applications?: Maybe<ApplicationUpdateManyWithoutClubInput>;
   name?: Maybe<String>;
   bio?: Maybe<String>;
@@ -1551,7 +1551,7 @@ export interface ClubUpdateOneRequiredWithoutApplicationsInput {
 
 export interface ClubUpdateWithoutApplicationsDataInput {
   master?: Maybe<UserUpdateOneRequiredWithoutIsMasterInput>;
-  questuons?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
+  questions?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
   name?: Maybe<String>;
   bio?: Maybe<String>;
   description?: Maybe<String>;
@@ -1784,7 +1784,7 @@ export interface ApplicationUpdateManyMutationInput {
 export interface ClubCreateInput {
   id?: Maybe<ID_Input>;
   master: UserCreateOneWithoutIsMasterInput;
-  questuons?: Maybe<QuestionCreateManyWithoutOwnerInput>;
+  questions?: Maybe<QuestionCreateManyWithoutOwnerInput>;
   applications?: Maybe<ApplicationCreateManyWithoutClubInput>;
   name: String;
   bio: String;
@@ -1798,7 +1798,7 @@ export interface ClubCreateInput {
 
 export interface ClubUpdateInput {
   master?: Maybe<UserUpdateOneRequiredWithoutIsMasterInput>;
-  questuons?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
+  questions?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
   applications?: Maybe<ApplicationUpdateManyWithoutClubInput>;
   name?: Maybe<String>;
   bio?: Maybe<String>;
@@ -1834,7 +1834,7 @@ export interface ClubCreateOneWithoutClubImageInput {
 export interface ClubCreateWithoutClubImageInput {
   id?: Maybe<ID_Input>;
   master: UserCreateOneWithoutIsMasterInput;
-  questuons?: Maybe<QuestionCreateManyWithoutOwnerInput>;
+  questions?: Maybe<QuestionCreateManyWithoutOwnerInput>;
   applications?: Maybe<ApplicationCreateManyWithoutClubInput>;
   name: String;
   bio: String;
@@ -1859,7 +1859,7 @@ export interface ClubUpdateOneRequiredWithoutClubImageInput {
 
 export interface ClubUpdateWithoutClubImageDataInput {
   master?: Maybe<UserUpdateOneRequiredWithoutIsMasterInput>;
-  questuons?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
+  questions?: Maybe<QuestionUpdateManyWithoutOwnerInput>;
   applications?: Maybe<ApplicationUpdateManyWithoutClubInput>;
   name?: Maybe<String>;
   bio?: Maybe<String>;
@@ -2197,18 +2197,18 @@ export interface NotificationUpdateManyMutationInput {
 
 export interface QuestionCreateInput {
   id?: Maybe<ID_Input>;
-  owner: ClubCreateOneWithoutQuestuonsInput;
+  owner: ClubCreateOneWithoutQuestionsInput;
   subject?: Maybe<String>;
   type?: Maybe<String>;
   options?: Maybe<QuestionCreateoptionsInput>;
 }
 
-export interface ClubCreateOneWithoutQuestuonsInput {
-  create?: Maybe<ClubCreateWithoutQuestuonsInput>;
+export interface ClubCreateOneWithoutQuestionsInput {
+  create?: Maybe<ClubCreateWithoutQuestionsInput>;
   connect?: Maybe<ClubWhereUniqueInput>;
 }
 
-export interface ClubCreateWithoutQuestuonsInput {
+export interface ClubCreateWithoutQuestionsInput {
   id?: Maybe<ID_Input>;
   master: UserCreateOneWithoutIsMasterInput;
   applications?: Maybe<ApplicationCreateManyWithoutClubInput>;
@@ -2223,20 +2223,20 @@ export interface ClubCreateWithoutQuestuonsInput {
 }
 
 export interface QuestionUpdateInput {
-  owner?: Maybe<ClubUpdateOneRequiredWithoutQuestuonsInput>;
+  owner?: Maybe<ClubUpdateOneRequiredWithoutQuestionsInput>;
   subject?: Maybe<String>;
   type?: Maybe<String>;
   options?: Maybe<QuestionUpdateoptionsInput>;
 }
 
-export interface ClubUpdateOneRequiredWithoutQuestuonsInput {
-  create?: Maybe<ClubCreateWithoutQuestuonsInput>;
-  update?: Maybe<ClubUpdateWithoutQuestuonsDataInput>;
-  upsert?: Maybe<ClubUpsertWithoutQuestuonsInput>;
+export interface ClubUpdateOneRequiredWithoutQuestionsInput {
+  create?: Maybe<ClubCreateWithoutQuestionsInput>;
+  update?: Maybe<ClubUpdateWithoutQuestionsDataInput>;
+  upsert?: Maybe<ClubUpsertWithoutQuestionsInput>;
   connect?: Maybe<ClubWhereUniqueInput>;
 }
 
-export interface ClubUpdateWithoutQuestuonsDataInput {
+export interface ClubUpdateWithoutQuestionsDataInput {
   master?: Maybe<UserUpdateOneRequiredWithoutIsMasterInput>;
   applications?: Maybe<ApplicationUpdateManyWithoutClubInput>;
   name?: Maybe<String>;
@@ -2249,9 +2249,9 @@ export interface ClubUpdateWithoutQuestuonsDataInput {
   socialDisplay?: Maybe<Boolean>;
 }
 
-export interface ClubUpsertWithoutQuestuonsInput {
-  update: ClubUpdateWithoutQuestuonsDataInput;
-  create: ClubCreateWithoutQuestuonsInput;
+export interface ClubUpsertWithoutQuestionsInput {
+  update: ClubUpdateWithoutQuestionsDataInput;
+  create: ClubCreateWithoutQuestionsInput;
 }
 
 export interface QuestionUpdateManyMutationInput {
@@ -2593,7 +2593,7 @@ export interface Club {
 export interface ClubPromise extends Promise<Club>, Fragmentable {
   id: () => Promise<ID_Output>;
   master: <T = UserPromise>() => T;
-  questuons: <T = FragmentableArray<Question>>(args?: {
+  questions: <T = FragmentableArray<Question>>(args?: {
     where?: QuestionWhereInput;
     orderBy?: QuestionOrderByInput;
     skip?: Int;
@@ -2626,7 +2626,7 @@ export interface ClubSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   master: <T = UserSubscription>() => T;
-  questuons: <T = Promise<AsyncIterator<QuestionSubscription>>>(args?: {
+  questions: <T = Promise<AsyncIterator<QuestionSubscription>>>(args?: {
     where?: QuestionWhereInput;
     orderBy?: QuestionOrderByInput;
     skip?: Int;
@@ -2659,7 +2659,7 @@ export interface ClubNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   master: <T = UserPromise>() => T;
-  questuons: <T = FragmentableArray<Question>>(args?: {
+  questions: <T = FragmentableArray<Question>>(args?: {
     where?: QuestionWhereInput;
     orderBy?: QuestionOrderByInput;
     skip?: Int;

@@ -5,7 +5,3 @@ type Mutation {
      auth: Boolean!
    ): User!
  }
-
- type Query {
-   something: String!
- }

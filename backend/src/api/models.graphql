@@ -2,56 +2,29 @@ type User{
     id: ID!
     email: String!
     encryptedPassword: String!
-    phoneNumber: String
-    studentNumber: Int
     Name: String
-    isMaster: Club
+    studentNumber: String
+    phoneNumber: String
     sex: String
+    isMaster: Club
+    notifications:[Notification]
     applications:[Application]
     rooms:[Room]
-    notifications:[Notification]
-    loginSecret: String
-}
-
-
-type Notification{
-    id: ID!
-    user: Int!
-    content: String!
-    checked: Boolean!
-}
-
-type Application{
-    id: ID!
-    userId : ID!
-    clubId: ID!
-    questions: [Question]
-    answer: [String]
-    checked: Boolean!
-    isPass: Boolean
 }
 
 type Club{
-    id: ID! 
-    master: User!
-    applications: [Application]
-    questions: [Question]
+    id: ID!
     name: String!
     bio: String!
     description: String!
     logo: String
-    clubImage: File
     type: String!
     socialUrl: String
     socialDisplay: Boolean
-}
-
-type Question{
-    id: ID!
-    subject: String
-    type: String
-    options:[String]
-    owner: Club!
+    clubImage: File
+    master: User!
+    questions: [Question]
+    applications: [Application]
 }
 
 type Room{
@@ -68,9 +41,33 @@ type Message {
     room: Room!
 }
 
-type File {
-  id: ID!
-  url: String!
-  caption: String
-  club: Club
+type Question{
+    id: ID!
+    owner: Club!
+    subject: String
+    type: String
+    options:[String]
+}
+
+
+type Application{
+    id: ID!
+    user: User!
+    club: Club!
+    answer: [String]!
+    checked: Boolean!
+    isPass: Boolean
+}
+
+type Notification{
+    id: ID!
+    user: User!
+    content: String!
+    checked: Boolean!
+}
+
+type File{
+    id: ID!
+    url: String!
+    club: Club!
 }

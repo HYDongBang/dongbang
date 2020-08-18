@@ -1,56 +1,30 @@
 type User{
     id: ID! @id
     email: String! @unique
-    isMaster: Club @relation(name:"ClubMaster")
     encryptedPassword: String!
-    phoneNumber: String
-    studentNumber: Int
     Name: String
-    avatar: String
+    studentNumber: String
+    phoneNumber: String
     sex: String
-    loginSecret: String
+    isMaster: Club @relation(name:"ClubMaster")
     notifications:[Notification] @relation(name:"UserNotification")
     applications:[Application]
     rooms:[Room]
 }
 
-type Notification{
-    id: ID! @id
-    user: User! @relation(name:"UserNotification", link:INLINE)
-    content: String! 
-    checked: Boolean! @default(value:false)
-}
-
-type Application{
-    id: ID! @id
-    user: User! 
-    club: Club!
-    answer: [String]! @scalarList(strategy: RELATION)
-    checked: Boolean!
-    isPass: Boolean
-}
-
 type Club{
     id: ID! @id
-    master: User! @relation(name:"ClubMaster", link: INLINE)
-    questions: [Question] @relation(name:"ClubQuestion")
-    applications: [Application]
     name: String!
     bio: String!
     description: String!
     logo: String
-    clubImage: File @relation(name:"ClubImg")
     type: String!
     socialUrl: String
     socialDisplay: Boolean @default(value:false)
-}
-
-type Question{
-    id: ID! @id
-    owner: Club! @relation(name:"ClubQuestion", link: INLINE)
-    subject: String
-    type: String 
-    options:[String] @scalarList(strategy: RELATION)
+    clubImage: File @relation(name:"ClubImg")
+    master: User! @relation(name:"ClubMaster", link: INLINE)
+    questions: [Question] @relation(name:"ClubQuestion")
+    applications: [Application]
 }
 
 type Room{
@@ -67,9 +41,33 @@ type Message {
     room: Room!
 }
 
-type File {
+type Question{
     id: ID! @id
-    url: String!
-    club: Club @relation(name:"ClubImg", link: INLINE)
+    owner: Club! @relation(name:"ClubQuestion", link: INLINE)
+    subject: String
+    type: String
+    options:[String] @scalarList(strategy: RELATION)
 }
 
+
+type Application{
+    id: ID! @id
+    user: User!
+    club: Club!
+    answer: [String]! @scalarList(strategy: RELATION)
+    checked: Boolean! @default(value:false)
+    isPass: Boolean @default(value:false)
+}
+
+type Notification{
+    id: ID! @id
+    user: User! @relation(name:"UserNotification", link:INLINE)
+    content: String!
+    checked: Boolean! @default(value:false)
+}
+
+type File{
+    id: ID! @id
+    url: String!
+    club: Club! @relation(name:"ClubImg", link: INLINE)
+}

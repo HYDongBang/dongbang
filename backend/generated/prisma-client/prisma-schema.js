@@ -59,7 +59,7 @@ input ApplicationCreateInput {
   user: UserCreateOneWithoutApplicationsInput!
   club: ClubCreateOneWithoutApplicationsInput!
   answer: ApplicationCreateanswerInput
-  checked: Boolean!
+  checked: Boolean
   isPass: Boolean
 }
 
@@ -77,7 +77,7 @@ input ApplicationCreateWithoutClubInput {
   id: ID
   user: UserCreateOneWithoutApplicationsInput!
   answer: ApplicationCreateanswerInput
-  checked: Boolean!
+  checked: Boolean
   isPass: Boolean
 }
 
@@ -85,7 +85,7 @@ input ApplicationCreateWithoutUserInput {
   id: ID
   club: ClubCreateOneWithoutApplicationsInput!
   answer: ApplicationCreateanswerInput
-  checked: Boolean!
+  checked: Boolean
   isPass: Boolean
 }
 
@@ -277,17 +277,17 @@ type BatchPayload {
 
 type Club {
   id: ID!
-  master: User!
-  questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question!]
-  applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
   name: String!
   bio: String!
   description: String!
   logo: String
-  clubImage: File
   type: String!
   socialUrl: String
   socialDisplay: Boolean
+  clubImage: File
+  master: User!
+  questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question!]
+  applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
 }
 
 type ClubConnection {
@@ -298,17 +298,17 @@ type ClubConnection {
 
 input ClubCreateInput {
   id: ID
-  master: UserCreateOneWithoutIsMasterInput!
-  questions: QuestionCreateManyWithoutOwnerInput
-  applications: ApplicationCreateManyWithoutClubInput
   name: String!
   bio: String!
   description: String!
   logo: String
-  clubImage: FileCreateOneWithoutClubInput
   type: String!
   socialUrl: String
   socialDisplay: Boolean
+  clubImage: FileCreateOneWithoutClubInput
+  master: UserCreateOneWithoutIsMasterInput!
+  questions: QuestionCreateManyWithoutOwnerInput
+  applications: ApplicationCreateManyWithoutClubInput
 }
 
 input ClubCreateOneWithoutApplicationsInput {
@@ -333,23 +333,20 @@ input ClubCreateOneWithoutQuestionsInput {
 
 input ClubCreateWithoutApplicationsInput {
   id: ID
-  master: UserCreateOneWithoutIsMasterInput!
-  questions: QuestionCreateManyWithoutOwnerInput
   name: String!
   bio: String!
   description: String!
   logo: String
-  clubImage: FileCreateOneWithoutClubInput
   type: String!
   socialUrl: String
   socialDisplay: Boolean
+  clubImage: FileCreateOneWithoutClubInput
+  master: UserCreateOneWithoutIsMasterInput!
+  questions: QuestionCreateManyWithoutOwnerInput
 }
 
 input ClubCreateWithoutClubImageInput {
   id: ID
-  master: UserCreateOneWithoutIsMasterInput!
-  questions: QuestionCreateManyWithoutOwnerInput
-  applications: ApplicationCreateManyWithoutClubInput
   name: String!
   bio: String!
   description: String!
@@ -357,34 +354,37 @@ input ClubCreateWithoutClubImageInput {
   type: String!
   socialUrl: String
   socialDisplay: Boolean
+  master: UserCreateOneWithoutIsMasterInput!
+  questions: QuestionCreateManyWithoutOwnerInput
+  applications: ApplicationCreateManyWithoutClubInput
 }
 
 input ClubCreateWithoutMasterInput {
   id: ID
-  questions: QuestionCreateManyWithoutOwnerInput
-  applications: ApplicationCreateManyWithoutClubInput
   name: String!
   bio: String!
   description: String!
   logo: String
-  clubImage: FileCreateOneWithoutClubInput
   type: String!
   socialUrl: String
   socialDisplay: Boolean
+  clubImage: FileCreateOneWithoutClubInput
+  questions: QuestionCreateManyWithoutOwnerInput
+  applications: ApplicationCreateManyWithoutClubInput
 }
 
 input ClubCreateWithoutQuestionsInput {
   id: ID
-  master: UserCreateOneWithoutIsMasterInput!
-  applications: ApplicationCreateManyWithoutClubInput
   name: String!
   bio: String!
   description: String!
   logo: String
-  clubImage: FileCreateOneWithoutClubInput
   type: String!
   socialUrl: String
   socialDisplay: Boolean
+  clubImage: FileCreateOneWithoutClubInput
+  master: UserCreateOneWithoutIsMasterInput!
+  applications: ApplicationCreateManyWithoutClubInput
 }
 
 type ClubEdge {
@@ -441,17 +441,17 @@ input ClubSubscriptionWhereInput {
 }
 
 input ClubUpdateInput {
-  master: UserUpdateOneRequiredWithoutIsMasterInput
-  questions: QuestionUpdateManyWithoutOwnerInput
-  applications: ApplicationUpdateManyWithoutClubInput
   name: String
   bio: String
   description: String
   logo: String
-  clubImage: FileUpdateOneWithoutClubInput
   type: String
   socialUrl: String
   socialDisplay: Boolean
+  clubImage: FileUpdateOneWithoutClubInput
+  master: UserUpdateOneRequiredWithoutIsMasterInput
+  questions: QuestionUpdateManyWithoutOwnerInput
+  applications: ApplicationUpdateManyWithoutClubInput
 }
 
 input ClubUpdateManyMutationInput {
@@ -471,19 +471,17 @@ input ClubUpdateOneRequiredWithoutApplicationsInput {
   connect: ClubWhereUniqueInput
 }
 
+input ClubUpdateOneRequiredWithoutClubImageInput {
+  create: ClubCreateWithoutClubImageInput
+  update: ClubUpdateWithoutClubImageDataInput
+  upsert: ClubUpsertWithoutClubImageInput
+  connect: ClubWhereUniqueInput
+}
+
 input ClubUpdateOneRequiredWithoutQuestionsInput {
   create: ClubCreateWithoutQuestionsInput
   update: ClubUpdateWithoutQuestionsDataInput
   upsert: ClubUpsertWithoutQuestionsInput
-  connect: ClubWhereUniqueInput
-}
-
-input ClubUpdateOneWithoutClubImageInput {
-  create: ClubCreateWithoutClubImageInput
-  update: ClubUpdateWithoutClubImageDataInput
-  upsert: ClubUpsertWithoutClubImageInput
-  delete: Boolean
-  disconnect: Boolean
   connect: ClubWhereUniqueInput
 }
 
@@ -497,22 +495,19 @@ input ClubUpdateOneWithoutMasterInput {
 }
 
 input ClubUpdateWithoutApplicationsDataInput {
-  master: UserUpdateOneRequiredWithoutIsMasterInput
-  questions: QuestionUpdateManyWithoutOwnerInput
   name: String
   bio: String
   description: String
   logo: String
-  clubImage: FileUpdateOneWithoutClubInput
   type: String
   socialUrl: String
   socialDisplay: Boolean
+  clubImage: FileUpdateOneWithoutClubInput
+  master: UserUpdateOneRequiredWithoutIsMasterInput
+  questions: QuestionUpdateManyWithoutOwnerInput
 }
 
 input ClubUpdateWithoutClubImageDataInput {
-  master: UserUpdateOneRequiredWithoutIsMasterInput
-  questions: QuestionUpdateManyWithoutOwnerInput
-  applications: ApplicationUpdateManyWithoutClubInput
   name: String
   bio: String
   description: String
@@ -520,32 +515,35 @@ input ClubUpdateWithoutClubImageDataInput {
   type: String
   socialUrl: String
   socialDisplay: Boolean
+  master: UserUpdateOneRequiredWithoutIsMasterInput
+  questions: QuestionUpdateManyWithoutOwnerInput
+  applications: ApplicationUpdateManyWithoutClubInput
 }
 
 input ClubUpdateWithoutMasterDataInput {
-  questions: QuestionUpdateManyWithoutOwnerInput
-  applications: ApplicationUpdateManyWithoutClubInput
   name: String
   bio: String
   description: String
   logo: String
-  clubImage: FileUpdateOneWithoutClubInput
   type: String
   socialUrl: String
   socialDisplay: Boolean
+  clubImage: FileUpdateOneWithoutClubInput
+  questions: QuestionUpdateManyWithoutOwnerInput
+  applications: ApplicationUpdateManyWithoutClubInput
 }
 
 input ClubUpdateWithoutQuestionsDataInput {
-  master: UserUpdateOneRequiredWithoutIsMasterInput
-  applications: ApplicationUpdateManyWithoutClubInput
   name: String
   bio: String
   description: String
   logo: String
-  clubImage: FileUpdateOneWithoutClubInput
   type: String
   socialUrl: String
   socialDisplay: Boolean
+  clubImage: FileUpdateOneWithoutClubInput
+  master: UserUpdateOneRequiredWithoutIsMasterInput
+  applications: ApplicationUpdateManyWithoutClubInput
 }
 
 input ClubUpsertWithoutApplicationsInput {
@@ -583,13 +581,6 @@ input ClubWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  master: UserWhereInput
-  questions_every: QuestionWhereInput
-  questions_some: QuestionWhereInput
-  questions_none: QuestionWhereInput
-  applications_every: ApplicationWhereInput
-  applications_some: ApplicationWhereInput
-  applications_none: ApplicationWhereInput
   name: String
   name_not: String
   name_in: [String!]
@@ -646,7 +637,6 @@ input ClubWhereInput {
   logo_not_starts_with: String
   logo_ends_with: String
   logo_not_ends_with: String
-  clubImage: FileWhereInput
   type: String
   type_not: String
   type_in: [String!]
@@ -677,6 +667,14 @@ input ClubWhereInput {
   socialUrl_not_ends_with: String
   socialDisplay: Boolean
   socialDisplay_not: Boolean
+  clubImage: FileWhereInput
+  master: UserWhereInput
+  questions_every: QuestionWhereInput
+  questions_some: QuestionWhereInput
+  questions_none: QuestionWhereInput
+  applications_every: ApplicationWhereInput
+  applications_some: ApplicationWhereInput
+  applications_none: ApplicationWhereInput
   AND: [ClubWhereInput!]
   OR: [ClubWhereInput!]
   NOT: [ClubWhereInput!]
@@ -689,7 +687,7 @@ input ClubWhereUniqueInput {
 type File {
   id: ID!
   url: String!
-  club: Club
+  club: Club!
 }
 
 type FileConnection {
@@ -701,7 +699,7 @@ type FileConnection {
 input FileCreateInput {
   id: ID
   url: String!
-  club: ClubCreateOneWithoutClubImageInput
+  club: ClubCreateOneWithoutClubImageInput!
 }
 
 input FileCreateOneWithoutClubInput {
@@ -751,7 +749,7 @@ input FileSubscriptionWhereInput {
 
 input FileUpdateInput {
   url: String
-  club: ClubUpdateOneWithoutClubImageInput
+  club: ClubUpdateOneRequiredWithoutClubImageInput
 }
 
 input FileUpdateManyMutationInput {
@@ -1716,14 +1714,12 @@ type Subscription {
 type User {
   id: ID!
   email: String!
-  isMaster: Club
   encryptedPassword: String!
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
+  isMaster: Club
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
   applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
   rooms(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Room!]
@@ -1738,14 +1734,12 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   email: String!
-  isMaster: ClubCreateOneWithoutMasterInput
   encryptedPassword: String!
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
+  isMaster: ClubCreateOneWithoutMasterInput
   notifications: NotificationCreateManyWithoutUserInput
   applications: ApplicationCreateManyWithoutUserInput
   rooms: RoomCreateManyWithoutParticipantsInput
@@ -1779,14 +1773,12 @@ input UserCreateOneWithoutNotificationsInput {
 input UserCreateWithoutApplicationsInput {
   id: ID
   email: String!
-  isMaster: ClubCreateOneWithoutMasterInput
   encryptedPassword: String!
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
+  isMaster: ClubCreateOneWithoutMasterInput
   notifications: NotificationCreateManyWithoutUserInput
   rooms: RoomCreateManyWithoutParticipantsInput
 }
@@ -1795,12 +1787,10 @@ input UserCreateWithoutIsMasterInput {
   id: ID
   email: String!
   encryptedPassword: String!
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
   notifications: NotificationCreateManyWithoutUserInput
   applications: ApplicationCreateManyWithoutUserInput
   rooms: RoomCreateManyWithoutParticipantsInput
@@ -1809,14 +1799,12 @@ input UserCreateWithoutIsMasterInput {
 input UserCreateWithoutNotificationsInput {
   id: ID
   email: String!
-  isMaster: ClubCreateOneWithoutMasterInput
   encryptedPassword: String!
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
+  isMaster: ClubCreateOneWithoutMasterInput
   applications: ApplicationCreateManyWithoutUserInput
   rooms: RoomCreateManyWithoutParticipantsInput
 }
@@ -1824,14 +1812,12 @@ input UserCreateWithoutNotificationsInput {
 input UserCreateWithoutRoomsInput {
   id: ID
   email: String!
-  isMaster: ClubCreateOneWithoutMasterInput
   encryptedPassword: String!
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
+  isMaster: ClubCreateOneWithoutMasterInput
   notifications: NotificationCreateManyWithoutUserInput
   applications: ApplicationCreateManyWithoutUserInput
 }
@@ -1848,30 +1834,24 @@ enum UserOrderByInput {
   email_DESC
   encryptedPassword_ASC
   encryptedPassword_DESC
-  phoneNumber_ASC
-  phoneNumber_DESC
-  studentNumber_ASC
-  studentNumber_DESC
   Name_ASC
   Name_DESC
-  avatar_ASC
-  avatar_DESC
+  studentNumber_ASC
+  studentNumber_DESC
+  phoneNumber_ASC
+  phoneNumber_DESC
   sex_ASC
   sex_DESC
-  loginSecret_ASC
-  loginSecret_DESC
 }
 
 type UserPreviousValues {
   id: ID!
   email: String!
   encryptedPassword: String!
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
 }
 
 input UserScalarWhereInput {
@@ -1917,28 +1897,6 @@ input UserScalarWhereInput {
   encryptedPassword_not_starts_with: String
   encryptedPassword_ends_with: String
   encryptedPassword_not_ends_with: String
-  phoneNumber: String
-  phoneNumber_not: String
-  phoneNumber_in: [String!]
-  phoneNumber_not_in: [String!]
-  phoneNumber_lt: String
-  phoneNumber_lte: String
-  phoneNumber_gt: String
-  phoneNumber_gte: String
-  phoneNumber_contains: String
-  phoneNumber_not_contains: String
-  phoneNumber_starts_with: String
-  phoneNumber_not_starts_with: String
-  phoneNumber_ends_with: String
-  phoneNumber_not_ends_with: String
-  studentNumber: Int
-  studentNumber_not: Int
-  studentNumber_in: [Int!]
-  studentNumber_not_in: [Int!]
-  studentNumber_lt: Int
-  studentNumber_lte: Int
-  studentNumber_gt: Int
-  studentNumber_gte: Int
   Name: String
   Name_not: String
   Name_in: [String!]
@@ -1953,20 +1911,34 @@ input UserScalarWhereInput {
   Name_not_starts_with: String
   Name_ends_with: String
   Name_not_ends_with: String
-  avatar: String
-  avatar_not: String
-  avatar_in: [String!]
-  avatar_not_in: [String!]
-  avatar_lt: String
-  avatar_lte: String
-  avatar_gt: String
-  avatar_gte: String
-  avatar_contains: String
-  avatar_not_contains: String
-  avatar_starts_with: String
-  avatar_not_starts_with: String
-  avatar_ends_with: String
-  avatar_not_ends_with: String
+  studentNumber: String
+  studentNumber_not: String
+  studentNumber_in: [String!]
+  studentNumber_not_in: [String!]
+  studentNumber_lt: String
+  studentNumber_lte: String
+  studentNumber_gt: String
+  studentNumber_gte: String
+  studentNumber_contains: String
+  studentNumber_not_contains: String
+  studentNumber_starts_with: String
+  studentNumber_not_starts_with: String
+  studentNumber_ends_with: String
+  studentNumber_not_ends_with: String
+  phoneNumber: String
+  phoneNumber_not: String
+  phoneNumber_in: [String!]
+  phoneNumber_not_in: [String!]
+  phoneNumber_lt: String
+  phoneNumber_lte: String
+  phoneNumber_gt: String
+  phoneNumber_gte: String
+  phoneNumber_contains: String
+  phoneNumber_not_contains: String
+  phoneNumber_starts_with: String
+  phoneNumber_not_starts_with: String
+  phoneNumber_ends_with: String
+  phoneNumber_not_ends_with: String
   sex: String
   sex_not: String
   sex_in: [String!]
@@ -1981,20 +1953,6 @@ input UserScalarWhereInput {
   sex_not_starts_with: String
   sex_ends_with: String
   sex_not_ends_with: String
-  loginSecret: String
-  loginSecret_not: String
-  loginSecret_in: [String!]
-  loginSecret_not_in: [String!]
-  loginSecret_lt: String
-  loginSecret_lte: String
-  loginSecret_gt: String
-  loginSecret_gte: String
-  loginSecret_contains: String
-  loginSecret_not_contains: String
-  loginSecret_starts_with: String
-  loginSecret_not_starts_with: String
-  loginSecret_ends_with: String
-  loginSecret_not_ends_with: String
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -2020,14 +1978,12 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateDataInput {
   email: String
-  isMaster: ClubUpdateOneWithoutMasterInput
   encryptedPassword: String
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
+  isMaster: ClubUpdateOneWithoutMasterInput
   notifications: NotificationUpdateManyWithoutUserInput
   applications: ApplicationUpdateManyWithoutUserInput
   rooms: RoomUpdateManyWithoutParticipantsInput
@@ -2035,14 +1991,12 @@ input UserUpdateDataInput {
 
 input UserUpdateInput {
   email: String
-  isMaster: ClubUpdateOneWithoutMasterInput
   encryptedPassword: String
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
+  isMaster: ClubUpdateOneWithoutMasterInput
   notifications: NotificationUpdateManyWithoutUserInput
   applications: ApplicationUpdateManyWithoutUserInput
   rooms: RoomUpdateManyWithoutParticipantsInput
@@ -2051,23 +2005,19 @@ input UserUpdateInput {
 input UserUpdateManyDataInput {
   email: String
   encryptedPassword: String
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
 }
 
 input UserUpdateManyMutationInput {
   email: String
   encryptedPassword: String
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
 }
 
 input UserUpdateManyWithoutRoomsInput {
@@ -2117,14 +2067,12 @@ input UserUpdateOneRequiredWithoutNotificationsInput {
 
 input UserUpdateWithoutApplicationsDataInput {
   email: String
-  isMaster: ClubUpdateOneWithoutMasterInput
   encryptedPassword: String
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
+  isMaster: ClubUpdateOneWithoutMasterInput
   notifications: NotificationUpdateManyWithoutUserInput
   rooms: RoomUpdateManyWithoutParticipantsInput
 }
@@ -2132,12 +2080,10 @@ input UserUpdateWithoutApplicationsDataInput {
 input UserUpdateWithoutIsMasterDataInput {
   email: String
   encryptedPassword: String
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
   notifications: NotificationUpdateManyWithoutUserInput
   applications: ApplicationUpdateManyWithoutUserInput
   rooms: RoomUpdateManyWithoutParticipantsInput
@@ -2145,28 +2091,24 @@ input UserUpdateWithoutIsMasterDataInput {
 
 input UserUpdateWithoutNotificationsDataInput {
   email: String
-  isMaster: ClubUpdateOneWithoutMasterInput
   encryptedPassword: String
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
+  isMaster: ClubUpdateOneWithoutMasterInput
   applications: ApplicationUpdateManyWithoutUserInput
   rooms: RoomUpdateManyWithoutParticipantsInput
 }
 
 input UserUpdateWithoutRoomsDataInput {
   email: String
-  isMaster: ClubUpdateOneWithoutMasterInput
   encryptedPassword: String
-  phoneNumber: String
-  studentNumber: Int
   Name: String
-  avatar: String
+  studentNumber: String
+  phoneNumber: String
   sex: String
-  loginSecret: String
+  isMaster: ClubUpdateOneWithoutMasterInput
   notifications: NotificationUpdateManyWithoutUserInput
   applications: ApplicationUpdateManyWithoutUserInput
 }
@@ -2231,7 +2173,6 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
-  isMaster: ClubWhereInput
   encryptedPassword: String
   encryptedPassword_not: String
   encryptedPassword_in: [String!]
@@ -2246,28 +2187,6 @@ input UserWhereInput {
   encryptedPassword_not_starts_with: String
   encryptedPassword_ends_with: String
   encryptedPassword_not_ends_with: String
-  phoneNumber: String
-  phoneNumber_not: String
-  phoneNumber_in: [String!]
-  phoneNumber_not_in: [String!]
-  phoneNumber_lt: String
-  phoneNumber_lte: String
-  phoneNumber_gt: String
-  phoneNumber_gte: String
-  phoneNumber_contains: String
-  phoneNumber_not_contains: String
-  phoneNumber_starts_with: String
-  phoneNumber_not_starts_with: String
-  phoneNumber_ends_with: String
-  phoneNumber_not_ends_with: String
-  studentNumber: Int
-  studentNumber_not: Int
-  studentNumber_in: [Int!]
-  studentNumber_not_in: [Int!]
-  studentNumber_lt: Int
-  studentNumber_lte: Int
-  studentNumber_gt: Int
-  studentNumber_gte: Int
   Name: String
   Name_not: String
   Name_in: [String!]
@@ -2282,20 +2201,34 @@ input UserWhereInput {
   Name_not_starts_with: String
   Name_ends_with: String
   Name_not_ends_with: String
-  avatar: String
-  avatar_not: String
-  avatar_in: [String!]
-  avatar_not_in: [String!]
-  avatar_lt: String
-  avatar_lte: String
-  avatar_gt: String
-  avatar_gte: String
-  avatar_contains: String
-  avatar_not_contains: String
-  avatar_starts_with: String
-  avatar_not_starts_with: String
-  avatar_ends_with: String
-  avatar_not_ends_with: String
+  studentNumber: String
+  studentNumber_not: String
+  studentNumber_in: [String!]
+  studentNumber_not_in: [String!]
+  studentNumber_lt: String
+  studentNumber_lte: String
+  studentNumber_gt: String
+  studentNumber_gte: String
+  studentNumber_contains: String
+  studentNumber_not_contains: String
+  studentNumber_starts_with: String
+  studentNumber_not_starts_with: String
+  studentNumber_ends_with: String
+  studentNumber_not_ends_with: String
+  phoneNumber: String
+  phoneNumber_not: String
+  phoneNumber_in: [String!]
+  phoneNumber_not_in: [String!]
+  phoneNumber_lt: String
+  phoneNumber_lte: String
+  phoneNumber_gt: String
+  phoneNumber_gte: String
+  phoneNumber_contains: String
+  phoneNumber_not_contains: String
+  phoneNumber_starts_with: String
+  phoneNumber_not_starts_with: String
+  phoneNumber_ends_with: String
+  phoneNumber_not_ends_with: String
   sex: String
   sex_not: String
   sex_in: [String!]
@@ -2310,20 +2243,7 @@ input UserWhereInput {
   sex_not_starts_with: String
   sex_ends_with: String
   sex_not_ends_with: String
-  loginSecret: String
-  loginSecret_not: String
-  loginSecret_in: [String!]
-  loginSecret_not_in: [String!]
-  loginSecret_lt: String
-  loginSecret_lte: String
-  loginSecret_gt: String
-  loginSecret_gte: String
-  loginSecret_contains: String
-  loginSecret_not_contains: String
-  loginSecret_starts_with: String
-  loginSecret_not_starts_with: String
-  loginSecret_ends_with: String
-  loginSecret_not_ends_with: String
+  isMaster: ClubWhereInput
   notifications_every: NotificationWhereInput
   notifications_some: NotificationWhereInput
   notifications_none: NotificationWhereInput

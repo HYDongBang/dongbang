@@ -4,7 +4,7 @@ const EDIT = "EDIT";
 export default {
     Mutation:{
         editClub: async(_, args, {request}) => {
-            const { name, id, description, bio, action } = args;
+            const {name ,id, description, bio, action } = args;
             const club = await prisma.$exists.club({id}) // 추후에 user: { id: user.id}
             if(club){
                 if(action === EDIT){

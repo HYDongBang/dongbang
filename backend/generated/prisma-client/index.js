@@ -9,19 +9,7 @@ var models = [
     embedded: false
   },
   {
-    name: "Notification",
-    embedded: false
-  },
-  {
-    name: "Application",
-    embedded: false
-  },
-  {
     name: "Club",
-    embedded: false
-  },
-  {
-    name: "Question",
     embedded: false
   },
   {
@@ -30,6 +18,18 @@ var models = [
   },
   {
     name: "Message",
+    embedded: false
+  },
+  {
+    name: "Question",
+    embedded: false
+  },
+  {
+    name: "Application",
+    embedded: false
+  },
+  {
+    name: "Notification",
     embedded: false
   },
   {

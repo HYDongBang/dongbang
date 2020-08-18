@@ -10,6 +10,7 @@ type User{
     notifications:[Notification]
     applications:[Application]
     rooms:[Room]
+    clubs:[Club]
 }
 
 type Club{
@@ -25,6 +26,7 @@ type Club{
     master: User!
     questions: [Question]
     applications: [Application]
+    members:[User]
 }
 
 type Room{
@@ -39,6 +41,7 @@ type Message {
     from: User!
     to: User!
     room: Room!
+    created: DateTime!
 }
 
 type Question{
@@ -55,8 +58,8 @@ type Application{
     user: User!
     club: Club!
     answer: [String]!
-    checked: Boolean!
-    isPass: Boolean
+    status: String
+    created: DateTime!
 }
 
 type Notification{
@@ -64,6 +67,7 @@ type Notification{
     user: User!
     content: String!
     checked: Boolean!
+    created: DateTime!
 }
 
 type File{
@@ -71,3 +75,5 @@ type File{
     url: String!
     club: Club!
 }
+
+scalar DateTime

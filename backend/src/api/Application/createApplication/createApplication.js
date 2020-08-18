@@ -2,25 +2,27 @@ import { prisma } from "../../../../generated/prisma-client";
 
 export default {
     Mutation: {
-        createApplication: async(_, args) => {
-            const { uid, cid, answers } = args;
+        createApplication:  async(_, args, { request, isAuthenticated }) => {
+            const { user } = request;
+            isAuthenticated(request);
+            
+            const { cid, answers } = args;
             const application = await prisma.createApplication({ 
                 user: { connect:{
-                    id : uid
+                    id : user.id
                 }},
                 club: { connect:{
                     id : cid
                 }},
                 answer : { set : answers },
-                isPass: false,
-                checked: false
+                // isPass: false,
+                // checked: false
             })
             const masterId = await prisma.club({id: cid}).master().id();
             const club = await prisma.club({id: cid}).name();
-            const user = await prisma.user({id: uid}).name;
             await prisma.createNotification({
                 user: {connect: {
-                    id: uid
+                    id: user.id
                 }},
                 content: `${club}동아리에 지원이 완료되었습니다.`
             })
@@ -28,7 +30,7 @@ export default {
                 user: {connect: {
                     id: masterId
                 }},
-                content: `${user}님이 동아리에 지원했습니다..`
+                content: `${user.name}님이 동아리에 지원했습니다..`
             })
             return application;
         }

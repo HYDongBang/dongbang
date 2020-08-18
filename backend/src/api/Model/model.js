@@ -1,17 +1,20 @@
 import { prisma } from "../../../generated/prisma-client";
+import { GraphQLDateTime } from "graphql-iso-date";
 
  export default {
    User: {
      isMaster: (parent) => prisma.user({id:parent.id}).isMaster(),
      applications: (parent) => prisma.user({id:parent.id}).applications(),
      rooms: (parent) => prisma.user({id:parent.id}).rooms(),
-     notifications: (parent) => prisma.user({id:parent.id}).notifications()
+     notifications: (parent) => prisma.user({id:parent.id}).notifications(),
+     clubs: (parent) => prisma.user({id:parent.id}).clubs()
    },
    Club: {
      questions: (parent) => prisma.club({id: parent.id}).questions(),
      master: (parent) => prisma.club({id: parent.id}).master(),
      applications: (parent) => prisma.club({id: parent.id}).applications(),
-     clubImage: (parent) => prisma.club({id: parent.id}).clubImage()
+     clubImage: (parent) => prisma.club({id: parent.id}).clubImage(),
+     members: (parent) => prisma.club({id: parent.id}).members()
    },
    Room: {
      participants: (parent) => prisma.room({id: parent.id}).participants(),
@@ -34,5 +37,5 @@ import { prisma } from "../../../generated/prisma-client";
    },
    File: {
      club: (parent) => prisma.file({id: parent.id}).club()
-   }
+   },
  };

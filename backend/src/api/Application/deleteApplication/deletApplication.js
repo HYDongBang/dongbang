@@ -1,7 +1,9 @@
 import { prisma } from "../../../../generated/prisma-client";
 export default {
     Mutation:{
-        deleteApplication: async(_, args, {request}) => {
+        deleteApplication: async(_, args, { request, isAuthenticated }) => {
+            isAuthenticated(request);
+            const user = { request };
             const { id } = args;
             const application = await prisma.$exists.application({id}) // 추후에 user: { id: user.id}
             if(application){

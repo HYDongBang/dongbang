@@ -15,8 +15,6 @@ export default {
                     id : cid
                 }},
                 answer : { set : answers },
-                // isPass: false,
-                // checked: false
             })
             const masterId = await prisma.club({id: cid}).master().id();
             const club = await prisma.club({id: cid}).name();

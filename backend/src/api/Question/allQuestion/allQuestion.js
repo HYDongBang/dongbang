@@ -5,4 +5,5 @@ export default {
         allQuestion: async () => prisma.questions()
         //$fragment()
     }
+    
 }

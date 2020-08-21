@@ -40,8 +40,8 @@ type Application {
   user: User!
   club: Club!
   answer: [String!]!
-  checked: Boolean!
-  isPass: Boolean
+  status: String
+  created: DateTime!
 }
 
 type ApplicationConnection {
@@ -59,8 +59,7 @@ input ApplicationCreateInput {
   user: UserCreateOneWithoutApplicationsInput!
   club: ClubCreateOneWithoutApplicationsInput!
   answer: ApplicationCreateanswerInput
-  checked: Boolean
-  isPass: Boolean
+  status: String
 }
 
 input ApplicationCreateManyWithoutClubInput {
@@ -77,16 +76,14 @@ input ApplicationCreateWithoutClubInput {
   id: ID
   user: UserCreateOneWithoutApplicationsInput!
   answer: ApplicationCreateanswerInput
-  checked: Boolean
-  isPass: Boolean
+  status: String
 }
 
 input ApplicationCreateWithoutUserInput {
   id: ID
   club: ClubCreateOneWithoutApplicationsInput!
   answer: ApplicationCreateanswerInput
-  checked: Boolean
-  isPass: Boolean
+  status: String
 }
 
 type ApplicationEdge {
@@ -97,17 +94,17 @@ type ApplicationEdge {
 enum ApplicationOrderByInput {
   id_ASC
   id_DESC
-  checked_ASC
-  checked_DESC
-  isPass_ASC
-  isPass_DESC
+  status_ASC
+  status_DESC
+  created_ASC
+  created_DESC
 }
 
 type ApplicationPreviousValues {
   id: ID!
   answer: [String!]!
-  checked: Boolean!
-  isPass: Boolean
+  status: String
+  created: DateTime!
 }
 
 input ApplicationScalarWhereInput {
@@ -125,10 +122,28 @@ input ApplicationScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  checked: Boolean
-  checked_not: Boolean
-  isPass: Boolean
-  isPass_not: Boolean
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  created: DateTime
+  created_not: DateTime
+  created_in: [DateTime!]
+  created_not_in: [DateTime!]
+  created_lt: DateTime
+  created_lte: DateTime
+  created_gt: DateTime
+  created_gte: DateTime
   AND: [ApplicationScalarWhereInput!]
   OR: [ApplicationScalarWhereInput!]
   NOT: [ApplicationScalarWhereInput!]
@@ -160,20 +175,17 @@ input ApplicationUpdateInput {
   user: UserUpdateOneRequiredWithoutApplicationsInput
   club: ClubUpdateOneRequiredWithoutApplicationsInput
   answer: ApplicationUpdateanswerInput
-  checked: Boolean
-  isPass: Boolean
+  status: String
 }
 
 input ApplicationUpdateManyDataInput {
   answer: ApplicationUpdateanswerInput
-  checked: Boolean
-  isPass: Boolean
+  status: String
 }
 
 input ApplicationUpdateManyMutationInput {
   answer: ApplicationUpdateanswerInput
-  checked: Boolean
-  isPass: Boolean
+  status: String
 }
 
 input ApplicationUpdateManyWithoutClubInput {
@@ -208,15 +220,13 @@ input ApplicationUpdateManyWithWhereNestedInput {
 input ApplicationUpdateWithoutClubDataInput {
   user: UserUpdateOneRequiredWithoutApplicationsInput
   answer: ApplicationUpdateanswerInput
-  checked: Boolean
-  isPass: Boolean
+  status: String
 }
 
 input ApplicationUpdateWithoutUserDataInput {
   club: ClubUpdateOneRequiredWithoutApplicationsInput
   answer: ApplicationUpdateanswerInput
-  checked: Boolean
-  isPass: Boolean
+  status: String
 }
 
 input ApplicationUpdateWithWhereUniqueWithoutClubInput {
@@ -258,10 +268,28 @@ input ApplicationWhereInput {
   id_not_ends_with: ID
   user: UserWhereInput
   club: ClubWhereInput
-  checked: Boolean
-  checked_not: Boolean
-  isPass: Boolean
-  isPass_not: Boolean
+  status: String
+  status_not: String
+  status_in: [String!]
+  status_not_in: [String!]
+  status_lt: String
+  status_lte: String
+  status_gt: String
+  status_gte: String
+  status_contains: String
+  status_not_contains: String
+  status_starts_with: String
+  status_not_starts_with: String
+  status_ends_with: String
+  status_not_ends_with: String
+  created: DateTime
+  created_not: DateTime
+  created_in: [DateTime!]
+  created_not_in: [DateTime!]
+  created_lt: DateTime
+  created_lte: DateTime
+  created_gt: DateTime
+  created_gte: DateTime
   AND: [ApplicationWhereInput!]
   OR: [ApplicationWhereInput!]
   NOT: [ApplicationWhereInput!]
@@ -288,6 +316,7 @@ type Club {
   master: User!
   questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question!]
   applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
+  members(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
 type ClubConnection {
@@ -309,6 +338,12 @@ input ClubCreateInput {
   master: UserCreateOneWithoutIsMasterInput!
   questions: QuestionCreateManyWithoutOwnerInput
   applications: ApplicationCreateManyWithoutClubInput
+  members: UserCreateManyWithoutClubsInput
+}
+
+input ClubCreateManyWithoutMembersInput {
+  create: [ClubCreateWithoutMembersInput!]
+  connect: [ClubWhereUniqueInput!]
 }
 
 input ClubCreateOneWithoutApplicationsInput {
@@ -343,6 +378,7 @@ input ClubCreateWithoutApplicationsInput {
   clubImage: FileCreateOneWithoutClubInput
   master: UserCreateOneWithoutIsMasterInput!
   questions: QuestionCreateManyWithoutOwnerInput
+  members: UserCreateManyWithoutClubsInput
 }
 
 input ClubCreateWithoutClubImageInput {
@@ -357,6 +393,7 @@ input ClubCreateWithoutClubImageInput {
   master: UserCreateOneWithoutIsMasterInput!
   questions: QuestionCreateManyWithoutOwnerInput
   applications: ApplicationCreateManyWithoutClubInput
+  members: UserCreateManyWithoutClubsInput
 }
 
 input ClubCreateWithoutMasterInput {
@@ -369,6 +406,22 @@ input ClubCreateWithoutMasterInput {
   socialUrl: String
   socialDisplay: Boolean
   clubImage: FileCreateOneWithoutClubInput
+  questions: QuestionCreateManyWithoutOwnerInput
+  applications: ApplicationCreateManyWithoutClubInput
+  members: UserCreateManyWithoutClubsInput
+}
+
+input ClubCreateWithoutMembersInput {
+  id: ID
+  name: String!
+  bio: String!
+  description: String!
+  logo: String
+  type: String!
+  socialUrl: String
+  socialDisplay: Boolean
+  clubImage: FileCreateOneWithoutClubInput
+  master: UserCreateOneWithoutIsMasterInput!
   questions: QuestionCreateManyWithoutOwnerInput
   applications: ApplicationCreateManyWithoutClubInput
 }
@@ -385,6 +438,7 @@ input ClubCreateWithoutQuestionsInput {
   clubImage: FileCreateOneWithoutClubInput
   master: UserCreateOneWithoutIsMasterInput!
   applications: ApplicationCreateManyWithoutClubInput
+  members: UserCreateManyWithoutClubsInput
 }
 
 type ClubEdge {
@@ -422,6 +476,112 @@ type ClubPreviousValues {
   socialDisplay: Boolean
 }
 
+input ClubScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  bio: String
+  bio_not: String
+  bio_in: [String!]
+  bio_not_in: [String!]
+  bio_lt: String
+  bio_lte: String
+  bio_gt: String
+  bio_gte: String
+  bio_contains: String
+  bio_not_contains: String
+  bio_starts_with: String
+  bio_not_starts_with: String
+  bio_ends_with: String
+  bio_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  logo: String
+  logo_not: String
+  logo_in: [String!]
+  logo_not_in: [String!]
+  logo_lt: String
+  logo_lte: String
+  logo_gt: String
+  logo_gte: String
+  logo_contains: String
+  logo_not_contains: String
+  logo_starts_with: String
+  logo_not_starts_with: String
+  logo_ends_with: String
+  logo_not_ends_with: String
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  socialUrl: String
+  socialUrl_not: String
+  socialUrl_in: [String!]
+  socialUrl_not_in: [String!]
+  socialUrl_lt: String
+  socialUrl_lte: String
+  socialUrl_gt: String
+  socialUrl_gte: String
+  socialUrl_contains: String
+  socialUrl_not_contains: String
+  socialUrl_starts_with: String
+  socialUrl_not_starts_with: String
+  socialUrl_ends_with: String
+  socialUrl_not_ends_with: String
+  socialDisplay: Boolean
+  socialDisplay_not: Boolean
+  AND: [ClubScalarWhereInput!]
+  OR: [ClubScalarWhereInput!]
+  NOT: [ClubScalarWhereInput!]
+}
+
 type ClubSubscriptionPayload {
   mutation: MutationType!
   node: Club
@@ -452,6 +612,17 @@ input ClubUpdateInput {
   master: UserUpdateOneRequiredWithoutIsMasterInput
   questions: QuestionUpdateManyWithoutOwnerInput
   applications: ApplicationUpdateManyWithoutClubInput
+  members: UserUpdateManyWithoutClubsInput
+}
+
+input ClubUpdateManyDataInput {
+  name: String
+  bio: String
+  description: String
+  logo: String
+  type: String
+  socialUrl: String
+  socialDisplay: Boolean
 }
 
 input ClubUpdateManyMutationInput {
@@ -462,6 +633,23 @@ input ClubUpdateManyMutationInput {
   type: String
   socialUrl: String
   socialDisplay: Boolean
+}
+
+input ClubUpdateManyWithoutMembersInput {
+  create: [ClubCreateWithoutMembersInput!]
+  delete: [ClubWhereUniqueInput!]
+  connect: [ClubWhereUniqueInput!]
+  set: [ClubWhereUniqueInput!]
+  disconnect: [ClubWhereUniqueInput!]
+  update: [ClubUpdateWithWhereUniqueWithoutMembersInput!]
+  upsert: [ClubUpsertWithWhereUniqueWithoutMembersInput!]
+  deleteMany: [ClubScalarWhereInput!]
+  updateMany: [ClubUpdateManyWithWhereNestedInput!]
+}
+
+input ClubUpdateManyWithWhereNestedInput {
+  where: ClubScalarWhereInput!
+  data: ClubUpdateManyDataInput!
 }
 
 input ClubUpdateOneRequiredWithoutApplicationsInput {
@@ -505,6 +693,7 @@ input ClubUpdateWithoutApplicationsDataInput {
   clubImage: FileUpdateOneWithoutClubInput
   master: UserUpdateOneRequiredWithoutIsMasterInput
   questions: QuestionUpdateManyWithoutOwnerInput
+  members: UserUpdateManyWithoutClubsInput
 }
 
 input ClubUpdateWithoutClubImageDataInput {
@@ -518,6 +707,7 @@ input ClubUpdateWithoutClubImageDataInput {
   master: UserUpdateOneRequiredWithoutIsMasterInput
   questions: QuestionUpdateManyWithoutOwnerInput
   applications: ApplicationUpdateManyWithoutClubInput
+  members: UserUpdateManyWithoutClubsInput
 }
 
 input ClubUpdateWithoutMasterDataInput {
@@ -529,6 +719,21 @@ input ClubUpdateWithoutMasterDataInput {
   socialUrl: String
   socialDisplay: Boolean
   clubImage: FileUpdateOneWithoutClubInput
+  questions: QuestionUpdateManyWithoutOwnerInput
+  applications: ApplicationUpdateManyWithoutClubInput
+  members: UserUpdateManyWithoutClubsInput
+}
+
+input ClubUpdateWithoutMembersDataInput {
+  name: String
+  bio: String
+  description: String
+  logo: String
+  type: String
+  socialUrl: String
+  socialDisplay: Boolean
+  clubImage: FileUpdateOneWithoutClubInput
+  master: UserUpdateOneRequiredWithoutIsMasterInput
   questions: QuestionUpdateManyWithoutOwnerInput
   applications: ApplicationUpdateManyWithoutClubInput
 }
@@ -544,6 +749,12 @@ input ClubUpdateWithoutQuestionsDataInput {
   clubImage: FileUpdateOneWithoutClubInput
   master: UserUpdateOneRequiredWithoutIsMasterInput
   applications: ApplicationUpdateManyWithoutClubInput
+  members: UserUpdateManyWithoutClubsInput
+}
+
+input ClubUpdateWithWhereUniqueWithoutMembersInput {
+  where: ClubWhereUniqueInput!
+  data: ClubUpdateWithoutMembersDataInput!
 }
 
 input ClubUpsertWithoutApplicationsInput {
@@ -564,6 +775,12 @@ input ClubUpsertWithoutMasterInput {
 input ClubUpsertWithoutQuestionsInput {
   update: ClubUpdateWithoutQuestionsDataInput!
   create: ClubCreateWithoutQuestionsInput!
+}
+
+input ClubUpsertWithWhereUniqueWithoutMembersInput {
+  where: ClubWhereUniqueInput!
+  update: ClubUpdateWithoutMembersDataInput!
+  create: ClubCreateWithoutMembersInput!
 }
 
 input ClubWhereInput {
@@ -675,6 +892,9 @@ input ClubWhereInput {
   applications_every: ApplicationWhereInput
   applications_some: ApplicationWhereInput
   applications_none: ApplicationWhereInput
+  members_every: UserWhereInput
+  members_some: UserWhereInput
+  members_none: UserWhereInput
   AND: [ClubWhereInput!]
   OR: [ClubWhereInput!]
   NOT: [ClubWhereInput!]
@@ -683,6 +903,8 @@ input ClubWhereInput {
 input ClubWhereUniqueInput {
   id: ID
 }
+
+scalar DateTime
 
 type File {
   id: ID!
@@ -1073,6 +1295,7 @@ type Notification {
   user: User!
   content: String!
   checked: Boolean!
+  created: DateTime!
 }
 
 type NotificationConnection {
@@ -1111,12 +1334,15 @@ enum NotificationOrderByInput {
   content_DESC
   checked_ASC
   checked_DESC
+  created_ASC
+  created_DESC
 }
 
 type NotificationPreviousValues {
   id: ID!
   content: String!
   checked: Boolean!
+  created: DateTime!
 }
 
 input NotificationScalarWhereInput {
@@ -1150,6 +1376,14 @@ input NotificationScalarWhereInput {
   content_not_ends_with: String
   checked: Boolean
   checked_not: Boolean
+  created: DateTime
+  created_not: DateTime
+  created_in: [DateTime!]
+  created_not_in: [DateTime!]
+  created_lt: DateTime
+  created_lte: DateTime
+  created_gt: DateTime
+  created_gte: DateTime
   AND: [NotificationScalarWhereInput!]
   OR: [NotificationScalarWhereInput!]
   NOT: [NotificationScalarWhereInput!]
@@ -1254,6 +1488,14 @@ input NotificationWhereInput {
   content_not_ends_with: String
   checked: Boolean
   checked_not: Boolean
+  created: DateTime
+  created_not: DateTime
+  created_in: [DateTime!]
+  created_not_in: [DateTime!]
+  created_lt: DateTime
+  created_lte: DateTime
+  created_gt: DateTime
+  created_gte: DateTime
   AND: [NotificationWhereInput!]
   OR: [NotificationWhereInput!]
   NOT: [NotificationWhereInput!]
@@ -1723,6 +1965,7 @@ type User {
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
   applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
   rooms(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Room!]
+  clubs(where: ClubWhereInput, orderBy: ClubOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Club!]
 }
 
 type UserConnection {
@@ -1743,6 +1986,12 @@ input UserCreateInput {
   notifications: NotificationCreateManyWithoutUserInput
   applications: ApplicationCreateManyWithoutUserInput
   rooms: RoomCreateManyWithoutParticipantsInput
+  clubs: ClubCreateManyWithoutMembersInput
+}
+
+input UserCreateManyWithoutClubsInput {
+  create: [UserCreateWithoutClubsInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
 input UserCreateManyWithoutRoomsInput {
@@ -1781,6 +2030,21 @@ input UserCreateWithoutApplicationsInput {
   isMaster: ClubCreateOneWithoutMasterInput
   notifications: NotificationCreateManyWithoutUserInput
   rooms: RoomCreateManyWithoutParticipantsInput
+  clubs: ClubCreateManyWithoutMembersInput
+}
+
+input UserCreateWithoutClubsInput {
+  id: ID
+  email: String!
+  encryptedPassword: String!
+  Name: String
+  studentNumber: String
+  phoneNumber: String
+  sex: String
+  isMaster: ClubCreateOneWithoutMasterInput
+  notifications: NotificationCreateManyWithoutUserInput
+  applications: ApplicationCreateManyWithoutUserInput
+  rooms: RoomCreateManyWithoutParticipantsInput
 }
 
 input UserCreateWithoutIsMasterInput {
@@ -1794,6 +2058,7 @@ input UserCreateWithoutIsMasterInput {
   notifications: NotificationCreateManyWithoutUserInput
   applications: ApplicationCreateManyWithoutUserInput
   rooms: RoomCreateManyWithoutParticipantsInput
+  clubs: ClubCreateManyWithoutMembersInput
 }
 
 input UserCreateWithoutNotificationsInput {
@@ -1807,6 +2072,7 @@ input UserCreateWithoutNotificationsInput {
   isMaster: ClubCreateOneWithoutMasterInput
   applications: ApplicationCreateManyWithoutUserInput
   rooms: RoomCreateManyWithoutParticipantsInput
+  clubs: ClubCreateManyWithoutMembersInput
 }
 
 input UserCreateWithoutRoomsInput {
@@ -1820,6 +2086,7 @@ input UserCreateWithoutRoomsInput {
   isMaster: ClubCreateOneWithoutMasterInput
   notifications: NotificationCreateManyWithoutUserInput
   applications: ApplicationCreateManyWithoutUserInput
+  clubs: ClubCreateManyWithoutMembersInput
 }
 
 type UserEdge {
@@ -1987,6 +2254,7 @@ input UserUpdateDataInput {
   notifications: NotificationUpdateManyWithoutUserInput
   applications: ApplicationUpdateManyWithoutUserInput
   rooms: RoomUpdateManyWithoutParticipantsInput
+  clubs: ClubUpdateManyWithoutMembersInput
 }
 
 input UserUpdateInput {
@@ -2000,6 +2268,7 @@ input UserUpdateInput {
   notifications: NotificationUpdateManyWithoutUserInput
   applications: ApplicationUpdateManyWithoutUserInput
   rooms: RoomUpdateManyWithoutParticipantsInput
+  clubs: ClubUpdateManyWithoutMembersInput
 }
 
 input UserUpdateManyDataInput {
@@ -2018,6 +2287,18 @@ input UserUpdateManyMutationInput {
   studentNumber: String
   phoneNumber: String
   sex: String
+}
+
+input UserUpdateManyWithoutClubsInput {
+  create: [UserCreateWithoutClubsInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutClubsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutClubsInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
 
 input UserUpdateManyWithoutRoomsInput {
@@ -2075,6 +2356,20 @@ input UserUpdateWithoutApplicationsDataInput {
   isMaster: ClubUpdateOneWithoutMasterInput
   notifications: NotificationUpdateManyWithoutUserInput
   rooms: RoomUpdateManyWithoutParticipantsInput
+  clubs: ClubUpdateManyWithoutMembersInput
+}
+
+input UserUpdateWithoutClubsDataInput {
+  email: String
+  encryptedPassword: String
+  Name: String
+  studentNumber: String
+  phoneNumber: String
+  sex: String
+  isMaster: ClubUpdateOneWithoutMasterInput
+  notifications: NotificationUpdateManyWithoutUserInput
+  applications: ApplicationUpdateManyWithoutUserInput
+  rooms: RoomUpdateManyWithoutParticipantsInput
 }
 
 input UserUpdateWithoutIsMasterDataInput {
@@ -2087,6 +2382,7 @@ input UserUpdateWithoutIsMasterDataInput {
   notifications: NotificationUpdateManyWithoutUserInput
   applications: ApplicationUpdateManyWithoutUserInput
   rooms: RoomUpdateManyWithoutParticipantsInput
+  clubs: ClubUpdateManyWithoutMembersInput
 }
 
 input UserUpdateWithoutNotificationsDataInput {
@@ -2099,6 +2395,7 @@ input UserUpdateWithoutNotificationsDataInput {
   isMaster: ClubUpdateOneWithoutMasterInput
   applications: ApplicationUpdateManyWithoutUserInput
   rooms: RoomUpdateManyWithoutParticipantsInput
+  clubs: ClubUpdateManyWithoutMembersInput
 }
 
 input UserUpdateWithoutRoomsDataInput {
@@ -2111,6 +2408,12 @@ input UserUpdateWithoutRoomsDataInput {
   isMaster: ClubUpdateOneWithoutMasterInput
   notifications: NotificationUpdateManyWithoutUserInput
   applications: ApplicationUpdateManyWithoutUserInput
+  clubs: ClubUpdateManyWithoutMembersInput
+}
+
+input UserUpdateWithWhereUniqueWithoutClubsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutClubsDataInput!
 }
 
 input UserUpdateWithWhereUniqueWithoutRoomsInput {
@@ -2136,6 +2439,12 @@ input UserUpsertWithoutIsMasterInput {
 input UserUpsertWithoutNotificationsInput {
   update: UserUpdateWithoutNotificationsDataInput!
   create: UserCreateWithoutNotificationsInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutClubsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutClubsDataInput!
+  create: UserCreateWithoutClubsInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutRoomsInput {
@@ -2253,6 +2562,9 @@ input UserWhereInput {
   rooms_every: RoomWhereInput
   rooms_some: RoomWhereInput
   rooms_none: RoomWhereInput
+  clubs_every: ClubWhereInput
+  clubs_some: ClubWhereInput
+  clubs_none: ClubWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

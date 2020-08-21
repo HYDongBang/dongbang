@@ -13,7 +13,12 @@ export default {
                     connect: {
                         id
                     }
-                }
+                },
+                // members: {
+                //     connect: {
+                //         id
+                //     }
+                // }
             })
             return club;
         }

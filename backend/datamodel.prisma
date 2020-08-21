@@ -10,6 +10,7 @@ type User{
     notifications:[Notification] @relation(name:"UserNotification")
     applications:[Application]
     rooms:[Room]
+    clubs:[Club] @relation(name: "ClubMember")
 }
 
 type Club{
@@ -25,6 +26,7 @@ type Club{
     master: User! @relation(name:"ClubMaster", link: INLINE)
     questions: [Question] @relation(name:"ClubQuestion")
     applications: [Application]
+    members:[User] @relation(name: "ClubMember")
 }
 
 type Room{
@@ -55,8 +57,8 @@ type Application{
     user: User!
     club: Club!
     answer: [String]! @scalarList(strategy: RELATION)
-    checked: Boolean! @default(value:false)
-    isPass: Boolean @default(value:false)
+    status: String @default(value:"UNCHECKED")
+    created: DateTime! @createdAt
 }
 
 type Notification{
@@ -64,6 +66,7 @@ type Notification{
     user: User! @relation(name:"UserNotification", link:INLINE)
     content: String!
     checked: Boolean! @default(value:false)
+    created: DateTime! @createdAt
 }
 
 type File{

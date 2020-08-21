@@ -4,9 +4,11 @@ import { prisma } from "../../../../generated/prisma-client";
    Mutation: {
      upload: async (_, args, { request, isAuthenticated }) => {
        isAuthenticated(request);
-       const { clubId, url } = args;
+       const { url } = args;
+       const { user } = request; 
+       const club = await prisma.user({id:user.id}).isMaster();
+       const clubId = club.id
        const exist = await prisma.$exists.file({club:{id:clubId}})
-       console.log(exist);
        if(exist){
          await prisma.deleteManyFiles({
          club:{id:clubId}

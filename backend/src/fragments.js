@@ -1,7 +1,7 @@
 export const USER_FRAGMENT = `
      id
+     email
      Name
-     avatar
  `;
 
    export const MESSAGE_FRAGMENT = `

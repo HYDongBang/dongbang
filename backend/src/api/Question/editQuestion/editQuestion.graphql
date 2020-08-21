@@ -4,8 +4,9 @@ enum ACTIONS {
 }
 type Mutation {
     editQuestion(
-        id:ID!, 
+        id:ID!,
         subject:String,
+        options:[String],
         action:ACTIONS!
     ) : Question!
 }

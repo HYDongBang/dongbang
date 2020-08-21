@@ -6,14 +6,13 @@ const EDIT = "EDIT";
 export default {
     Mutation:{
         editQuestion: async(_, args, {request}) => {
-            const { subject, id, action } = args;
-            const question = await prisma.$exists.question({id}) 
-            // 추후에 user: { id: user.id}
+            const { subject, id, options, action } = args;
+            const question = await prisma.$exists.question({id})
             if(question){
                 if(action === EDIT){
                     return prisma.updateQuestion(
                         {
-                            data:{subject},
+                            data:{subject, options:{set:options}},
                             where: { id }
                         }
                     )

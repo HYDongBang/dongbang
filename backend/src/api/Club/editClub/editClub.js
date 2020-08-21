@@ -3,19 +3,22 @@ const DELETE = "DELETE";
 const EDIT = "EDIT";
 export default {
     Mutation:{
-        editClub: async(_, args, {request}) => {
-            const {name ,id, description, bio, action } = args;
-            const club = await prisma.$exists.club({id}) // 추후에 user: { id: user.id}
+        editClub: async(_, args, {request, isAuthenticated}) => {
+            const {name , description, bio, action} = args;
+            isAuthenticated(request);
+            const { user } = request;
+            const club = await prisma.user({id:user.id}).isMaster();
+            const clubId = club.id
             if(club){
                 if(action === EDIT){
                 return prisma.updateClub(
                     {
                         data:{description, bio, name},
-                        where: { id }
+                        where: { clubId }
                     }
                 )
                 }else if (action == DELETE){
-                    return prisma.deleteClub({id});
+                    return prisma.deleteClub({clubId});
                 }
             }else{
                 throw Error("You can't do that");

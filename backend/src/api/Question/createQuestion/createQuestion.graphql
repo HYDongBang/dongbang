@@ -5,7 +5,6 @@ enum TYPE {
 
 type Mutation {
     createQuestion (
-        cid: ID!
         subject: String!
         type: TYPE!
         options: [String]

@@ -2,15 +2,19 @@ import { prisma } from "../../../../generated/prisma-client";
 
 export default {
     Mutation: {
-        createQuestion: async(_, args) => {
-            const { cid, subject, type, options} = args;
-            const question = await prisma.createQuestion({ 
-                subject, 
+        createQuestion: async(_, args, {request, isAuthenticated}) => {
+            isAuthenticated(request);
+            const { user } = request;
+            const club = await prisma.user({id:user.id}).isMaster();
+            const clubId = club.id
+            const { subject, type, options} = args;
+            const question = await prisma.createQuestion({
+                subject,
                 type,
                 options:{set:options},
                 owner: {
                     connect: {
-                        id: cid
+                        id: clubId
                     }
                 }
             })

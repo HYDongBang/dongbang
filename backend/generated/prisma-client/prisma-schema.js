@@ -1979,6 +1979,7 @@ type Secret {
   id: ID!
   email: String!
   secret: String!
+  auth: Boolean
 }
 
 type SecretConnection {
@@ -1991,6 +1992,7 @@ input SecretCreateInput {
   id: ID
   email: String!
   secret: String!
+  auth: Boolean
 }
 
 type SecretEdge {
@@ -2005,12 +2007,15 @@ enum SecretOrderByInput {
   email_DESC
   secret_ASC
   secret_DESC
+  auth_ASC
+  auth_DESC
 }
 
 type SecretPreviousValues {
   id: ID!
   email: String!
   secret: String!
+  auth: Boolean
 }
 
 type SecretSubscriptionPayload {
@@ -2034,11 +2039,13 @@ input SecretSubscriptionWhereInput {
 input SecretUpdateInput {
   email: String
   secret: String
+  auth: Boolean
 }
 
 input SecretUpdateManyMutationInput {
   email: String
   secret: String
+  auth: Boolean
 }
 
 input SecretWhereInput {
@@ -2084,6 +2091,8 @@ input SecretWhereInput {
   secret_not_starts_with: String
   secret_ends_with: String
   secret_not_ends_with: String
+  auth: Boolean
+  auth_not: Boolean
   AND: [SecretWhereInput!]
   OR: [SecretWhereInput!]
   NOT: [SecretWhereInput!]

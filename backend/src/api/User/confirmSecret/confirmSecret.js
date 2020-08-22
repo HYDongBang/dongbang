@@ -6,11 +6,15 @@ import { prisma } from "../../../../generated/prisma-client";
      confirmSecret: async (_, args) => {
        const { email,getSecret } = args;
        let s = await prisma.secrets({
-         where:{email:"csyoon1472@gmail.com"}
+         where:{email:email}
        });
        const { id,secret } = s[0];
       if(secret==getSecret){
-        await prisma.deleteSecret({id:id});
+        const auth = true;
+        await prisma.updateSecret({
+          where: { id: id },
+          data: { auth }
+        })
         return true;
       }else {
         return false;

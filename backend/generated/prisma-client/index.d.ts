@@ -497,7 +497,9 @@ export type SecretOrderByInput =
   | "email_ASC"
   | "email_DESC"
   | "secret_ASC"
-  | "secret_DESC";
+  | "secret_DESC"
+  | "auth_ASC"
+  | "auth_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -1054,6 +1056,8 @@ export interface SecretWhereInput {
   secret_not_starts_with?: Maybe<String>;
   secret_ends_with?: Maybe<String>;
   secret_not_ends_with?: Maybe<String>;
+  auth?: Maybe<Boolean>;
+  auth_not?: Maybe<Boolean>;
   AND?: Maybe<SecretWhereInput[] | SecretWhereInput>;
   OR?: Maybe<SecretWhereInput[] | SecretWhereInput>;
   NOT?: Maybe<SecretWhereInput[] | SecretWhereInput>;
@@ -2647,16 +2651,19 @@ export interface SecretCreateInput {
   id?: Maybe<ID_Input>;
   email: String;
   secret: String;
+  auth?: Maybe<Boolean>;
 }
 
 export interface SecretUpdateInput {
   email?: Maybe<String>;
   secret?: Maybe<String>;
+  auth?: Maybe<Boolean>;
 }
 
 export interface SecretUpdateManyMutationInput {
   email?: Maybe<String>;
   secret?: Maybe<String>;
+  auth?: Maybe<Boolean>;
 }
 
 export interface UserUpdateInput {
@@ -3750,12 +3757,14 @@ export interface Secret {
   id: ID_Output;
   email: String;
   secret: String;
+  auth?: Boolean;
 }
 
 export interface SecretPromise extends Promise<Secret>, Fragmentable {
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
   secret: () => Promise<String>;
+  auth: () => Promise<Boolean>;
 }
 
 export interface SecretSubscription
@@ -3764,6 +3773,7 @@ export interface SecretSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
   secret: () => Promise<AsyncIterator<String>>;
+  auth: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface SecretNullablePromise
@@ -3772,6 +3782,7 @@ export interface SecretNullablePromise
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
   secret: () => Promise<String>;
+  auth: () => Promise<Boolean>;
 }
 
 export interface SecretConnection {
@@ -4271,6 +4282,7 @@ export interface SecretPreviousValues {
   id: ID_Output;
   email: String;
   secret: String;
+  auth?: Boolean;
 }
 
 export interface SecretPreviousValuesPromise
@@ -4279,6 +4291,7 @@ export interface SecretPreviousValuesPromise
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
   secret: () => Promise<String>;
+  auth: () => Promise<Boolean>;
 }
 
 export interface SecretPreviousValuesSubscription
@@ -4287,6 +4300,7 @@ export interface SecretPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
   secret: () => Promise<AsyncIterator<String>>;
+  auth: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface UserSubscriptionPayload {

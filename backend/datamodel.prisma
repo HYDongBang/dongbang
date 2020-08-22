@@ -78,6 +78,7 @@ type File{
 
 type Secret{
   id: ID! @id
-  email: String! 
+  email: String!
   secret: String!
+  auth: Boolean @default(value:false)
 }

@@ -80,6 +80,7 @@ type Secret{
   id: ID!
   email: String!
   secret: String!
+  auth: Boolean
 }
 
 scalar DateTime

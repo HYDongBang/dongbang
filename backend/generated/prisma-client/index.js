@@ -35,6 +35,22 @@ var models = [
   {
     name: "File",
     embedded: false
+  },
+  {
+    name: "Post",
+    embedded: false
+  },
+  {
+    name: "Comment",
+    embedded: false
+  },
+  {
+    name: "SubComment",
+    embedded: false
+  },
+  {
+    name: "Secret",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

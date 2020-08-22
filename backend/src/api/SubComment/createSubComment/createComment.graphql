@@ -1,0 +1,7 @@
+type Mutation {
+    createSubComment(
+        cid:ID!, 
+        content:String!,
+        # files: [File!],
+    ) : SubComment!
+}

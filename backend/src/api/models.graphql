@@ -2,15 +2,18 @@ type User{
     id: ID!
     email: String!
     encryptedPassword: String!
-    Name: String
-    studentNumber: String
-    phoneNumber: String
-    sex: String
+    Name: String!
+    studentNumber: String!
+    phoneNumber: String!
+    sex: String!
+    university: String!
+    major: String!
     isMaster: Club
     notifications:[Notification]
     applications:[Application]
     rooms:[Room]
     clubs:[Club]
+    auth: Boolean
 }
 
 type Club{
@@ -27,6 +30,7 @@ type Club{
     questions: [Question]
     applications: [Application]
     members:[User]
+    posts:[Post]
 }
 
 type Room{
@@ -74,6 +78,48 @@ type File{
     id: ID!
     url: String!
     club: Club!
+}
+
+type Post{
+    id: ID!
+    title: String!
+    content: String!
+    user: User!
+    club: Club!
+    files: [File!]!
+    type: String
+    comments:[Comment!]
+    status: String!
+    created: DateTime!
+    updated: DateTime 
+}
+
+type Comment{
+    id: ID!
+    user: User!
+    post: Post! 
+    subComments: [SubComment!]
+    content: String!
+    status: String!
+    created: DateTime! 
+    updated: DateTime 
+    
+}
+
+type SubComment{
+    id: ID!
+    user: User!
+    comment: Comment!
+    content: String!
+    status: String!
+    created: DateTime! 
+    updated: DateTime 
+}
+
+type Secret{
+    id: ID!
+    email: String!
+    secret: String!
 }
 
 scalar DateTime

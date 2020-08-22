@@ -14,11 +14,11 @@ export default {
                         id
                     }
                 },
-                // members: {
-                //     connect: {
-                //         id
-                //     }
-                // }
+                members: {
+                    connect: [{
+                        id
+                    }]
+                }
             })
             return club;
         }

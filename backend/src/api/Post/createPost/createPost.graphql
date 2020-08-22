@@ -1,0 +1,9 @@
+type Mutation {
+    createPost(
+        cid:ID!, 
+        content:String!,
+        title:String!,
+        type: String,
+        # files: [File!],
+    ) : Post!
+}

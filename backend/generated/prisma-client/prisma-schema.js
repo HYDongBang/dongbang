@@ -31,6 +31,10 @@ type AggregateRoom {
   count: Int!
 }
 
+type AggregateSecret {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -1043,6 +1047,7 @@ type Message {
   from: User!
   to: User!
   room: Room!
+  created: DateTime!
 }
 
 type MessageConnection {
@@ -1081,11 +1086,14 @@ enum MessageOrderByInput {
   id_DESC
   text_ASC
   text_DESC
+  created_ASC
+  created_DESC
 }
 
 type MessagePreviousValues {
   id: ID!
   text: String!
+  created: DateTime!
 }
 
 input MessageScalarWhereInput {
@@ -1117,6 +1125,14 @@ input MessageScalarWhereInput {
   text_not_starts_with: String
   text_ends_with: String
   text_not_ends_with: String
+  created: DateTime
+  created_not: DateTime
+  created_in: [DateTime!]
+  created_not_in: [DateTime!]
+  created_lt: DateTime
+  created_lte: DateTime
+  created_gt: DateTime
+  created_gte: DateTime
   AND: [MessageScalarWhereInput!]
   OR: [MessageScalarWhereInput!]
   NOT: [MessageScalarWhereInput!]
@@ -1221,6 +1237,14 @@ input MessageWhereInput {
   from: UserWhereInput
   to: UserWhereInput
   room: RoomWhereInput
+  created: DateTime
+  created_not: DateTime
+  created_in: [DateTime!]
+  created_not_in: [DateTime!]
+  created_lt: DateTime
+  created_lte: DateTime
+  created_gt: DateTime
+  created_gte: DateTime
   AND: [MessageWhereInput!]
   OR: [MessageWhereInput!]
   NOT: [MessageWhereInput!]
@@ -1272,6 +1296,12 @@ type Mutation {
   upsertRoom(where: RoomWhereUniqueInput!, create: RoomCreateInput!, update: RoomUpdateInput!): Room!
   deleteRoom(where: RoomWhereUniqueInput!): Room
   deleteManyRooms(where: RoomWhereInput): BatchPayload!
+  createSecret(data: SecretCreateInput!): Secret!
+  updateSecret(data: SecretUpdateInput!, where: SecretWhereUniqueInput!): Secret
+  updateManySecrets(data: SecretUpdateManyMutationInput!, where: SecretWhereInput): BatchPayload!
+  upsertSecret(where: SecretWhereUniqueInput!, create: SecretCreateInput!, update: SecretUpdateInput!): Secret!
+  deleteSecret(where: SecretWhereUniqueInput!): Secret
+  deleteManySecrets(where: SecretWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -1534,6 +1564,9 @@ type Query {
   room(where: RoomWhereUniqueInput!): Room
   rooms(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Room]!
   roomsConnection(where: RoomWhereInput, orderBy: RoomOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoomConnection!
+  secret(where: SecretWhereUniqueInput!): Secret
+  secrets(where: SecretWhereInput, orderBy: SecretOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Secret]!
+  secretsConnection(where: SecretWhereInput, orderBy: SecretOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SecretConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -1942,6 +1975,124 @@ input RoomWhereUniqueInput {
   id: ID
 }
 
+type Secret {
+  id: ID!
+  email: String!
+  secret: String!
+}
+
+type SecretConnection {
+  pageInfo: PageInfo!
+  edges: [SecretEdge]!
+  aggregate: AggregateSecret!
+}
+
+input SecretCreateInput {
+  id: ID
+  email: String!
+  secret: String!
+}
+
+type SecretEdge {
+  node: Secret!
+  cursor: String!
+}
+
+enum SecretOrderByInput {
+  id_ASC
+  id_DESC
+  email_ASC
+  email_DESC
+  secret_ASC
+  secret_DESC
+}
+
+type SecretPreviousValues {
+  id: ID!
+  email: String!
+  secret: String!
+}
+
+type SecretSubscriptionPayload {
+  mutation: MutationType!
+  node: Secret
+  updatedFields: [String!]
+  previousValues: SecretPreviousValues
+}
+
+input SecretSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: SecretWhereInput
+  AND: [SecretSubscriptionWhereInput!]
+  OR: [SecretSubscriptionWhereInput!]
+  NOT: [SecretSubscriptionWhereInput!]
+}
+
+input SecretUpdateInput {
+  email: String
+  secret: String
+}
+
+input SecretUpdateManyMutationInput {
+  email: String
+  secret: String
+}
+
+input SecretWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  secret: String
+  secret_not: String
+  secret_in: [String!]
+  secret_not_in: [String!]
+  secret_lt: String
+  secret_lte: String
+  secret_gt: String
+  secret_gte: String
+  secret_contains: String
+  secret_not_contains: String
+  secret_starts_with: String
+  secret_not_starts_with: String
+  secret_ends_with: String
+  secret_not_ends_with: String
+  AND: [SecretWhereInput!]
+  OR: [SecretWhereInput!]
+  NOT: [SecretWhereInput!]
+}
+
+input SecretWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
   application(where: ApplicationSubscriptionWhereInput): ApplicationSubscriptionPayload
   club(where: ClubSubscriptionWhereInput): ClubSubscriptionPayload
@@ -1950,6 +2101,7 @@ type Subscription {
   notification(where: NotificationSubscriptionWhereInput): NotificationSubscriptionPayload
   question(where: QuestionSubscriptionWhereInput): QuestionSubscriptionPayload
   room(where: RoomSubscriptionWhereInput): RoomSubscriptionPayload
+  secret(where: SecretSubscriptionWhereInput): SecretSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 

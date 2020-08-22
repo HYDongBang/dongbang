@@ -35,6 +35,10 @@ var models = [
   {
     name: "File",
     embedded: false
+  },
+  {
+    name: "Secret",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

@@ -23,6 +23,7 @@ export interface Exists {
   notification: (where?: NotificationWhereInput) => Promise<boolean>;
   question: (where?: QuestionWhereInput) => Promise<boolean>;
   room: (where?: RoomWhereInput) => Promise<boolean>;
+  secret: (where?: SecretWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -182,6 +183,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => RoomConnectionPromise;
+  secret: (where: SecretWhereUniqueInput) => SecretNullablePromise;
+  secrets: (args?: {
+    where?: SecretWhereInput;
+    orderBy?: SecretOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Secret>;
+  secretsConnection: (args?: {
+    where?: SecretWhereInput;
+    orderBy?: SecretOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => SecretConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -321,6 +341,22 @@ export interface Prisma {
   }) => RoomPromise;
   deleteRoom: (where: RoomWhereUniqueInput) => RoomPromise;
   deleteManyRooms: (where?: RoomWhereInput) => BatchPayloadPromise;
+  createSecret: (data: SecretCreateInput) => SecretPromise;
+  updateSecret: (args: {
+    data: SecretUpdateInput;
+    where: SecretWhereUniqueInput;
+  }) => SecretPromise;
+  updateManySecrets: (args: {
+    data: SecretUpdateManyMutationInput;
+    where?: SecretWhereInput;
+  }) => BatchPayloadPromise;
+  upsertSecret: (args: {
+    where: SecretWhereUniqueInput;
+    create: SecretCreateInput;
+    update: SecretUpdateInput;
+  }) => SecretPromise;
+  deleteSecret: (where: SecretWhereUniqueInput) => SecretPromise;
+  deleteManySecrets: (where?: SecretWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -367,6 +403,9 @@ export interface Subscription {
   room: (
     where?: RoomSubscriptionWhereInput
   ) => RoomSubscriptionPayloadSubscription;
+  secret: (
+    where?: SecretSubscriptionWhereInput
+  ) => SecretSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -428,7 +467,9 @@ export type MessageOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "text_ASC"
-  | "text_DESC";
+  | "text_DESC"
+  | "created_ASC"
+  | "created_DESC";
 
 export type ClubOrderByInput =
   | "id_ASC"
@@ -449,6 +490,14 @@ export type ClubOrderByInput =
   | "socialDisplay_DESC";
 
 export type FileOrderByInput = "id_ASC" | "id_DESC" | "url_ASC" | "url_DESC";
+
+export type SecretOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "secret_ASC"
+  | "secret_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -921,6 +970,14 @@ export interface MessageWhereInput {
   from?: Maybe<UserWhereInput>;
   to?: Maybe<UserWhereInput>;
   room?: Maybe<RoomWhereInput>;
+  created?: Maybe<DateTimeInput>;
+  created_not?: Maybe<DateTimeInput>;
+  created_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_lt?: Maybe<DateTimeInput>;
+  created_lte?: Maybe<DateTimeInput>;
+  created_gt?: Maybe<DateTimeInput>;
+  created_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<MessageWhereInput[] | MessageWhereInput>;
   OR?: Maybe<MessageWhereInput[] | MessageWhereInput>;
   NOT?: Maybe<MessageWhereInput[] | MessageWhereInput>;
@@ -949,6 +1006,58 @@ export type QuestionWhereUniqueInput = AtLeastOne<{
 export type RoomWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export type SecretWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface SecretWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  secret?: Maybe<String>;
+  secret_not?: Maybe<String>;
+  secret_in?: Maybe<String[] | String>;
+  secret_not_in?: Maybe<String[] | String>;
+  secret_lt?: Maybe<String>;
+  secret_lte?: Maybe<String>;
+  secret_gt?: Maybe<String>;
+  secret_gte?: Maybe<String>;
+  secret_contains?: Maybe<String>;
+  secret_not_contains?: Maybe<String>;
+  secret_starts_with?: Maybe<String>;
+  secret_not_starts_with?: Maybe<String>;
+  secret_ends_with?: Maybe<String>;
+  secret_not_ends_with?: Maybe<String>;
+  AND?: Maybe<SecretWhereInput[] | SecretWhereInput>;
+  OR?: Maybe<SecretWhereInput[] | SecretWhereInput>;
+  NOT?: Maybe<SecretWhereInput[] | SecretWhereInput>;
+}
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -1981,6 +2090,14 @@ export interface MessageScalarWhereInput {
   text_not_starts_with?: Maybe<String>;
   text_ends_with?: Maybe<String>;
   text_not_ends_with?: Maybe<String>;
+  created?: Maybe<DateTimeInput>;
+  created_not?: Maybe<DateTimeInput>;
+  created_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_lt?: Maybe<DateTimeInput>;
+  created_lte?: Maybe<DateTimeInput>;
+  created_gt?: Maybe<DateTimeInput>;
+  created_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
   OR?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
   NOT?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
@@ -2526,6 +2643,22 @@ export interface RoomUpdateInput {
   messages?: Maybe<MessageUpdateManyWithoutRoomInput>;
 }
 
+export interface SecretCreateInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  secret: String;
+}
+
+export interface SecretUpdateInput {
+  email?: Maybe<String>;
+  secret?: Maybe<String>;
+}
+
+export interface SecretUpdateManyMutationInput {
+  email?: Maybe<String>;
+  secret?: Maybe<String>;
+}
+
 export interface UserUpdateInput {
   email?: Maybe<String>;
   encryptedPassword?: Maybe<String>;
@@ -2640,6 +2773,17 @@ export interface RoomSubscriptionWhereInput {
   AND?: Maybe<RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput>;
   OR?: Maybe<RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput>;
   NOT?: Maybe<RoomSubscriptionWhereInput[] | RoomSubscriptionWhereInput>;
+}
+
+export interface SecretSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<SecretWhereInput>;
+  AND?: Maybe<SecretSubscriptionWhereInput[] | SecretSubscriptionWhereInput>;
+  OR?: Maybe<SecretSubscriptionWhereInput[] | SecretSubscriptionWhereInput>;
+  NOT?: Maybe<SecretSubscriptionWhereInput[] | SecretSubscriptionWhereInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -3161,6 +3305,7 @@ export interface RoomNullablePromise
 export interface Message {
   id: ID_Output;
   text: String;
+  created: DateTimeOutput;
 }
 
 export interface MessagePromise extends Promise<Message>, Fragmentable {
@@ -3169,6 +3314,7 @@ export interface MessagePromise extends Promise<Message>, Fragmentable {
   from: <T = UserPromise>() => T;
   to: <T = UserPromise>() => T;
   room: <T = RoomPromise>() => T;
+  created: () => Promise<DateTimeOutput>;
 }
 
 export interface MessageSubscription
@@ -3179,6 +3325,7 @@ export interface MessageSubscription
   from: <T = UserSubscription>() => T;
   to: <T = UserSubscription>() => T;
   room: <T = RoomSubscription>() => T;
+  created: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface MessageNullablePromise
@@ -3189,6 +3336,7 @@ export interface MessageNullablePromise
   from: <T = UserPromise>() => T;
   to: <T = UserPromise>() => T;
   room: <T = RoomPromise>() => T;
+  created: () => Promise<DateTimeOutput>;
 }
 
 export interface ApplicationConnection {
@@ -3598,6 +3746,88 @@ export interface AggregateRoomSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface Secret {
+  id: ID_Output;
+  email: String;
+  secret: String;
+}
+
+export interface SecretPromise extends Promise<Secret>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  secret: () => Promise<String>;
+}
+
+export interface SecretSubscription
+  extends Promise<AsyncIterator<Secret>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  secret: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SecretNullablePromise
+  extends Promise<Secret | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  secret: () => Promise<String>;
+}
+
+export interface SecretConnection {
+  pageInfo: PageInfo;
+  edges: SecretEdge[];
+}
+
+export interface SecretConnectionPromise
+  extends Promise<SecretConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SecretEdge>>() => T;
+  aggregate: <T = AggregateSecretPromise>() => T;
+}
+
+export interface SecretConnectionSubscription
+  extends Promise<AsyncIterator<SecretConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SecretEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSecretSubscription>() => T;
+}
+
+export interface SecretEdge {
+  node: Secret;
+  cursor: String;
+}
+
+export interface SecretEdgePromise extends Promise<SecretEdge>, Fragmentable {
+  node: <T = SecretPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SecretEdgeSubscription
+  extends Promise<AsyncIterator<SecretEdge>>,
+    Fragmentable {
+  node: <T = SecretSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateSecret {
+  count: Int;
+}
+
+export interface AggregateSecretPromise
+  extends Promise<AggregateSecret>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSecretSubscription
+  extends Promise<AsyncIterator<AggregateSecret>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface UserConnection {
   pageInfo: PageInfo;
   edges: UserEdge[];
@@ -3852,6 +4082,7 @@ export interface MessageSubscriptionPayloadSubscription
 export interface MessagePreviousValues {
   id: ID_Output;
   text: String;
+  created: DateTimeOutput;
 }
 
 export interface MessagePreviousValuesPromise
@@ -3859,6 +4090,7 @@ export interface MessagePreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   text: () => Promise<String>;
+  created: () => Promise<DateTimeOutput>;
 }
 
 export interface MessagePreviousValuesSubscription
@@ -3866,6 +4098,7 @@ export interface MessagePreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   text: () => Promise<AsyncIterator<String>>;
+  created: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface NotificationSubscriptionPayload {
@@ -4009,6 +4242,53 @@ export interface RoomPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
 }
 
+export interface SecretSubscriptionPayload {
+  mutation: MutationType;
+  node: Secret;
+  updatedFields: String[];
+  previousValues: SecretPreviousValues;
+}
+
+export interface SecretSubscriptionPayloadPromise
+  extends Promise<SecretSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = SecretPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = SecretPreviousValuesPromise>() => T;
+}
+
+export interface SecretSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SecretSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = SecretSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = SecretPreviousValuesSubscription>() => T;
+}
+
+export interface SecretPreviousValues {
+  id: ID_Output;
+  email: String;
+  secret: String;
+}
+
+export interface SecretPreviousValuesPromise
+  extends Promise<SecretPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  secret: () => Promise<String>;
+}
+
+export interface SecretPreviousValuesSubscription
+  extends Promise<AsyncIterator<SecretPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  secret: () => Promise<AsyncIterator<String>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -4136,6 +4416,10 @@ export const models: Model[] = [
   },
   {
     name: "File",
+    embedded: false
+  },
+  {
+    name: "Secret",
     embedded: false
   }
 ];

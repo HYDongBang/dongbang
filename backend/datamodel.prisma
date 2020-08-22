@@ -41,6 +41,7 @@ type Message {
     from: User! @relation(name: "From")
     to: User!   @relation(name: "To")
     room: Room!
+    created: DateTime! @createdAt
 }
 
 type Question{
@@ -73,4 +74,10 @@ type File{
     id: ID! @id
     url: String!
     club: Club! @relation(name:"ClubImg", link: INLINE)
+}
+
+type Secret{
+  id: ID! @id
+  email: String! 
+  secret: String!
 }

@@ -5,14 +5,13 @@ import { prisma } from "../../../../generated/prisma-client";
    Mutation: {
      requestSecret: async (_, args, { request }) => {
        const { email } = args;
-       const loginSecret = generateSecret();
+       const secret = generateSecret();
        try {
-         await sendSecretMail(email, loginSecret);
-         await prisma.updateUser({ data: { loginSecret }, where: { email } });
-         return true;
+         await prisma.createSecret({email,secret});
+         await sendSecretMail(email, secret);
+         return secret;
        } catch (error) {
          console.log(error);
-         return false;
        }
      }
    }

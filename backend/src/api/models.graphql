@@ -76,4 +76,10 @@ type File{
     club: Club!
 }
 
+type Secret{
+  id: ID!
+  email: String!
+  secret: String!
+}
+
 scalar DateTime

@@ -2,7 +2,6 @@ type Mutation {
   createAccount(
      email: String!
      password: String!
-     auth: Boolean!
      Name: String!
      studentNumber: String!
      phoneNumber: String!

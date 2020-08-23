@@ -1,7 +1,7 @@
 import { prisma } from "../../../generated/prisma-client";
 import { GraphQLDateTime } from "graphql-iso-date";
 
- export default {
+export default {
    User: {
      isMaster: (parent) => prisma.user({id:parent.id}).isMaster(),
      applications: (parent) => prisma.user({id:parent.id}).applications(),
@@ -14,7 +14,8 @@ import { GraphQLDateTime } from "graphql-iso-date";
      master: (parent) => prisma.club({id: parent.id}).master(),
      applications: (parent) => prisma.club({id: parent.id}).applications(),
      clubImage: (parent) => prisma.club({id: parent.id}).clubImage(),
-     members: (parent) => prisma.club({id: parent.id}).members()
+     members: (parent) => prisma.club({id: parent.id}).members(),
+     posts: (parent) => prisma.club({id:parent.id}).posts()
    },
    Room: {
      participants: (parent) => prisma.room({id: parent.id}).participants(),
@@ -38,4 +39,19 @@ import { GraphQLDateTime } from "graphql-iso-date";
    File: {
      club: (parent) => prisma.file({id: parent.id}).club()
    },
+   Post: {
+    club: (parent) => prisma.post({id: parent.id}).club(),
+    user: (parent) => prisma.post({id: parent.id}).user(),
+    comments: (parent) => prisma.post({id: parent.id}).comments()
+    //나중에 파일도 추가
+   },
+   Comment: {
+    post: (parent) => prisma.comment({id:parent.id}).post(),
+    user: (parent) => prisma.comment({id:parent.id}).user(),
+    subComments: (parent) => prisma.comment({id:parent.id}).subComments()
+   },
+   SubComment: {
+    comment: (parent) => prisma.subComment({id:parent.id}).comment(),
+    user: (parent) => prisma.subComment({id:parent.id}).user()
+   }
  };

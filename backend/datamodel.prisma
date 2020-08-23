@@ -11,6 +11,9 @@ type User{
     applications:[Application]
     rooms:[Room]
     clubs:[Club] @relation(name: "ClubMember")
+    university: String!
+    major: String!
+    auth: Boolean
 }
 
 type Club{
@@ -27,6 +30,7 @@ type Club{
     questions: [Question] @relation(name:"ClubQuestion")
     applications: [Application]
     members:[User] @relation(name: "ClubMember")
+    posts:[Post] @relation(name: "ClubPost")
 }
 
 type Room{
@@ -52,7 +56,6 @@ type Question{
     options:[String] @scalarList(strategy: RELATION)
 }
 
-
 type Application{
     id: ID! @id
     user: User!
@@ -76,9 +79,44 @@ type File{
     club: Club! @relation(name:"ClubImg", link: INLINE)
 }
 
+type Post{
+    id: ID! @id
+    title: String!
+    content: String!
+    user: User!
+    club: Club! @relation(name:"ClubPost")
+    files: [File!]!
+    type: String @default(value:"NORMAL")
+    comments:[Comment!] @relation(name:"PostComment")
+    status: String! @default(value:"ORIGINAL")
+    created: DateTime! @createdAt
+    updated: DateTime @updatedAt
+}
+
+type Comment{
+    id: ID! @id
+    user: User!
+    post: Post! @relation(name:"PostComment")
+    content: String!
+    status: String! @default(value:"ORIGINAL")
+    created: DateTime! @createdAt
+    updated: DateTime @updatedAt
+    subComments: [SubComment] @relation(name:"SubComment")
+}
+
+type SubComment{
+    id: ID! @id
+    user: User!
+    content: String!
+    status: String! @default(value:"ORIGINAL")
+    created: DateTime! @createdAt
+    updated: DateTime @updatedAt
+    comment: Comment! @relation(name:"SubComment")
+}
+
 type Secret{
-  id: ID! @id
-  email: String!
-  secret: String!
-  auth: Boolean @default(value:false)
+    id: ID! @id
+    email: String!
+    secret: String!
+    auth: Boolean @default(value:false)
 }

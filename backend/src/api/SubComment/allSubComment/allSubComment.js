@@ -2,6 +2,6 @@ import { prisma } from "../../../../generated/prisma-client";
 
 export default {
     Query: {
-        allClub: async () => prisma.clubs()
+        allSubComment: async () => prisma.subComments()
     },
 }

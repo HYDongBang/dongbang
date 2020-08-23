@@ -5,7 +5,7 @@ const SALTROUNDS = 10;
  export default {
    Mutation: {
      createAccount: async (_, args) => {
-       const { email, password } = args;
+       const { email, password, auth, Name, studentNumber, phoneNumber, sex, university, major} = args;
        let s = await prisma.secrets({
          where:{email:email}
        });
@@ -14,7 +14,14 @@ const SALTROUNDS = 10;
          const encryptedPassword = await bcrypt.hash(password,SALTROUNDS);
          const user = await prisma.createUser({
            email,
-           encryptedPassword
+           encryptedPassword,
+           auth,
+           Name,
+           studentNumber,
+           phoneNumber,
+           sex,
+           university,
+           major
          });
          return user;
        } else {

@@ -3,6 +3,8 @@ type Mutation {
    Name:String
    studentNumber: String
    phoneNumber: String
-   sex: String
+   university: String
+   major: String
+   auth: Boolean
    ): User!
  }

@@ -9,7 +9,7 @@ import { prisma } from "../../../../generated/prisma-client";
        console.log(existSecret);
        if (existSecret) {
          let s = await prisma.secrets({
-           where:{email:"csyoon1472@gmail.com"}
+           where:{email:email}
          });
          const { id } = s[0];
         await prisma.deleteSecret({id:id});

@@ -8,8 +8,8 @@ type User{
     sex: String
     isMaster: Club @relation(name:"ClubMaster")
     notifications:[Notification] @relation(name:"UserNotification")
-    applications:[Application]
-    rooms:[Room]
+    applications:[Application] @relation(name: "AplUser", link: INLINE)
+    rooms:[Room] @relation(name: "UserRoom", link: INLINE)
     clubs:[Club] @relation(name: "ClubMember")
     university: String!
     major: String!
@@ -28,23 +28,23 @@ type Club{
     clubImage: File @relation(name:"ClubImg")
     master: User! @relation(name:"ClubMaster", link: INLINE)
     questions: [Question] @relation(name:"ClubQuestion")
-    applications: [Application]
-    members:[User] @relation(name: "ClubMember")
-    posts:[Post] @relation(name: "ClubPost")
+    applications: [Application] @relation(name:"ClubApp", link: INLINE)
+    members:[User] @relation(name: "ClubMember", link: INLINE)
+    posts:[Post] @relation(name: "ClubPost", link: INLINE)
 }
 
 type Room{
     id: ID! @id
-    participants: [User!]!
-    messages: [Message!]!
+    participants: [User!]! @relation(name: "UserRoom")
+    messages: [Message!]! @relation(name: "RoomMessage")
 }
 
 type Message {
     id: ID! @id
     text: String!
-    from: User! @relation(name: "From")
-    to: User!   @relation(name: "To")
-    room: Room!
+    from: User! @relation(name: "From", link: INLINE)
+    to: User!   @relation(name: "To", link: INLINE)
+    room: Room! @relation(name: "RoomMessage", link: INLINE)
     created: DateTime! @createdAt
 }
 
@@ -53,14 +53,14 @@ type Question{
     owner: Club! @relation(name:"ClubQuestion", link: INLINE)
     subject: String
     type: String
-    options:[String] @scalarList(strategy: RELATION)
+    options:[String] @scalarList(strategy: EMBEDDED)
 }
 
 type Application{
     id: ID! @id
-    user: User!
-    club: Club!
-    answer: [String]! @scalarList(strategy: RELATION)
+    user: User! @relation(name: "AplUser")
+    club: Club! @relation(name:"ClubApp")
+    answer: [String]! @scalarList(strategy: EMBEDDED)
     status: String @default(value:"UNCHECKED")
     created: DateTime! @createdAt
 }
@@ -83,11 +83,11 @@ type Post{
     id: ID! @id
     title: String!
     content: String!
-    user: User!
+    user: User! @relation(name:"UserPost", link: INLINE)
     club: Club! @relation(name:"ClubPost")
-    files: [File!]!
+    files: [File!]! @relation(name:"PostFile", link: INLINE)
     type: String @default(value:"NORMAL")
-    comments:[Comment!] @relation(name:"PostComment")
+    comments:[Comment!] @relation(name:"PostComment", link: INLINE)
     status: String! @default(value:"ORIGINAL")
     created: DateTime! @createdAt
     updated: DateTime @updatedAt
@@ -95,18 +95,18 @@ type Post{
 
 type Comment{
     id: ID! @id
-    user: User!
+    user: User!@relation(name:"UserComment", link: INLINE)
     post: Post! @relation(name:"PostComment")
     content: String!
     status: String! @default(value:"ORIGINAL")
     created: DateTime! @createdAt
     updated: DateTime @updatedAt
-    subComments: [SubComment] @relation(name:"SubComment")
+    subComments: [SubComment] @relation(name:"SubComment", link: INLINE)
 }
 
 type SubComment{
     id: ID! @id
-    user: User!
+    user: User!@relation(name: "SubCommentUser", link: INLINE)
     content: String!
     status: String! @default(value:"ORIGINAL")
     created: DateTime! @createdAt

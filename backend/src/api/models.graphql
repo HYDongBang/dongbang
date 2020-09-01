@@ -78,7 +78,7 @@ type Notification{
 type File{
     id: ID!
     url: String!
-    club: Club!
+    club: Club
     clublogo: Club
 }
 

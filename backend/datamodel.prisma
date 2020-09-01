@@ -77,7 +77,7 @@ type Notification{
 type File{
     id: ID! @id
     url: String!
-    club: Club! @relation(name:"ClubImg", link: INLINE)
+    club: Club @relation(name:"ClubImg", link: INLINE)
     clublogo: Club @relation(name:"LogoImg", link: INLINE)
 }
 

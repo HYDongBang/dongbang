@@ -56,6 +56,6 @@ var models = [
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `https://eu1.prisma.sh/zxcvb5434-9d2756/dongbang/dev`
+  endpoint: `http://localhost:4466`
 });
 exports.prisma = new exports.Prisma();

@@ -9,7 +9,9 @@ const SALTROUNDS = 10;
        let s = await prisma.secrets({
          where:{email:email}
        });
-       const { id,secret,auth } = s[0];
+       console.log(s[0]);
+       console.log(email);
+       const { auth } = s[0];
        if(auth==undefined){
         throw Error();
       } else {
@@ -17,7 +19,6 @@ const SALTROUNDS = 10;
          const user = await prisma.createUser({
            email,
            encryptedPassword,
-           auth,
            Name,
            studentNumber,
            phoneNumber,

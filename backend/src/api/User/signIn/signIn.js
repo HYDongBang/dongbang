@@ -8,7 +8,7 @@ const SALTROUNDS = 10;
      signIn: async (_, args) => {
        const { email, password } = args;
        const user = await prisma.user({ email });
-       const passwordTrue = bcrypt.compare(password, user.encryptedPassword)
+       const passwordTrue = await bcrypt.compare(password, user.encryptedPassword)
        if (passwordTrue) {
          return generateToken(user.id);
        } else {

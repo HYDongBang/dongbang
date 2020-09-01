@@ -14,7 +14,7 @@ export default {
                 return prisma.updateClub(
                     {
                         data:{description, bio, name},
-                        where: { clubId }
+                        where: { id:clubId }
                     }
                 )
                 }else if (action == DELETE){

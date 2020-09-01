@@ -1,5 +1,6 @@
 type Mutation {
    upload(
-      url: String!
+      url: String!,
+      logourl: String!
    ): Club!
  }

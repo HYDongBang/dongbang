@@ -21,7 +21,6 @@ type Club{
     name: String!
     bio: String!
     description: String!
-    logo: String
     type: String!
     socialUrl: String
     socialDisplay: Boolean @default(value:false)
@@ -31,6 +30,8 @@ type Club{
     applications: [Application] @relation(name:"ClubApp", link: INLINE)
     members:[User] @relation(name: "ClubMember", link: INLINE)
     posts:[Post] @relation(name: "ClubPost", link: INLINE)
+    application_description: String!
+    logoImage: File @relation(name:"LogoImg")
 }
 
 type Room{
@@ -77,6 +78,7 @@ type File{
     id: ID! @id
     url: String!
     club: Club! @relation(name:"ClubImg", link: INLINE)
+    clublogo: Club @relation(name:"LogoImg", link: INLINE)
 }
 
 type Post{

@@ -8,6 +8,7 @@ type Mutation {
         name:String,
         bio:String,
         description:String,
+        application_description:String,
         action: ACTIONS!
     ) : Club!
 }

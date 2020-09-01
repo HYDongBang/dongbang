@@ -21,7 +21,6 @@ type Club{
     name: String!
     bio: String!
     description: String!
-    logo: String
     type: String!
     socialUrl: String
     socialDisplay: Boolean
@@ -31,6 +30,8 @@ type Club{
     applications: [Application]
     members:[User]
     posts:[Post]
+    application_description: String!
+    logoImage: File
 }
 
 type Room{
@@ -78,6 +79,7 @@ type File{
     id: ID!
     url: String!
     club: Club!
+    clublogo: Club
 }
 
 type Post{

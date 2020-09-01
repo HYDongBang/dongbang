@@ -324,7 +324,6 @@ type Club {
   name: String!
   bio: String!
   description: String!
-  logo: String
   type: String!
   socialUrl: String
   socialDisplay: Boolean
@@ -334,6 +333,8 @@ type Club {
   applications(where: ApplicationWhereInput, orderBy: ApplicationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Application!]
   members(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  application_description: String!
+  logoImage: File
 }
 
 type ClubConnection {
@@ -347,7 +348,6 @@ input ClubCreateInput {
   name: String!
   bio: String!
   description: String!
-  logo: String
   type: String!
   socialUrl: String
   socialDisplay: Boolean
@@ -357,6 +357,8 @@ input ClubCreateInput {
   applications: ApplicationCreateManyWithoutClubInput
   members: UserCreateManyWithoutClubsInput
   posts: PostCreateManyWithoutClubInput
+  application_description: String!
+  logoImage: FileCreateOneWithoutClublogoInput
 }
 
 input ClubCreateManyWithoutMembersInput {
@@ -371,6 +373,11 @@ input ClubCreateOneWithoutApplicationsInput {
 
 input ClubCreateOneWithoutClubImageInput {
   create: ClubCreateWithoutClubImageInput
+  connect: ClubWhereUniqueInput
+}
+
+input ClubCreateOneWithoutLogoImageInput {
+  create: ClubCreateWithoutLogoImageInput
   connect: ClubWhereUniqueInput
 }
 
@@ -394,7 +401,6 @@ input ClubCreateWithoutApplicationsInput {
   name: String!
   bio: String!
   description: String!
-  logo: String
   type: String!
   socialUrl: String
   socialDisplay: Boolean
@@ -403,6 +409,8 @@ input ClubCreateWithoutApplicationsInput {
   questions: QuestionCreateManyWithoutOwnerInput
   members: UserCreateManyWithoutClubsInput
   posts: PostCreateManyWithoutClubInput
+  application_description: String!
+  logoImage: FileCreateOneWithoutClublogoInput
 }
 
 input ClubCreateWithoutClubImageInput {
@@ -410,7 +418,6 @@ input ClubCreateWithoutClubImageInput {
   name: String!
   bio: String!
   description: String!
-  logo: String
   type: String!
   socialUrl: String
   socialDisplay: Boolean
@@ -419,6 +426,25 @@ input ClubCreateWithoutClubImageInput {
   applications: ApplicationCreateManyWithoutClubInput
   members: UserCreateManyWithoutClubsInput
   posts: PostCreateManyWithoutClubInput
+  application_description: String!
+  logoImage: FileCreateOneWithoutClublogoInput
+}
+
+input ClubCreateWithoutLogoImageInput {
+  id: ID
+  name: String!
+  bio: String!
+  description: String!
+  type: String!
+  socialUrl: String
+  socialDisplay: Boolean
+  clubImage: FileCreateOneWithoutClubInput
+  master: UserCreateOneWithoutIsMasterInput!
+  questions: QuestionCreateManyWithoutOwnerInput
+  applications: ApplicationCreateManyWithoutClubInput
+  members: UserCreateManyWithoutClubsInput
+  posts: PostCreateManyWithoutClubInput
+  application_description: String!
 }
 
 input ClubCreateWithoutMasterInput {
@@ -426,7 +452,6 @@ input ClubCreateWithoutMasterInput {
   name: String!
   bio: String!
   description: String!
-  logo: String
   type: String!
   socialUrl: String
   socialDisplay: Boolean
@@ -435,6 +460,8 @@ input ClubCreateWithoutMasterInput {
   applications: ApplicationCreateManyWithoutClubInput
   members: UserCreateManyWithoutClubsInput
   posts: PostCreateManyWithoutClubInput
+  application_description: String!
+  logoImage: FileCreateOneWithoutClublogoInput
 }
 
 input ClubCreateWithoutMembersInput {
@@ -442,7 +469,6 @@ input ClubCreateWithoutMembersInput {
   name: String!
   bio: String!
   description: String!
-  logo: String
   type: String!
   socialUrl: String
   socialDisplay: Boolean
@@ -451,6 +477,8 @@ input ClubCreateWithoutMembersInput {
   questions: QuestionCreateManyWithoutOwnerInput
   applications: ApplicationCreateManyWithoutClubInput
   posts: PostCreateManyWithoutClubInput
+  application_description: String!
+  logoImage: FileCreateOneWithoutClublogoInput
 }
 
 input ClubCreateWithoutPostsInput {
@@ -458,7 +486,6 @@ input ClubCreateWithoutPostsInput {
   name: String!
   bio: String!
   description: String!
-  logo: String
   type: String!
   socialUrl: String
   socialDisplay: Boolean
@@ -467,6 +494,8 @@ input ClubCreateWithoutPostsInput {
   questions: QuestionCreateManyWithoutOwnerInput
   applications: ApplicationCreateManyWithoutClubInput
   members: UserCreateManyWithoutClubsInput
+  application_description: String!
+  logoImage: FileCreateOneWithoutClublogoInput
 }
 
 input ClubCreateWithoutQuestionsInput {
@@ -474,7 +503,6 @@ input ClubCreateWithoutQuestionsInput {
   name: String!
   bio: String!
   description: String!
-  logo: String
   type: String!
   socialUrl: String
   socialDisplay: Boolean
@@ -483,6 +511,8 @@ input ClubCreateWithoutQuestionsInput {
   applications: ApplicationCreateManyWithoutClubInput
   members: UserCreateManyWithoutClubsInput
   posts: PostCreateManyWithoutClubInput
+  application_description: String!
+  logoImage: FileCreateOneWithoutClublogoInput
 }
 
 type ClubEdge {
@@ -499,14 +529,14 @@ enum ClubOrderByInput {
   bio_DESC
   description_ASC
   description_DESC
-  logo_ASC
-  logo_DESC
   type_ASC
   type_DESC
   socialUrl_ASC
   socialUrl_DESC
   socialDisplay_ASC
   socialDisplay_DESC
+  application_description_ASC
+  application_description_DESC
 }
 
 type ClubPreviousValues {
@@ -514,10 +544,10 @@ type ClubPreviousValues {
   name: String!
   bio: String!
   description: String!
-  logo: String
   type: String!
   socialUrl: String
   socialDisplay: Boolean
+  application_description: String!
 }
 
 input ClubScalarWhereInput {
@@ -577,20 +607,6 @@ input ClubScalarWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
-  logo: String
-  logo_not: String
-  logo_in: [String!]
-  logo_not_in: [String!]
-  logo_lt: String
-  logo_lte: String
-  logo_gt: String
-  logo_gte: String
-  logo_contains: String
-  logo_not_contains: String
-  logo_starts_with: String
-  logo_not_starts_with: String
-  logo_ends_with: String
-  logo_not_ends_with: String
   type: String
   type_not: String
   type_in: [String!]
@@ -621,6 +637,20 @@ input ClubScalarWhereInput {
   socialUrl_not_ends_with: String
   socialDisplay: Boolean
   socialDisplay_not: Boolean
+  application_description: String
+  application_description_not: String
+  application_description_in: [String!]
+  application_description_not_in: [String!]
+  application_description_lt: String
+  application_description_lte: String
+  application_description_gt: String
+  application_description_gte: String
+  application_description_contains: String
+  application_description_not_contains: String
+  application_description_starts_with: String
+  application_description_not_starts_with: String
+  application_description_ends_with: String
+  application_description_not_ends_with: String
   AND: [ClubScalarWhereInput!]
   OR: [ClubScalarWhereInput!]
   NOT: [ClubScalarWhereInput!]
@@ -648,7 +678,6 @@ input ClubUpdateInput {
   name: String
   bio: String
   description: String
-  logo: String
   type: String
   socialUrl: String
   socialDisplay: Boolean
@@ -658,26 +687,28 @@ input ClubUpdateInput {
   applications: ApplicationUpdateManyWithoutClubInput
   members: UserUpdateManyWithoutClubsInput
   posts: PostUpdateManyWithoutClubInput
+  application_description: String
+  logoImage: FileUpdateOneWithoutClublogoInput
 }
 
 input ClubUpdateManyDataInput {
   name: String
   bio: String
   description: String
-  logo: String
   type: String
   socialUrl: String
   socialDisplay: Boolean
+  application_description: String
 }
 
 input ClubUpdateManyMutationInput {
   name: String
   bio: String
   description: String
-  logo: String
   type: String
   socialUrl: String
   socialDisplay: Boolean
+  application_description: String
 }
 
 input ClubUpdateManyWithoutMembersInput {
@@ -725,6 +756,15 @@ input ClubUpdateOneRequiredWithoutQuestionsInput {
   connect: ClubWhereUniqueInput
 }
 
+input ClubUpdateOneWithoutLogoImageInput {
+  create: ClubCreateWithoutLogoImageInput
+  update: ClubUpdateWithoutLogoImageDataInput
+  upsert: ClubUpsertWithoutLogoImageInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ClubWhereUniqueInput
+}
+
 input ClubUpdateOneWithoutMasterInput {
   create: ClubCreateWithoutMasterInput
   update: ClubUpdateWithoutMasterDataInput
@@ -738,7 +778,6 @@ input ClubUpdateWithoutApplicationsDataInput {
   name: String
   bio: String
   description: String
-  logo: String
   type: String
   socialUrl: String
   socialDisplay: Boolean
@@ -747,13 +786,14 @@ input ClubUpdateWithoutApplicationsDataInput {
   questions: QuestionUpdateManyWithoutOwnerInput
   members: UserUpdateManyWithoutClubsInput
   posts: PostUpdateManyWithoutClubInput
+  application_description: String
+  logoImage: FileUpdateOneWithoutClublogoInput
 }
 
 input ClubUpdateWithoutClubImageDataInput {
   name: String
   bio: String
   description: String
-  logo: String
   type: String
   socialUrl: String
   socialDisplay: Boolean
@@ -762,13 +802,30 @@ input ClubUpdateWithoutClubImageDataInput {
   applications: ApplicationUpdateManyWithoutClubInput
   members: UserUpdateManyWithoutClubsInput
   posts: PostUpdateManyWithoutClubInput
+  application_description: String
+  logoImage: FileUpdateOneWithoutClublogoInput
+}
+
+input ClubUpdateWithoutLogoImageDataInput {
+  name: String
+  bio: String
+  description: String
+  type: String
+  socialUrl: String
+  socialDisplay: Boolean
+  clubImage: FileUpdateOneWithoutClubInput
+  master: UserUpdateOneRequiredWithoutIsMasterInput
+  questions: QuestionUpdateManyWithoutOwnerInput
+  applications: ApplicationUpdateManyWithoutClubInput
+  members: UserUpdateManyWithoutClubsInput
+  posts: PostUpdateManyWithoutClubInput
+  application_description: String
 }
 
 input ClubUpdateWithoutMasterDataInput {
   name: String
   bio: String
   description: String
-  logo: String
   type: String
   socialUrl: String
   socialDisplay: Boolean
@@ -777,13 +834,14 @@ input ClubUpdateWithoutMasterDataInput {
   applications: ApplicationUpdateManyWithoutClubInput
   members: UserUpdateManyWithoutClubsInput
   posts: PostUpdateManyWithoutClubInput
+  application_description: String
+  logoImage: FileUpdateOneWithoutClublogoInput
 }
 
 input ClubUpdateWithoutMembersDataInput {
   name: String
   bio: String
   description: String
-  logo: String
   type: String
   socialUrl: String
   socialDisplay: Boolean
@@ -792,13 +850,14 @@ input ClubUpdateWithoutMembersDataInput {
   questions: QuestionUpdateManyWithoutOwnerInput
   applications: ApplicationUpdateManyWithoutClubInput
   posts: PostUpdateManyWithoutClubInput
+  application_description: String
+  logoImage: FileUpdateOneWithoutClublogoInput
 }
 
 input ClubUpdateWithoutPostsDataInput {
   name: String
   bio: String
   description: String
-  logo: String
   type: String
   socialUrl: String
   socialDisplay: Boolean
@@ -807,13 +866,14 @@ input ClubUpdateWithoutPostsDataInput {
   questions: QuestionUpdateManyWithoutOwnerInput
   applications: ApplicationUpdateManyWithoutClubInput
   members: UserUpdateManyWithoutClubsInput
+  application_description: String
+  logoImage: FileUpdateOneWithoutClublogoInput
 }
 
 input ClubUpdateWithoutQuestionsDataInput {
   name: String
   bio: String
   description: String
-  logo: String
   type: String
   socialUrl: String
   socialDisplay: Boolean
@@ -822,6 +882,8 @@ input ClubUpdateWithoutQuestionsDataInput {
   applications: ApplicationUpdateManyWithoutClubInput
   members: UserUpdateManyWithoutClubsInput
   posts: PostUpdateManyWithoutClubInput
+  application_description: String
+  logoImage: FileUpdateOneWithoutClublogoInput
 }
 
 input ClubUpdateWithWhereUniqueWithoutMembersInput {
@@ -837,6 +899,11 @@ input ClubUpsertWithoutApplicationsInput {
 input ClubUpsertWithoutClubImageInput {
   update: ClubUpdateWithoutClubImageDataInput!
   create: ClubCreateWithoutClubImageInput!
+}
+
+input ClubUpsertWithoutLogoImageInput {
+  update: ClubUpdateWithoutLogoImageDataInput!
+  create: ClubCreateWithoutLogoImageInput!
 }
 
 input ClubUpsertWithoutMasterInput {
@@ -917,20 +984,6 @@ input ClubWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
-  logo: String
-  logo_not: String
-  logo_in: [String!]
-  logo_not_in: [String!]
-  logo_lt: String
-  logo_lte: String
-  logo_gt: String
-  logo_gte: String
-  logo_contains: String
-  logo_not_contains: String
-  logo_starts_with: String
-  logo_not_starts_with: String
-  logo_ends_with: String
-  logo_not_ends_with: String
   type: String
   type_not: String
   type_in: [String!]
@@ -975,6 +1028,21 @@ input ClubWhereInput {
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
+  application_description: String
+  application_description_not: String
+  application_description_in: [String!]
+  application_description_not_in: [String!]
+  application_description_lt: String
+  application_description_lte: String
+  application_description_gt: String
+  application_description_gte: String
+  application_description_contains: String
+  application_description_not_contains: String
+  application_description_starts_with: String
+  application_description_not_starts_with: String
+  application_description_ends_with: String
+  application_description_not_ends_with: String
+  logoImage: FileWhereInput
   AND: [ClubWhereInput!]
   OR: [ClubWhereInput!]
   NOT: [ClubWhereInput!]
@@ -1295,6 +1363,7 @@ type File {
   id: ID!
   url: String!
   club: Club!
+  clublogo: Club
 }
 
 type FileConnection {
@@ -1307,6 +1376,7 @@ input FileCreateInput {
   id: ID
   url: String!
   club: ClubCreateOneWithoutClubImageInput!
+  clublogo: ClubCreateOneWithoutLogoImageInput
 }
 
 input FileCreateManyInput {
@@ -1319,9 +1389,21 @@ input FileCreateOneWithoutClubInput {
   connect: FileWhereUniqueInput
 }
 
+input FileCreateOneWithoutClublogoInput {
+  create: FileCreateWithoutClublogoInput
+  connect: FileWhereUniqueInput
+}
+
 input FileCreateWithoutClubInput {
   id: ID
   url: String!
+  clublogo: ClubCreateOneWithoutLogoImageInput
+}
+
+input FileCreateWithoutClublogoInput {
+  id: ID
+  url: String!
+  club: ClubCreateOneWithoutClubImageInput!
 }
 
 type FileEdge {
@@ -1396,11 +1478,13 @@ input FileSubscriptionWhereInput {
 input FileUpdateDataInput {
   url: String
   club: ClubUpdateOneRequiredWithoutClubImageInput
+  clublogo: ClubUpdateOneWithoutLogoImageInput
 }
 
 input FileUpdateInput {
   url: String
   club: ClubUpdateOneRequiredWithoutClubImageInput
+  clublogo: ClubUpdateOneWithoutLogoImageInput
 }
 
 input FileUpdateManyDataInput {
@@ -1437,8 +1521,23 @@ input FileUpdateOneWithoutClubInput {
   connect: FileWhereUniqueInput
 }
 
+input FileUpdateOneWithoutClublogoInput {
+  create: FileCreateWithoutClublogoInput
+  update: FileUpdateWithoutClublogoDataInput
+  upsert: FileUpsertWithoutClublogoInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: FileWhereUniqueInput
+}
+
 input FileUpdateWithoutClubDataInput {
   url: String
+  clublogo: ClubUpdateOneWithoutLogoImageInput
+}
+
+input FileUpdateWithoutClublogoDataInput {
+  url: String
+  club: ClubUpdateOneRequiredWithoutClubImageInput
 }
 
 input FileUpdateWithWhereUniqueNestedInput {
@@ -1449,6 +1548,11 @@ input FileUpdateWithWhereUniqueNestedInput {
 input FileUpsertWithoutClubInput {
   update: FileUpdateWithoutClubDataInput!
   create: FileCreateWithoutClubInput!
+}
+
+input FileUpsertWithoutClublogoInput {
+  update: FileUpdateWithoutClublogoDataInput!
+  create: FileCreateWithoutClublogoInput!
 }
 
 input FileUpsertWithWhereUniqueNestedInput {
@@ -1487,6 +1591,7 @@ input FileWhereInput {
   url_ends_with: String
   url_not_ends_with: String
   club: ClubWhereInput
+  clublogo: ClubWhereInput
   AND: [FileWhereInput!]
   OR: [FileWhereInput!]
   NOT: [FileWhereInput!]

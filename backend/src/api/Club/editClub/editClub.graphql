@@ -9,6 +9,8 @@ type Mutation {
         bio:String,
         description:String,
         application_description:String,
+        logoImage:String,
+        clubImage:String,
         action: ACTIONS!
     ) : Club!
 }

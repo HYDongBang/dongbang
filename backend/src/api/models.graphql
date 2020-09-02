@@ -24,14 +24,14 @@ type Club{
     type: String!
     socialUrl: String
     socialDisplay: Boolean
-    clubImage: File
+    clubImage: String
     master: User!
     questions: [Question]
     applications: [Application]
     members:[User]
     posts:[Post]
     application_description: String!
-    logoImage: File
+    logoImage: String
 }
 
 type Room{
@@ -75,20 +75,13 @@ type Notification{
     created: DateTime!
 }
 
-type File{
-    id: ID!
-    url: String!
-    club: Club!
-    clublogo: Club
-}
-
 type Post{
     id: ID!
     title: String!
     content: String!
     user: User!
     club: Club!
-    files: [File!]!
+    files: [String!]!
     type: String
     comments:[Comment!]
     status: String!
@@ -115,7 +108,7 @@ type SubComment{
     content: String!
     status: String!
     created: DateTime!
-    updated: DateTime 
+    updated: DateTime
 }
 
 type Secret{

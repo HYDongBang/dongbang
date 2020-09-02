@@ -1,0 +1,7 @@
+type Mutation{
+    demoClub(
+        name: String!
+        bio: String!
+        email: String!
+    ) : Club
+}

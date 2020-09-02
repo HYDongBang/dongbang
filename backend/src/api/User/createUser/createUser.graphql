@@ -1,0 +1,5 @@
+type Mutation {
+  createUser(
+     email: String!
+   ): User!
+ }

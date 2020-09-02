@@ -36,9 +36,6 @@ export default {
    Notification: {
      user: (parent) => prisma.notification({id: parent.id}).user()
    },
-   File: {
-     club: (parent) => prisma.file({id: parent.id}).club()
-   },
    Post: {
     club: (parent) => prisma.post({id: parent.id}).club(),
     user: (parent) => prisma.post({id: parent.id}).user(),

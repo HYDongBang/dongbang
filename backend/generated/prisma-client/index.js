@@ -33,10 +33,6 @@ var models = [
     embedded: false
   },
   {
-    name: "File",
-    embedded: false
-  },
-  {
     name: "Post",
     embedded: false
   },

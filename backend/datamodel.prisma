@@ -24,20 +24,20 @@ type Club{
     type: String!
     socialUrl: String
     socialDisplay: Boolean @default(value:false)
-    clubImage: File @relation(name:"ClubImg")
+    clubImage: String
     master: User! @relation(name:"ClubMaster", link: INLINE)
     questions: [Question] @relation(name:"ClubQuestion")
     applications: [Application]
     members:[User] @relation(name: "ClubMember")
     posts:[Post] @relation(name: "ClubPost")
     application_description: String!
-    logoImage: File @relation(name:"LogoImg")
+    logoImage: String
 }
 
 type Room{
     id: ID! @id
-    participants: [User!]! 
-    messages: [Message!]! 
+    participants: [User!]!
+    messages: [Message!]!
 }
 
 type Message {
@@ -45,7 +45,7 @@ type Message {
     text: String!
     from: User! @relation(name: "From", link: INLINE)
     to: User!   @relation(name: "To", link: INLINE)
-    room: Room! 
+    room: Room!
     created: DateTime! @createdAt
 }
 
@@ -59,8 +59,8 @@ type Question{
 
 type Application{
     id: ID! @id
-    user: User! 
-    club: Club! 
+    user: User!
+    club: Club!
     answer: [String]! @scalarList(strategy: RELATION)
     status: String @default(value:"UNCHECKED")
     created: DateTime! @createdAt
@@ -74,20 +74,13 @@ type Notification{
     created: DateTime! @createdAt
 }
 
-type File{
-    id: ID! @id
-    url: String!
-    club: Club! @relation(name:"ClubImg", link: INLINE)
-    clublogo: Club @relation(name:"LogoImg", link: INLINE)
-}
-
 type Post{
     id: ID! @id
     title: String!
     content: String!
-    user: User! 
+    user: User!
     club: Club! @relation(name:"ClubPost")
-    files: [File!]!
+    files: [String!]! @scalarList(strategy: RELATION)
     type: String @default(value:"NORMAL")
     comments:[Comment!] @relation(name:"PostComment")
     status: String! @default(value:"ORIGINAL")

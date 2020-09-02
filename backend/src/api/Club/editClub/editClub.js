@@ -4,7 +4,7 @@ const EDIT = "EDIT";
 export default {
     Mutation:{
         editClub: async(_, args, {request, isAuthenticated}) => {
-            const {name , description, application_description, bio, action} = args;
+            const {name , description, application_description, bio,logoImage,clubImage, action} = args;
             isAuthenticated(request);
             const { user } = request;
             const club = await prisma.user({id:user.id}).isMaster();
@@ -13,7 +13,7 @@ export default {
                 if(action === EDIT){
                 return prisma.updateClub(
                     {
-                        data:{description, bio, name, application_description},
+                        data:{description, bio, name, application_description,logoImage,clubImage},
                         where: { id:clubId }
                     }
                 )

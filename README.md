@@ -47,7 +47,7 @@
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/sgwon96/dongbang
+   git clone https://github.com/HYDongBang/dongbang
    ```
 2. Install Yarn packages
    ```sh

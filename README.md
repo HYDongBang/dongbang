@@ -53,7 +53,7 @@
    ```sh
    yarn
    ```
-3. Enter your Environment Variable in `BACKEND/src/.env`
+3. Enter your Environment Variable in `backend/src/.env`
    ```JS
    PORT = 4000
    SENDGRID_USERNAME = ""
